@@ -1,4 +1,4 @@
-interface BinaryTree <K: Comparable<K>, T, P>: Iterator<K> {
+interface BinaryTree <K: Comparable<K>, T, P>: Iterator<Pair<K?, Byte>> {
     fun insert(root: P?, key: K, value: T)
     fun delete(root: P?, key: K)
     fun find(root: P?, key: K): Boolean
@@ -6,4 +6,5 @@ interface BinaryTree <K: Comparable<K>, T, P>: Iterator<K> {
     fun findParent(root: P?, key: K): K?
     fun findSealing(root: P?, key: K): K
     fun printNodes()
+
 }
