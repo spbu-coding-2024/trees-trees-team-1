@@ -52,6 +52,7 @@ class BRTree<K: Comparable<K>, T>(): BinaryTree<K, T, BRNode<K, T>> {
     }
 
     private fun balance_insert(root: BRNode<K, T>, direction: Byte) {
+
         val uncle=if ((root.parent?.key ?: root.key)<= root.key) root.parent?.left else root.parent?.right
         if ((uncle?.color ?: 0)== 1.toByte()) {
             uncle?.color=0
@@ -101,7 +102,9 @@ class BRTree<K: Comparable<K>, T>(): BinaryTree<K, T, BRNode<K, T>> {
         }
     }
 
-    private fun balance_delete(root: BRNode<K, T>, direction: Byte) {
+    private fun balance_delete(root: BRNode<K, T>) {
+        if ((root.color ?: 0).toInt() ==1)
+            return
         var brother = if (root.parent?.left==root) root.parent?.right else root.parent?.left
         if ((brother?.color ?: 0).toInt() ==1) {
             if (brother==root.parent?.left)
@@ -159,6 +162,7 @@ class BRTree<K: Comparable<K>, T>(): BinaryTree<K, T, BRNode<K, T>> {
                     root.key=findSealing(root.right, key)
                 }
             }
+            balance_delete(root)
         } else if (root.key<=key)
             delete(root.right, key)
         else
