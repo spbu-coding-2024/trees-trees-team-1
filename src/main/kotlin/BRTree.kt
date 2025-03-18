@@ -107,47 +107,55 @@ class BRTree<K: Comparable<K>, T>(): BinaryTree<K, T, BRNode<K, T>> {
     }
 
     private fun balance_delete(root: BRNode<K, T>?) {
-        var brother = if (root?.parent?.left==root) root?.parent?.right else root?.parent?.left
-        if (brother?.color?.toInt() ==1) {
-            var color=brother.color
-            brother.color=root?.parent?.color ?: 0
-            root?.parent?.color=color
-            if (root==root?.parent?.left)
-                leftRotation(brother)
-            else
-                rightRotation(brother)
-        } else if (root?.parent?.color?.toInt() ==0 && brother?.color?.toInt() ==0 && (brother.left?.color ?: 0).toInt() ==0 && (brother.right?.color ?: 0).toInt() ==0) {
-            brother.color=1
-            balance_delete(root.parent)
-        } else if (root?.parent?.color?.toInt() ==1 && brother?.color?.toInt() ==0 && (brother.left?.color ?: 0).toInt() ==0 && (brother.right?.color ?: 0).toInt() ==0) {
-            var color=brother.color
-            brother.color=root.parent?.color ?: 0
-            root.parent?.color=color
-        } else if ((brother?.color?.toInt() ?: 0) == 0) {
-            if (root==root?.parent?.left && brother?.left?.color?.toInt() ==1 && brother.right?.color?.toInt() ==0) {
-                var color=brother.color
-                brother.color=brother.left?.color ?: 0
-                brother.left?.color=color
-                rightRotation(brother.left)
-            } else if (root==root?.parent?.right && brother?.right?.color?.toInt() ==1 && brother.left?.color?.toInt() ==0) {
-                var color=brother.color
-                brother.color=brother.right?.color ?: 0
-                brother.right?.color=color
-                leftRotation(brother.right)
-            } else if (brother?.right?.color?.toInt()==1 && root==root?.parent?.left ) {
-                brother.right?.color=0
-                var color=brother.color
-                brother.color=brother.left?.color ?: 0
-                brother.left?.color=color
-                leftRotation(brother)
-            } else if (brother?.left?.color?.toInt()==1 && root==root?.parent?.right ) {
-                brother.right?.color=0
-                var color=brother.color
-                brother.color=brother.right?.color ?: 0
-                brother.right?.color=color
-                rightRotation(brother)
+        println("${root?.key} ----------")
+        if (root==root?.parent?.left) {
+            var brother=root?.parent?.right
+            if (brother?.color?.toInt() ==1) {
+                brother.color=0
+                root?.parent?.color=1
+                leftRotation(root?.parent)
+                brother=brother.parent?.right
+            }
+            if (brother?.left?.color?.toInt() ==0 && brother.right?.color?.toInt() ==0) {
+                brother.color=1
+                balance_delete(root?.parent)
+            } else {
+                if ((brother?.right?.color ?: 0 ).toInt()==0) {
+                    brother?.left?.color=0
+                    brother?.color=1
+                    rightRotation(brother)
+                    brother=root?.parent?.right
+                }
+                brother?.color=root?.parent?.color ?: 0
+                root?.parent?.color=0
+                brother?.right?.color=0
+                leftRotation(root?.parent)
+            }
+        } else {
+            var brother=root?.parent?.left
+            if (brother?.color?.toInt() ==1) {
+                brother.color=0
+                root?.parent?.color=1
+                rightRotation(root?.parent)
+                brother=brother.parent?.left
+            }
+            if (brother?.left?.color?.toInt() ==0 && brother.right?.color?.toInt() ==0) {
+                brother.color=1
+                balance_delete(root?.parent)
+            } else {
+                if ((brother?.left?.color ?: 0 ).toInt()==0) {
+                    brother?.right?.color=0
+                    brother?.color=1
+                    leftRotation(brother)
+                    brother=root?.parent?.left
+                }
+                brother?.color=root?.parent?.color ?: 0
+                root?.parent?.color=0
+                brother?.left?.color=0
+                leftRotation(root?.parent)
             }
         }
+        this.root?.color=0
     }
 
 
@@ -155,29 +163,40 @@ class BRTree<K: Comparable<K>, T>(): BinaryTree<K, T, BRNode<K, T>> {
         if (root==null)
             return
         else if (root.key==key) {
+            var child:BRNode<K, T>?=null
             if (root.right==null) {
                 if (root.parent==null) {
                     this.root = root.left
                     this.root?.color=0
+                    return
                 } else {
-                    val parent=root.parent
-                    if (root==root.parent?.left)
-                        root.parent?.left = root.left
-                    else
-                        root.parent?.right = root.left
-                    root.left?.parent=parent
+                    child = root.left
+                    root.left=null
                 }
             } else {
-                if (root.right?.left==null) {
-                    root.key=(root.right?.key ?: return)
-                    root.right=root.right?.right
-                    root.right?.right?.parent=root.right
-                } else
-                    //прпробовать притащить цвет из удаляемой ноды
-                    root.key=findSealing(root.right)
+                if (root.right?.left!=null)
+                    child=findSealing(root.right)
+                else {
+                    child=root.right
+                    root.right = null
+                }
             }
-            root.color=0
-            balance_delete(root)
+            println(root?.right?.key)
+            println("---------")
+            child?.parent=root.parent
+            child?.left=root.left
+            child?.right=root?.right
+            child?.color=root?.color ?: 0
+            if (root==root.parent?.left)
+                root.parent?.left=child
+            else
+                root.parent?.right=child
+            if (root.color.toInt() ==0) {
+                if (child?.color?.toInt() ==1)
+                    child.color=0
+                else
+                    balance_delete(root)
+            }
         } else if (root.key<=key)
             delete(root.right, key)
         else
@@ -202,11 +221,11 @@ class BRTree<K: Comparable<K>, T>(): BinaryTree<K, T, BRNode<K, T>> {
         return root?.parent?.key
     }
 
-    override fun findSealing(root: BRNode<K, T>?): K {
+    override fun findSealing(root: BRNode<K, T>?): BRNode<K,T> {
         if (root?.left==null && root!=null) {
             println(root.key)
             root.parent?.left=null
-            return root.key
+            return root
         } else
             return findSealing(root?.left)
     }
@@ -261,7 +280,7 @@ t.insert(t.root, 15,1)
 t.insert(t.root, 17,0)
  t.insert(t.root, 18,0)
 t.insert(t.root, 19,0)
-t.delete(t.root, 6)
+t.delete(t.root, 11)
 for (i in t) {
     println(i)
 
