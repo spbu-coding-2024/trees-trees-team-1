@@ -32,4 +32,17 @@ class AVLTree<K:Comparator<K>, T>(): BinaryTree<K,T, AVLNode<K, T>> {
 		fixHeight(node.right)
 		fixHeight(node)
 	}
+
+	private fun balance(node: AVLNode<K, T>) {
+		balance: Int = calculateBalanceFactor(node)
+		if (balance == -2) {
+			if (calculateBalanceFactor(node.left) == 1) leftRotation(node.left)
+			rightRotation(node)
+		}
+		else if (balance == 2) {
+			if (calculateBalanceFactor(node.right) == -1) rightRotation(node.right)
+			leftRotation(node)
+		}
+	}
+
 }
