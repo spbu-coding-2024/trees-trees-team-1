@@ -54,35 +54,30 @@ class BRTree<K: Comparable<K>, T>(): BinaryTree<K, T, BRNode<K, T>> {
     }
     //direction - 0-right 1-left
     private fun balance_insert(root: BRNode<K, T>, direction: Int) {
-
         val uncle=if (root.parent?.left==root) root.parent?.right else root.parent?.left
         if ((uncle?.color ?: 0).toInt() ==1 && root.color.toInt() ==1) {
-            println(root.key)
             uncle?.color=0
             root.color=0
             root.parent?.color=if (root.parent != this.root) 1 else 0
+            if (root == root.parent?.right)
+                balance_insert(root.parent?.parent ?: return, 1)
+            else
+                balance_insert(root.parent?.parent ?: return, 0)
         } else if ((uncle?.color ?: 0).toInt() ==0 && root.color.toInt() ==1) {
-            println(root.key)
-            println("***")
             if (direction==1 && root==root.parent?.right) {
                 leftRotation(root)
             } else if (direction==0 && root==root.parent?.right){
-                var t=root.left
+                val t=root.left
                 rightRotation(t)
                 leftRotation(t)
             }else if (direction==0 && root==root.parent?.left) {
                 rightRotation(root)
             } else if (direction==1 && root==root.parent?.left){
-                var t=root.right
+                val t=root.right
                 leftRotation(t)
                 rightRotation(t)
             }
         }
-        if (root==root.parent?.right)
-            balance_insert(root.parent ?: return, 1)
-        else
-            balance_insert(root.parent ?: return, 0)
-
     }
 
     override fun insert(root: BRNode<K, T>?, key: K, value: T) {
@@ -257,16 +252,16 @@ t.insert(t.root, 9, 4)
 t.insert(t.root, 1,0)
 t.insert(t.root, 10,11)
 t.insert(t.root, 11, 7)
-    t.insert(t.root, 12,1)
+   t.insert(t.root, 12,1)
     t.insert(t.root, 13,1)
-    t.insert(t.root, 14,1)
-    t.insert(t.root, 15,1)
-
-    t.insert(t.root, 16,0)
-    t.insert(t.root, 17,0)
-    t.insert(t.root, 18,0)
-    t.insert(t.root, 19,0)
-    t.delete(t.root, 2)
+t.insert(t.root, 14,1)
+t.insert(t.root, 15,1)
+//
+ t.insert(t.root, 16,0)
+t.insert(t.root, 17,0)
+ t.insert(t.root, 18,0)
+t.insert(t.root, 19,0)
+t.delete(t.root, 6)
 for (i in t) {
     println(i)
 
