@@ -7,11 +7,11 @@ class AVLNode<K: Comparator<K>, T>(override var key: K, override var value: T) :
 	}
 
 	// Только с не null
-	private fun calculateBFactor(node: AVLNode<K, T>): Int {
+	fun calculateBalanceFactor(node: AVLNode<K, T>): Int {
 		return checkHeight(node.right) - checkHeight(node.left)
 	}
 
-	private fun fixHeight(node: AVLNode<K, T>) {
+	fun fixHeight(node: AVLNode<K, T>) {
 		val hl = checkHeight(node.left)
 		val hr = checkHeight(node.right)
 		node.height = maxOf(hl, hr) + 1
