@@ -1,5 +1,4 @@
-class AVLTree<K:Comparator<K>, T>(): BinaryTree<K,T, AVLNode<K, T>> {
-	private var root: AVLNode<K, T>? = null
+abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 
 	private fun swapNodes(nodeA: AVLNode<K, T>, nodeB: AVLNode<K, T>) {
 		val aKey: K = nodeA.key
