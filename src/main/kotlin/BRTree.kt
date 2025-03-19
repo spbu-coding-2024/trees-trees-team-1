@@ -5,10 +5,9 @@ class BRTree<K: Comparable<K>, T>(): BinaryTree<K, T, BRNode<K, T>> {
 
     private fun leftRotation(node: BRNode<K, T>?) {
         //перекрашивание
-        node?.color=0
-        node?.parent?.color=1
         //поворот
         val p=node?.parent?.parent
+        //println("${p?.key} --------------")
         node?.parent?.right=node?.left
         node?.parent?.right?.parent=node?.parent
         //println(node?.parent?.key)
@@ -17,20 +16,21 @@ class BRTree<K: Comparable<K>, T>(): BinaryTree<K, T, BRNode<K, T>> {
         //переподвешивание
         if (p==null) {
             node?.parent = null
-            node?.color=0
             this.root=node
         } else {
             node.parent=p
-            if (p.key<= node.key)
-                p.right=node
-            else
-                p.left=node
+            if (p.key<= node.key) {
+                p.right = node
+                //println("*")
+            } else {
+                //println("-")
+                p.left = node
+            }
+            //println("${node?.parent?.key}")
         }
     }
 
     private fun rightRotation(node: BRNode<K, T>?) {
-        node?.color=0
-        node?.parent?.color=1
         //перекрашивание
         //поворот
         val p=node?.parent?.parent
@@ -42,7 +42,6 @@ class BRTree<K: Comparable<K>, T>(): BinaryTree<K, T, BRNode<K, T>> {
         //переподвешивание
         if (p==null) {
             node?.parent = null
-            node?.color=0
             this.root=node
         } else {
             node.parent=p
@@ -65,16 +64,28 @@ class BRTree<K: Comparable<K>, T>(): BinaryTree<K, T, BRNode<K, T>> {
                 balance_insert(root.parent?.parent ?: return, 0)
         } else if ((uncle?.color ?: 0).toInt() ==0 && root.color.toInt() ==1) {
             if (direction==1 && root==root.parent?.right) {
+                root.color=0
+                root.parent?.color=1
                 leftRotation(root)
             } else if (direction==0 && root==root.parent?.right){
                 val t=root.left
+                t?.color=0
+                t?.parent?.color=1
                 rightRotation(t)
+                t?.color=0
+                t?.parent?.color=1
                 leftRotation(t)
             }else if (direction==0 && root==root.parent?.left) {
+                root.color=0
+                root.parent?.color=1
                 rightRotation(root)
             } else if (direction==1 && root==root.parent?.left){
                 val t=root.right
+                t?.color=0
+                t?.parent?.color=1
                 leftRotation(t)
+                t?.color=0
+                t?.parent?.color=1
                 rightRotation(t)
             }
         }
@@ -105,104 +116,207 @@ class BRTree<K: Comparable<K>, T>(): BinaryTree<K, T, BRNode<K, T>> {
         }
 
     }
+//
+//    private fun deleteOneZero() {
+//    if (root.right==null) {
+//        swapvalues(root, root.left ?: return)
+//        root.left=null
+//    } else if (root.left==null) {
+//        swapvalues(root, root.right ?: return)
+//        root.right=null
+//    }
+//}
 
-    private fun balance_delete(root: BRNode<K, T>?) {
-        println("${root?.key} ----------")
-        if (root==root?.parent?.left) {
-            var brother=root?.parent?.right
-            if (brother?.color?.toInt() ==1) {
-                brother.color=0
-                root?.parent?.color=1
-                leftRotation(root?.parent)
-                brother=brother.parent?.right
-            }
-            if (brother?.left?.color?.toInt() ==0 && brother.right?.color?.toInt() ==0) {
-                brother.color=1
-                balance_delete(root?.parent)
-            } else {
-                if ((brother?.right?.color ?: 0 ).toInt()==0) {
-                    brother?.left?.color=0
-                    brother?.color=1
-                    rightRotation(brother)
-                    brother=root?.parent?.right
-                }
-                brother?.color=root?.parent?.color ?: 0
-                root?.parent?.color=0
-                brother?.right?.color=0
-                leftRotation(root?.parent)
-            }
+    fun deleteRed(root: BRNode<K, T>?) {
+        if (root?.right == null && root?.left == null) {
+            if (root?.parent == null) {
+                this.root = null
+            } else if (root.parent?.left == root)
+                root.parent?.left = null
+            else
+                root.parent?.right = null
+            //два ребенка
         } else {
-            var brother=root?.parent?.left
-            if (brother?.color?.toInt() ==1) {
-                brother.color=0
-                root?.parent?.color=1
-                rightRotation(root?.parent)
-                brother=brother.parent?.left
+            var sub: BRNode<K, T>?
+            if (root.left==null)
+                sub=root.right
+            else
+                sub=findSealing(root.left)
+            println(sub?.key)
+                swapvalues(root, sub?: return)
+                if ((sub.color).toInt() ==1)
+                    deleteRed(sub)
+                else
+                    deleteBlack(sub)
             }
-            if (brother?.left?.color?.toInt() ==0 && brother.right?.color?.toInt() ==0) {
-                brother.color=1
-                balance_delete(root?.parent)
-            } else {
-                if ((brother?.left?.color ?: 0 ).toInt()==0) {
-                    brother?.right?.color=0
-                    brother?.color=1
-                    leftRotation(brother)
-                    brother=root?.parent?.left
-                }
-                brother?.color=root?.parent?.color ?: 0
-                root?.parent?.color=0
-                brother?.left?.color=0
-                leftRotation(root?.parent)
-            }
-        }
-        this.root?.color=0
     }
 
+
+    fun deleteBlack(root: BRNode<K, T>?) {
+        println(root?.key)
+        if (root?.right!=null && root.left!=null) {
+
+            var sub: BRNode<K, T>?=root.left
+            if (root?.left!=null)
+                sub=findSealing(root.left)
+            println(sub?.key)
+            swapvalues(root, sub ?: return)
+            if ((sub.color).toInt() ==1)
+                deleteRed(sub)
+            else
+                deleteBlack(sub)
+            //один ребенок
+        } else if (root?.right!=null){
+            swapvalues(root.right ?: return, root)
+            if (root.right?.color?.toInt() ==0)
+                deleteBlack(root.right)
+            else
+                deleteRed(root.right)
+        } else if (root?.left!=null){
+            swapvalues(root.left ?: return, root )
+            if (root.left?.color?.toInt() ==0)
+                deleteBlack(root.left)
+            else
+                deleteRed(root.left)
+            //нет детей
+        } else {
+            println("8788888888888888")
+                if (root?.parent == null) {
+                    this.root = null
+                } else if (root.parent?.left == root)
+                    root.parent?.left = null
+                else
+                    root.parent?.right = null
+                delete_balance(root)
+
+        }
+    }
+
+    fun delete_balance(root: BRNode<K, T>?) {
+        println(root?.key)
+        println(root?.parent?.key)
+        println(root?.parent?.right?.key)
+        println(root?.parent?.right?.right?.color)
+        println(root?.parent?.right?.left?.color)
+        println("************************************************************")
+        if (root==root?.parent?.left) {
+
+            if ((root?.parent?.right?.color ?: 0).toInt() ==0) {
+                println("...............................................")
+                if ((root?.parent?.right?.right?.color ?: 0).toInt() == 1) {
+                    println(root?.parent?.parent?.key)
+                    println("4444444444444444444444444444444444444444444444444444444444444444444444444444444444")
+                    val color = root?.parent?.color ?: 0
+                    root?.parent?.right?.color = color
+                    root?.parent?.color=0
+                    root?.parent?.right?.right?.color = 0
+                    println("${root?.parent?.right?.right?.key}++++++++ ")
+
+                    leftRotation(root?.parent?.right)
+
+                } else if ((root?.parent?.right?.right?.color ?: 0).toInt() == 0 && (root?.parent?.right?.left?.color
+                        ?: 0).toInt() == 1
+                ) {
+                    root?.parent?.right?.left?.color = 0
+                    root?.parent?.right?.color = 1
+                    root?.parent?.right?.right?.color = 0
+                    val color = root?.parent?.right?.color ?: 0
+                    root?.parent?.color = root?.color ?: 0
+                    root?.color = color
+                    rightRotation(root?.parent?.right)
+                    leftRotation(root?.parent)
+
+
+                } else if ((root?.parent?.right?.right?.color ?: 0).toInt() == 0 && (root?.parent?.right?.left?.color
+                        ?: 0).toInt() == 0
+                ){
+                    println(",,,,,,,")
+                    root?.color = 0
+                    root?.parent?.right?.color = 1
+                    if (root != this.root && (root?.parent?.color?.toInt() ?: 0) == 0)
+                        delete_balance(root?.parent)
+                }
+            } else {
+                root?.color = 1
+                root?.parent?.right?.color = 0
+                leftRotation(root?.parent?.right)
+
+
+            }
+        } else {
+            if ((root?.parent?.left?.color ?: 0).toInt() ==0) {
+                if ((root?.parent?.left?.left?.color ?: 0).toInt() == 1) {
+                    root?.parent?.left?.left?.color=0
+                    val color=root?.parent?.left?.color ?: 0
+                    root?.parent?.color=root?.color ?: 0
+                    root?.color =color
+                    rightRotation(root?.parent?.left)
+
+                } else if ((root?.parent?.left?.left?.color ?: 0).toInt() == 0 && (root?.parent?.left?.right?.color ?: 0).toInt() == 1) {
+                    root?.parent?.left?.right?.color=0
+                    root?.parent?.left?.color=1
+                    root?.parent?.left?.left?.color=0
+                    val color=root?.parent?.left?.color ?: 0
+                    root?.parent?.color=root?.color ?: 0
+                    root?.color =color
+                    leftRotation(root?.parent?.left)
+                    rightRotation(root?.parent)
+
+
+
+                } else if ((root?.parent?.left?.right?.color ?: 0).toInt() == 0 && (root?.parent?.left?.left?.color
+                        ?: 0).toInt() == 0
+                ){
+                    println("hhhhhhhhhhhhhhhhhhh ${root?.parent?.right?.key}")
+                    root?.color = 0
+                    root?.parent?.left?.color = 1
+                    println(root?.key)
+                    println(root?.parent?.key)
+                    if (root != this.root && (root?.parent?.color?.toInt() ?: 0) == 0)
+                        delete_balance(root?.parent)
+                }
+            } else {
+
+                rightRotation(root?.parent?.left)
+                root?.color = 1
+                root?.parent?.left?.color = 0
+            }
+
+        }
+        println(root?.parent?.key)
+        println("::::::::::::::::::::::::::::::::::::::::::;")
+
+    }
+
+    fun swapvalues(root: BRNode<K, T>, second:BRNode<K, T>) {
+        val tempkey=root.key
+        val tempval=root.value
+        root.key=second.key
+        root.value=second.value
+        second.key=tempkey
+        second.value=tempval
+    }
 
     override fun delete(root: BRNode<K, T>?, key: K) {
         if (root==null)
             return
         else if (root.key==key) {
-            var child:BRNode<K, T>?=null
-            if (root.right==null) {
-                if (root.parent==null) {
-                    this.root = root.left
-                    this.root?.color=0
-                    return
-                } else {
-                    child = root.left
-                    root.left=null
-                }
+            //удаляем красную
+            if (root.color.toInt() ==1) {
+                println("---------------")
+                deleteRed(root)
             } else {
-                if (root.right?.left!=null)
-                    child=findSealing(root.right)
-                else {
-                    child=root.right
-                    root.right = null
-                }
+                deleteBlack(root)
             }
-            println(root?.right?.key)
-            println("---------")
-            child?.parent=root.parent
-            child?.left=root.left
-            child?.right=root?.right
-            child?.color=root?.color ?: 0
-            if (root==root.parent?.left)
-                root.parent?.left=child
-            else
-                root.parent?.right=child
-            if (root.color.toInt() ==0) {
-                if (child?.color?.toInt() ==1)
-                    child.color=0
-                else
-                    balance_delete(root)
-            }
-        } else if (root.key<=key)
+
+        } else if (root.key<key)
             delete(root.right, key)
         else
             delete(root.left, key)
 
+
     }
+
 
     override fun find(root: BRNode<K, T>?, key: K): Boolean {
         if (root==null)
@@ -222,13 +336,15 @@ class BRTree<K: Comparable<K>, T>(): BinaryTree<K, T, BRNode<K, T>> {
     }
 
     override fun findSealing(root: BRNode<K, T>?): BRNode<K,T> {
-        if (root?.left==null && root!=null) {
+        if (root?.right==null && root!=null) {
+            root.parent?.right=null
             println(root.key)
-            root.parent?.left=null
             return root
         } else
-            return findSealing(root?.left)
+            return findSealing(root?.right)
     }
+
+
 
 
     override fun printNodes() {
@@ -280,9 +396,13 @@ t.insert(t.root, 15,1)
 t.insert(t.root, 17,0)
  t.insert(t.root, 18,0)
 t.insert(t.root, 19,0)
-t.delete(t.root, 11)
+t.delete(t.root, 6)
+    var y=0
 for (i in t) {
     println(i)
+    y++
+    if (y>50)
+        break
 
 }
 
