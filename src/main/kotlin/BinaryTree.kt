@@ -37,8 +37,3 @@ abstract class BinaryTree <K: Comparable<K>, T, P:Node<K, T, P>> {
         for (elem in iterator())
             print("$elem ")
     }
-
-
-
-
-}
