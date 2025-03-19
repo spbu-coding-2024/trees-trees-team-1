@@ -1,6 +1,6 @@
-class BRNode<K: Comparator<K>, T>(override var key: K, override var value: T): Node<K, T, BSNode<K, T>>() {
-    private var parent: BSNode<K, T>?=null
-    private var color: Byte=0
-    private fun checkColors(): Byte
+class BRNode<K: Comparable<K>, T>(override var key: K, override var value: T, var parent: BRNode<K, T>?=null): Node<K, T, BRNode<K, T>>() {
+    //0-black
+    //1-red
+     var color: Int=1
 }
 
