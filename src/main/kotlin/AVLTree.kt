@@ -1,5 +1,5 @@
 class AVLTree<K:Comparator<K>, T>(): BinaryTree<K,T, AVLNode<K, T>> {
-	private var root: AVLNode<K, T>?=null
+	private var root: AVLNode<K, T>? = null
 
 	private fun swapNodes(nodeA: AVLNode<K, T>, nodeB: AVLNode<K, T>) {
 		aKey: K = nodeA.key
@@ -45,4 +45,17 @@ class AVLTree<K:Comparator<K>, T>(): BinaryTree<K,T, AVLNode<K, T>> {
 		}
 	}
 
+	override fun insert(root: AVLNode<K, T>?, key: K, value: T): AVLNode<K, T> {
+		if (root == null) return AVLNode(key, value)
+		if (key < root.key) {
+			root.left = insert(root.left, key, value)
+		}
+		else if (key > root.key) {
+			root.right = insert(root.right, key, value)
+		}
+		else {
+			root.value = value
+		}
+		return balance(root)
+	}
 }
