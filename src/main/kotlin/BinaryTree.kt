@@ -57,6 +57,7 @@ abstract class BinaryTree <K: Comparable<K>, T, P:Node<K, T, P>> {
     }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
     /**
@@ -66,10 +67,14 @@ abstract class BinaryTree <K: Comparable<K>, T, P:Node<K, T, P>> {
 =======
 
 >>>>>>> 91d29c7 (remake project test files structure)
+=======
+
+>>>>>>> 91d29c7 (remake project test files structure)
     fun iterator(): Iterate {
         return this.Iterate()
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -126,12 +131,17 @@ abstract class BinaryTree <K: Comparable<K>, T, P:Node<K, T, P>> {
      * Метод печати всех узлов дерева
      */
 =======
+=======
+>>>>>>> 91d29c7 (remake project test files structure)
     abstract fun insert(key: K, value: T, root:P?=this.root)
     abstract fun delete(key: K, root: P?=this.root)
     abstract fun find(key: K, root: P?=this.root): Boolean
     abstract fun peek(key: K, root: P?=this.root): T?
     abstract fun findParent(key: K, root: P?=this.root): K?
     protected abstract fun findSealing(root: P?=this.root): P?
+<<<<<<< HEAD
+>>>>>>> 91d29c7 (remake project test files structure)
+=======
 >>>>>>> 91d29c7 (remake project test files structure)
     fun printNodes(): String {
         var res= StringBuilder()
@@ -145,6 +155,10 @@ abstract class BinaryTree <K: Comparable<K>, T, P:Node<K, T, P>> {
         return res.toString()
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+}
+>>>>>>> 91d29c7 (remake project test files structure)
 =======
 }
 >>>>>>> 91d29c7 (remake project test files structure)

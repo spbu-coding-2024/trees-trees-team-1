@@ -67,8 +67,11 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     //direction - 0-right 1-left
 
+=======
+>>>>>>> 91d29c7 (remake project test files structure)
 =======
 >>>>>>> 91d29c7 (remake project test files structure)
     private fun balance_insert(root: BRNode<K, T>, direction: Int) {
@@ -160,6 +163,7 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     override fun insert(root: BRNode<K, T>?, key: K, value: T) {
 =======
     /**{@link BinaryTree # insert(key: K, value: T, root: BRNode<K, T>?)}*/
@@ -167,6 +171,9 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
     override fun insert(key: K, value: T, root: BRNode<K, T>?) {
         /*Случай вставки в корень дерева*/
 >>>>>>> a90db15 (add comments)
+=======
+    override fun insert(key: K, value: T, root: BRNode<K, T>?) {
+>>>>>>> 91d29c7 (remake project test files structure)
 =======
     override fun insert(key: K, value: T, root: BRNode<K, T>?) {
 >>>>>>> 91d29c7 (remake project test files structure)
@@ -188,6 +195,7 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
             return
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         if (root.key<=key) {
 =======
         /*Поиск поддерева для продолжения вставки и сама вставка*/
@@ -197,16 +205,20 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
                 root.right = BRNode(key, value, root)
                 balanceInsert(root, 1)
 =======
+=======
+>>>>>>> 91d29c7 (remake project test files structure)
         if (root.key<key) {
             if (root.right == null){
                 root.right = BRNode(key, value, root)
-
                 balance_insert(root, 1)
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> 91d29c7 (remake project test files structure)
 =======
                 println(root.right?.parent?.key)
 >>>>>>> 2c8f01f (fix deletion balance in variant with black uncle red closest nephews)
+=======
+>>>>>>> 91d29c7 (remake project test files structure)
             } else
                 insert( key, value, root.right)
         } else {
@@ -225,8 +237,11 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
 =======
 
                 balance_insert(root, 0)
+<<<<<<< HEAD
                 println(root.left?.parent?.key)
 >>>>>>> 2c8f01f (fix deletion balance in variant with black uncle red closest nephews)
+=======
+>>>>>>> 91d29c7 (remake project test files structure)
             } else
                 insert(key, value, root.left)
         }
@@ -338,6 +353,7 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
     private fun delete_balance(root: BRNode<K, T>?) {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     private fun deleteBalance(root: BRNode<K, T>?) {
 >>>>>>> ed2657a (final tests)
@@ -346,8 +362,9 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
 =======
 
 >>>>>>> 2c8f01f (fix deletion balance in variant with black uncle red closest nephews)
+=======
+>>>>>>> 91d29c7 (remake project test files structure)
         if (root==root?.parent?.left) {
-
             if ((root?.parent?.right?.color ?: 0).toInt() ==0) {
                 if ((root?.parent?.right?.right?.color ?: 0).toInt() == 1) {
                     val color = root?.parent?.color ?: 0
@@ -363,7 +380,6 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
                 } else if ((root?.parent?.right?.right?.color ?: 0).toInt() == 0 && (root?.parent?.right?.left?.color
                         ?: 0).toInt() == 1
                 ) {
-                    println("+++++++++ ${root?.parent?.key}")
                     root?.parent?.right?.left?.color = 0
                     root?.parent?.right?.color = 1
                     root?.parent?.right?.right?.color = 0
@@ -377,15 +393,19 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
                 ){
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> 2c8f01f (fix deletion balance in variant with black uncle red closest nephews)
+=======
+>>>>>>> 91d29c7 (remake project test files structure)
                     root?.color = 0
                     root?.parent?.right?.color = 1
                     if (root != this.root && (root?.parent?.color ?: 0) == 0)
                         deleteBalance(root?.parent)
                 }
             } else {
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 
@@ -396,9 +416,14 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
                 root?.parent?.color = 1
                 root?.parent?.right?.color = 0
                 deleteBalance(root)
+=======
+                leftRotation(root?.parent?.right)
+                root?.parent?.color = 1
+                root?.parent?.right?.color = 0
+                delete_balance(root)
+>>>>>>> 91d29c7 (remake project test files structure)
             }
         } else {
-
             if ((root?.parent?.left?.color ?: 0).toInt() ==0) {
                 if ((root?.parent?.left?.left?.color ?: 0).toInt() == 1) {
                     root?.parent?.left?.left?.color=0
@@ -406,6 +431,7 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
                     root?.parent?.color=root?.color ?: 0
                     root?.color =color
                     rightRotation(root?.parent?.left)
+<<<<<<< HEAD
                 } else if ((root?.parent?.left?.left?.color ?: 0).toInt() == 0 && (root?.parent?.left?.right?.color ?: 0).toInt() == 1) {
                     root?.parent?.left?.right?.color=0
                     root?.parent?.left?.color=1
@@ -564,6 +590,8 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
                     root?.parent?.color=root?.color ?: 0
                     root?.color =color
                     rightRotation(root?.parent?.left)
+=======
+>>>>>>> 91d29c7 (remake project test files structure)
                 } else if ((root?.parent?.left?.left?.color ?: 0).toInt() == 0 && (root?.parent?.left?.right?.color ?: 0).toInt() == 1) {
                     root?.parent?.left?.right?.color=0
                     root?.parent?.left?.color=1
@@ -576,7 +604,6 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
                 } else if ((root?.parent?.left?.right?.color ?: 0).toInt() == 0 && (root?.parent?.left?.left?.color
                         ?: 0).toInt() == 0
                 ){
-                    println("-------------------------")
                     root?.color = 0
                     root?.parent?.left?.color = 1
                     if (root != this.root && (root?.parent?.color ?: 0) == 0)
@@ -595,6 +622,7 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
                         deleteBalance(root?.parent)
                 }
             } else {
+<<<<<<< HEAD
                 leftRotation(root?.parent?.right)
                 root?.parent?.color = RED
                 root?.parent?.right?.color = BLACK
@@ -638,6 +666,8 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
                 }
                 /*Случай, если дядя оказался красным*/
             } else {
+=======
+>>>>>>> 91d29c7 (remake project test files structure)
                 rightRotation(root?.parent?.left)
                 root?.parent?.color = 1
                 root?.parent?.left?.color = 0
@@ -685,7 +715,11 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     override fun delete(root: BRNode<K, T>?, key: K) {
+=======
+    override fun delete(key: K, root: BRNode<K, T>?) {
+>>>>>>> 91d29c7 (remake project test files structure)
 =======
     override fun delete(key: K, root: BRNode<K, T>?) {
 >>>>>>> 91d29c7 (remake project test files structure)
@@ -703,6 +737,7 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
             delete(key, root.left)
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     override fun find(root: BRNode<K, T>?, key: K): Boolean {
 =======
@@ -725,9 +760,16 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
 =======
         return if (root.key==key) true else if (root.key<key) find(root.right, key) else find(root.left, key)
 >>>>>>> 2c8f01f (fix deletion balance in variant with black uncle red closest nephews)
+=======
+    override fun find(key: K, root: BRNode<K, T>?): Boolean {
+        if (root==null)
+            return false
+        return if (root.key==key) true else if (root.key<key) find(key, root.right) else find(key, root.left)
+>>>>>>> 91d29c7 (remake project test files structure)
     }
 <<<<<<< HEAD
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     override fun peek(root: BRNode<K, T>?, key: K): T? {
 =======
@@ -738,12 +780,16 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
 =======
     override fun peek(key: K, root: BRNode<K, T>?): T? {
 >>>>>>> 91d29c7 (remake project test files structure)
+=======
+    override fun peek(key: K, root: BRNode<K, T>?): T? {
+>>>>>>> 91d29c7 (remake project test files structure)
         if (root==null)
             return null
         return if (root.key==key) root.value else if (root.key<key) peek(key, root.right) else peek(key, root.left)
     }
 <<<<<<< HEAD
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     override fun findParent(root: BRNode<K, T>?, key: K): K? {
 <<<<<<< HEAD
@@ -759,6 +805,12 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
             return null
         return if (root.key==key) root.parent?.key else if (root.key<key) findParent(root.right, key) else findParent(root.left, key)
 >>>>>>> 2c8f01f (fix deletion balance in variant with black uncle red closest nephews)
+=======
+    override fun findParent(key: K, root: BRNode<K, T>?): K? {
+        if (root==null)
+            return null
+        return if (root.key==key) root.parent?.key else if (root.key<key) findParent(key, root.right) else findParent(key, root.left)
+>>>>>>> 91d29c7 (remake project test files structure)
     }
 
     override fun findSealing(root: BRNode<K, T>?): BRNode<K,T> {
@@ -802,18 +854,18 @@ fun main() {
 =======
 
 fun main() {
-val tree=BRTree<Int, Int>()
-//    for (i in 1..20)
-//        tree.insert(tree.root, i, 8)
-//    //tree.delete(tree.root, 5)
-    tree.insert(tree.root, 5,0)
-    tree.insert(tree.root, 4,0)
-    tree.insert(tree.root, 7,0)
-    tree.insert(tree.root, 6,0)
-    tree.delete(tree.root, 4)
+    val tree=BRTree<Int, Int>()
+    var values= listOf(7,5,10,2,8,6,13,1,12,15,14)
+    for (i in values)
+        tree.insert(i, 0)
+    tree.delete(8)
     println(tree.printNodes())
+<<<<<<< HEAD
     //println(tree.findParent(tree.root, 6))
 
 
 }
 >>>>>>> 2c8f01f (fix deletion balance in variant with black uncle red closest nephews)
+=======
+}
+>>>>>>> 91d29c7 (remake project test files structure)
