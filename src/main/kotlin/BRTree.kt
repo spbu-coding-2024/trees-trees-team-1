@@ -37,8 +37,6 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
         }
     }
 
-    //direction - 0-right 1-left
-
     private fun balance_insert(root: BRNode<K, T>, direction: Int) {
         val uncle=if (root.parent?.left==root) root.parent?.right else root.parent?.left
         if ((uncle?.color ?: 0) ==1 && root.color ==1) {
@@ -74,7 +72,7 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
         }
     }
 
-    override fun insert(root: BRNode<K, T>?, key: K, value: T) {
+    override fun insert(key: K, value: T, root: BRNode<K, T>?) {
         if (this.root==root && root==null) {
             this.root = BRNode(key, value, null)
             this.root?.color = 0
@@ -82,22 +80,19 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
         }
         if (root==null)
             return
-        if (root.key<=key) {
+        if (root.key<key) {
             if (root.right == null){
                 root.right = BRNode(key, value, root)
-
                 balance_insert(root, 1)
-                println(root.right?.parent?.key)
             } else
-                insert(root.right, key, value)
+                insert( key, value, root.right)
         } else {
             if (root.left==null) {
                 root.left = BRNode(key, value, root)
 
                 balance_insert(root, 0)
-                println(root.left?.parent?.key)
             } else
-                insert(root.left, key, value)
+                insert(key, value, root.left)
         }
 
     }
@@ -146,9 +141,7 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
     }
 
     private fun delete_balance(root: BRNode<K, T>?) {
-
         if (root==root?.parent?.left) {
-
             if ((root?.parent?.right?.color ?: 0).toInt() ==0) {
                 if ((root?.parent?.right?.right?.color ?: 0).toInt() == 1) {
                     val color = root?.parent?.color ?: 0
@@ -159,7 +152,6 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
                 } else if ((root?.parent?.right?.right?.color ?: 0).toInt() == 0 && (root?.parent?.right?.left?.color
                         ?: 0).toInt() == 1
                 ) {
-                    println("+++++++++ ${root?.parent?.key}")
                     root?.parent?.right?.left?.color = 0
                     root?.parent?.right?.color = 1
                     root?.parent?.right?.right?.color = 0
@@ -171,20 +163,18 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
                 } else if ((root?.parent?.right?.right?.color ?: 0).toInt() == 0 && (root?.parent?.right?.left?.color
                         ?: 0).toInt() == 0
                 ){
-
                     root?.color = 0
                     root?.parent?.right?.color = 1
                     if (root != this.root && (root?.parent?.color ?: 0) == 0)
                         delete_balance(root?.parent)
                 }
             } else {
-
-                root?.color = 1
-                root?.parent?.right?.color = 0
                 leftRotation(root?.parent?.right)
+                root?.parent?.color = 1
+                root?.parent?.right?.color = 0
+                delete_balance(root)
             }
         } else {
-
             if ((root?.parent?.left?.color ?: 0).toInt() ==0) {
                 if ((root?.parent?.left?.left?.color ?: 0).toInt() == 1) {
                     root?.parent?.left?.left?.color=0
@@ -192,7 +182,6 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
                     root?.parent?.color=root?.color ?: 0
                     root?.color =color
                     rightRotation(root?.parent?.left)
-
                 } else if ((root?.parent?.left?.left?.color ?: 0).toInt() == 0 && (root?.parent?.left?.right?.color ?: 0).toInt() == 1) {
                     root?.parent?.left?.right?.color=0
                     root?.parent?.left?.color=1
@@ -205,7 +194,6 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
                 } else if ((root?.parent?.left?.right?.color ?: 0).toInt() == 0 && (root?.parent?.left?.left?.color
                         ?: 0).toInt() == 0
                 ){
-                    println("-------------------------")
                     root?.color = 0
                     root?.parent?.left?.color = 1
                     if (root != this.root && (root?.parent?.color ?: 0) == 0)
@@ -213,10 +201,10 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
                 }
             } else {
                 rightRotation(root?.parent?.left)
-                root?.color = 1
+                root?.parent?.color = 1
                 root?.parent?.left?.color = 0
+                delete_balance(root)
             }
-
         }
     }
 
@@ -229,7 +217,7 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
         second.value=tempVal
     }
 
-    override fun delete(root: BRNode<K, T>?, key: K) {
+    override fun delete(key: K, root: BRNode<K, T>?) {
         if (root==null)
             return
         else if (root.key==key) {
@@ -239,27 +227,27 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
                 deleteBlack(root)
             }
         } else if (root.key<key)
-            delete(root.right, key)
+            delete(key, root.right)
         else
-            delete(root.left, key)
+            delete(key, root.left)
     }
 
-    override fun find(root: BRNode<K, T>?, key: K): Boolean {
+    override fun find(key: K, root: BRNode<K, T>?): Boolean {
         if (root==null)
             return false
-        return if (root.key==key) true else if (root.key<key) find(root.right, key) else find(root.left, key)
+        return if (root.key==key) true else if (root.key<key) find(key, root.right) else find(key, root.left)
     }
 
-    override fun peek(root: BRNode<K, T>?, key: K): T? {
+    override fun peek(key: K, root: BRNode<K, T>?): T? {
         if (root==null)
             return null
-        return if (root.key==key) root.value else if (root.key>key) peek(root.right, key) else peek(root.left, key)
+        return if (root.key==key) root.value else if (root.key<key) peek(key, root.right) else peek(key, root.left)
     }
 
-    override fun findParent(root: BRNode<K, T>?, key: K): K? {
+    override fun findParent(key: K, root: BRNode<K, T>?): K? {
         if (root==null)
             return null
-        return if (root.key==key) root.parent?.key else if (root.key<key) findParent(root.right, key) else findParent(root.left, key)
+        return if (root.key==key) root.parent?.key else if (root.key<key) findParent(key, root.right) else findParent(key, root.left)
     }
 
     override fun findSealing(root: BRNode<K, T>?): BRNode<K,T> {
@@ -272,17 +260,10 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
 }
 
 fun main() {
-val tree=BRTree<Int, Int>()
-//    for (i in 1..20)
-//        tree.insert(tree.root, i, 8)
-//    //tree.delete(tree.root, 5)
-    tree.insert(tree.root, 5,0)
-    tree.insert(tree.root, 4,0)
-    tree.insert(tree.root, 7,0)
-    tree.insert(tree.root, 6,0)
-    tree.delete(tree.root, 4)
+    val tree=BRTree<Int, Int>()
+    var values= listOf(7,5,10,2,8,6,13,1,12,15,14)
+    for (i in values)
+        tree.insert(i, 0)
+    tree.delete(8)
     println(tree.printNodes())
-    //println(tree.findParent(tree.root, 6))
-
-
 }

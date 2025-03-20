@@ -23,25 +23,21 @@ abstract class BinaryTree <K: Comparable<K>, T, P:Node<K, T, P>> {
         }
 
     }
+
     fun iterator(): Iterate {
         return this.Iterate()
     }
 
-    abstract fun insert(root: BRNode<K, T>?, key: K, value: T)
-    abstract fun delete(root: P?, key: K)
-    abstract fun find(root: P?, key: K): Boolean
-    abstract fun peek(root: P?,key: K): T?
-    abstract fun findParent(root: P?, key: K): K?
-    protected abstract fun findSealing(root: P?): P?
-
+    abstract fun insert(key: K, value: T, root:P?=this.root)
+    abstract fun delete(key: K, root: P?=this.root)
+    abstract fun find(key: K, root: P?=this.root): Boolean
+    abstract fun peek(key: K, root: P?=this.root): T?
+    abstract fun findParent(key: K, root: P?=this.root): K?
+    protected abstract fun findSealing(root: P?=this.root): P?
     fun printNodes(): String {
         var res= StringBuilder()
         for (elem in iterator())
             res.append("$elem ")
         return res.toString()
     }
-
-
-
-
 }
