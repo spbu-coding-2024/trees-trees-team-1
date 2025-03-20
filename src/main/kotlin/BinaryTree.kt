@@ -52,16 +52,21 @@ abstract class BinaryTree <K: Comparable<K>, T, P:Node<K, T, P>> {
 
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
     /**
      * Метод, возвращающий новый объект класса Iterate для данного дерева
      */
 >>>>>>> ed2657a (final tests)
+=======
+
+>>>>>>> 91d29c7 (remake project test files structure)
     fun iterator(): Iterate {
         return this.Iterate()
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     abstract fun insert(root: P?, key: K, value: T)
     abstract fun delete(root: P?, key: K)
@@ -111,9 +116,21 @@ abstract class BinaryTree <K: Comparable<K>, T, P:Node<K, T, P>> {
     /**
      * Метод печати всех узлов дерева
      */
+=======
+    abstract fun insert(key: K, value: T, root:P?=this.root)
+    abstract fun delete(key: K, root: P?=this.root)
+    abstract fun find(key: K, root: P?=this.root): Boolean
+    abstract fun peek(key: K, root: P?=this.root): T?
+    abstract fun findParent(key: K, root: P?=this.root): K?
+    protected abstract fun findSealing(root: P?=this.root): P?
+>>>>>>> 91d29c7 (remake project test files structure)
     fun printNodes(): String {
         var res= StringBuilder()
 >>>>>>> ed2657a (final tests)
         for (elem in iterator())
             print("$elem ")
     }
+<<<<<<< HEAD
+=======
+}
+>>>>>>> 91d29c7 (remake project test files structure)

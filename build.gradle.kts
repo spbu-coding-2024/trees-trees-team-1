@@ -1,10 +1,17 @@
+import org.gradle.api.problems.internal.PropertyTraceDataSpec
+import org.gradle.internal.configuration.problems.taskPathFrom
+
 plugins {
     kotlin("jvm") version "2.1.10"
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
     jacoco
     id("java")
 >>>>>>> ed2657a (final tests)
+=======
+    jacoco
+>>>>>>> 91d29c7 (remake project test files structure)
 }
 
 group = "org.example"
@@ -15,9 +22,12 @@ repositories {
 }
 
 dependencies {
-    testImplementation(kotlin("test"))
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.2")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 tasks.test {
@@ -25,9 +35,12 @@ tasks.test {
 }
 =======
 >>>>>>> f3b501a (trash deletion)
+=======
+>>>>>>> 91d29c7 (remake project test files structure)
 kotlin {
 <<<<<<< HEAD
     jvmToolchain(22)
+<<<<<<< HEAD
 =======
     jvmToolchain(23)
 }
@@ -49,22 +62,54 @@ kotlin {
 >>>>>>> ed2657a (final tests)
 tasks.register<Test>("RBBasic") {
     useJUnitPlatform { filter { includeTags("basic & BRTree") } }
+=======
+}
+
+sourceSets.main {
+    kotlin.srcDirs("src/main/kotlin")
+}
+
+
+tasks.register<Test>("RBBasic") {
+    useJUnitPlatform {
+        filter {
+            includeTags("basic & BRTree")
+        }
+    }
+>>>>>>> 91d29c7 (remake project test files structure)
 }
 
 tasks.register<Test>("RBInsert") {
     dependsOn("RBBasic")
+<<<<<<< HEAD
     useJUnitPlatform { filter{ includeTags("insert & BRTree")} }
+=======
+    useJUnitPlatform {
+        filter {
+            includeTags("insert & BRTree")
+        }
+    }
+>>>>>>> 91d29c7 (remake project test files structure)
 }
 
 tasks.register<Test>("RBDelete") {
     dependsOn("RBInsert")
+<<<<<<< HEAD
     useJUnitPlatform { filter { includeTags("delete & BRTree") } }
+=======
+    useJUnitPlatform {
+        filter {
+            includeTags("delete & BRTree")
+        }
+    }
+>>>>>>> 91d29c7 (remake project test files structure)
 }
 
 tasks.register<Test>("testRBtree") {
     dependsOn("RBDelete")
 }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 
@@ -90,6 +135,17 @@ tasks.dokkaHtml.configure {
 
 >>>>>>> ed2657a (final tests)
 
+=======
+
+tasks.named<Test>("test") {
+    useJUnitPlatform()
+    tasks.findByPath("testRBtree")
+    testLogging.showStandardStreams=true
+    finalizedBy(tasks.findByPath("jacocoTestReport"))
+
+}
+
+>>>>>>> 91d29c7 (remake project test files structure)
 tasks.named<JacocoReport>("jacocoTestReport") {
     dependsOn(tasks.test)
     reports {
@@ -97,6 +153,7 @@ tasks.named<JacocoReport>("jacocoTestReport") {
         xml.required = false
         html.outputLocation = layout.buildDirectory.dir("jacocoHtml")
     }
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> 3b04d04 (fix)
@@ -107,3 +164,15 @@ tasks.named<JacocoReport>("jacocoTestReport") {
 =======
 }
 >>>>>>> ed2657a (final tests)
+=======
+
+
+}
+
+
+
+
+
+
+
+>>>>>>> 91d29c7 (remake project test files structure)
