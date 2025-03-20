@@ -1,5 +1,6 @@
 abstract class BinaryTree <K: Comparable<K>, T, P:Node<K, T, P>> {
     var root: P?=null
+
     inner class Iterate : Iterator<K?> {
         private var array: ArrayDeque<P?> = ArrayDeque()
         private var start: Int=0
@@ -26,16 +27,18 @@ abstract class BinaryTree <K: Comparable<K>, T, P:Node<K, T, P>> {
         return this.Iterate()
     }
 
-    abstract fun insert(root: P?, key: K, value: T)
+    abstract fun insert(root: BRNode<K, T>?, key: K, value: T)
     abstract fun delete(root: P?, key: K)
     abstract fun find(root: P?, key: K): Boolean
     abstract fun peek(root: P?,key: K): T?
     abstract fun findParent(root: P?, key: K): K?
     protected abstract fun findSealing(root: P?): P?
 
-    fun printNodes() {
+    fun printNodes(): String {
+        var res= StringBuilder()
         for (elem in iterator())
-            print("$elem ")
+            res.append("$elem ")
+        return res.toString()
     }
 
 
