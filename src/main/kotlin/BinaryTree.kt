@@ -12,12 +12,16 @@ abstract class BinaryTree <K: Comparable<K>, T, P:Node<K, T, P>> {
      */
     var root: P?=null
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
     /**
      * Внутренний класс, реализующий интерфейс Iterator для возможности прохода по всем узлам дерева
      */
 >>>>>>> ed2657a (final tests)
+=======
+
+>>>>>>> 2c8f01f (fix deletion balance in variant with black uncle red closest nephews)
     inner class Iterate : Iterator<K?> {
         /**
          * Очередь для последовательного хранения узлов дерева
@@ -68,13 +72,18 @@ abstract class BinaryTree <K: Comparable<K>, T, P:Node<K, T, P>> {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     abstract fun insert(root: P?, key: K, value: T)
+=======
+    abstract fun insert(root: BRNode<K, T>?, key: K, value: T)
+>>>>>>> 2c8f01f (fix deletion balance in variant with black uncle red closest nephews)
     abstract fun delete(root: P?, key: K)
     abstract fun find(root: P?, key: K): Boolean
     abstract fun peek(root: P?,key: K): T?
     abstract fun findParent(root: P?, key: K): K?
     protected abstract fun findSealing(root: P?): P?
 
+<<<<<<< HEAD
     fun printNodes() {
 =======
     /**
@@ -127,8 +136,13 @@ abstract class BinaryTree <K: Comparable<K>, T, P:Node<K, T, P>> {
     fun printNodes(): String {
         var res= StringBuilder()
 >>>>>>> ed2657a (final tests)
+=======
+    fun printNodes(): String {
+        var res= StringBuilder()
+>>>>>>> 2c8f01f (fix deletion balance in variant with black uncle red closest nephews)
         for (elem in iterator())
-            print("$elem ")
+            res.append("$elem ")
+        return res.toString()
     }
 <<<<<<< HEAD
 =======
