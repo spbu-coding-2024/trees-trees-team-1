@@ -69,14 +69,6 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 		return balance(root)
 	}
 
-	private fun findMin(node: AVLNode<K, T>): AVLNode<K, T> {
-		var current = node
-		while (current.left != null) {
-			current = current.left ?: break
-		}
-		return current
-	}
-
 	private fun removeMin(node: AVLNode<K, T>): AVLNode<K,T>? {
 		if (node.left == null) return node.right
 		node.left = removeMin(node.left ?: return node.right)
@@ -87,17 +79,16 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 		if (root == null) return null
 		if (key < root.key) {
 			root.left = delete(root.left, key)
-		}
-		else if (key > root.key) {
+		} else if (key > root.key) {
 			root.right = delete(root.right, key)
 		} else {
 				val left = root.left
 				val right = root.right
 				if (right == null) return left
-				val minNode = findMin(right)
-				minNode.right = removeMin(right)
-				minNode.left = left
-				return balance(minNode)
+				val sealingNode = findSealing(right)
+				sealingNode?.right = removeMin(right)
+				sealingNode?.left = left
+				return balance(sealingNode ?: return null)
 		}
 		return balance(root)
 	}
