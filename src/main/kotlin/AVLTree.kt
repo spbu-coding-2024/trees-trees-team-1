@@ -80,7 +80,7 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 		return balance(node)
 	}
 
-	override fun delete(root: AVLNode<K, T>?, key: K): AVLNode<K, T>? {
+	override fun delete(root: AVLNode<K, T>?, key: K) {
 		if (root == null) return
 		if (key < root.key) {
 			if (root.left != null) delete(root.left, key)
@@ -98,7 +98,7 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 				if (sealingNode != null) {
 					sealingNode.right = removeMin(right)
 					sealingNode.left = left
-					this.root = balance(seaingNode)
+					this.root = balance(sealingNode)
 				}
 				else {
 					this.root = balance(right)
