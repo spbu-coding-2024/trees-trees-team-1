@@ -101,4 +101,13 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 		}
 		return balance(root)
 	}
+
+	override fun find(root: AVLNode<K, T>?, key: K): Boolean {
+		if (root == null) return false
+		return when {
+			key == root.key -> true
+			key < root.key -> find(root.left, key)
+			else -> find(root.right, key)
+		}
+	}
 }
