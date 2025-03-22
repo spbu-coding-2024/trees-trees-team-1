@@ -55,18 +55,23 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 		}
 	}
 
-	override fun insert(root: AVLNode<K, T>?, key: K, value: T): AVLNode<K, T>? {
-		if (root == null) return AVLNode(key, value)
+	override fun insert(root: AVLNode<K, T>?, key: K, value: T) {
+		if (root == null) {
+			this.root = AVLNode(key, value)
+			return
+		}
 		if (key < root.key) {
-			root.left = insert(root.left, key, value)
+			if (root.left == null) root.left = AVLNode(key, value)
+			else insert(root.left, key, value)
 		}
 		else if (key > root.key) {
-			root.right = insert(root.right, key, value)
+			if (root.right == null) root.right = AVLNode(key, value)
+			else insert(root.right, key, value)
 		}
 		else {
 			root.value = value
 		}
-		return balance(root)
+		this.root = balance(this.root)
 	}
 
 	private fun removeMin(node: AVLNode<K, T>): AVLNode<K,T>? {
@@ -76,21 +81,31 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 	}
 
 	override fun delete(root: AVLNode<K, T>?, key: K): AVLNode<K, T>? {
-		if (root == null) return null
+		if (root == null) return
 		if (key < root.key) {
-			root.left = delete(root.left, key)
-		} else if (key > root.key) {
-			root.right = delete(root.right, key)
-		} else {
-				val left = root.left
-				val right = root.right
-				if (right == null) return left
-				val sealingNode = findSealing(right)
-				sealingNode?.right = removeMin(right)
-				sealingNode?.left = left
-				return balance(sealingNode ?: return null)
+			if (root.left != null) delete(root.left, key)
 		}
-		return balance(root)
+		else if (key > root.key) {
+			if (root.right != null) delete(root.right, key)
+		}
+		else {
+			val left = root.left
+			val right = root.right
+			if (right == null) {
+				this.root = left
+			} else {
+				var seaingNode = findSealing(right)
+				if (sealingNode != null) {
+					sealingNode.right = removeMin(right)
+					sealingNode.left = left
+					this.root = balance(seaingNode)
+				}
+				else {
+					this.root = balance(right)
+				}
+			}
+		}
+		this.root = balance(root)
 	}
 
 	override fun find(root: AVLNode<K, T>?, key: K): Boolean {
