@@ -110,4 +110,13 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 			else -> find(root.right, key)
 		}
 	}
+
+	override fun peek(root: AVLNode<K, T>?, key: K): T? {
+		if (root == null) return null
+		return when {
+			key == root.key -> root.value
+			key < root.key -> peek(root.left, key)
+			else -> peek(root.right, key)
+		}
+	}
 }
