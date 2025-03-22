@@ -119,4 +119,13 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 			else -> peek(root.right, key)
 		}
 	}
+
+	override fun findParent(root: AVLNode<K, T>?, key: K): K? {
+		if (root == null) return null
+		return when {
+			root.left?.key == key || root.right?.key == key -> root.key
+			key < root.key -> findParent(root.left, key)
+			else -> findParent(root.right, key)
+		}
+	}
 }
