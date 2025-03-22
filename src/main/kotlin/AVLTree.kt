@@ -128,4 +128,13 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 			else -> findParent(root.right, key)
 		}
 	}
+
+	override fun findSealing(root: AVLNode<K, T>?): AVLNode<K, T>? {
+		if (root == null) return null
+		var current = root.right
+		while (current?.left != null) {
+			current = current.left
+		}
+		return current
+	}
 }
