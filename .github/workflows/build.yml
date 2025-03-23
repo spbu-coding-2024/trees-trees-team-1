@@ -1,6 +1,13 @@
 name: Build Gradle project
+<<<<<<< HEAD
 on:
   push:
+=======
+
+on:
+  push:
+
+>>>>>>> 3dc040d (ci for github)
 jobs:
   build-gradle-project:
     runs-on: ubuntu-latest
