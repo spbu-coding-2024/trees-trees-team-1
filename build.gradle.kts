@@ -1,9 +1,7 @@
-import org.gradle.api.problems.internal.PropertyTraceDataSpec
-import org.gradle.internal.configuration.problems.taskPathFrom
-
 plugins {
     kotlin("jvm") version "2.1.10"
     jacoco
+    id("java")
 }
 
 group = "org.example"
@@ -19,39 +17,31 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
-kotlin {
-    jvmToolchain(22)
-}
 
-sourceSets.main {
-    kotlin.srcDirs("src/main/kotlin")
+
+task<Javadoc>("javado") {
+    description = "Generates Javadoc for"
+    source("src/main/kotlin")
+    classpath=files("src/main/kotlin")
+    println( destinationDir)
+}
+kotlin {
+    jvmToolchain(23)
 }
 
 
 tasks.register<Test>("RBBasic") {
-    useJUnitPlatform {
-        filter {
-            includeTags("basic & BRTree")
-        }
-    }
+    useJUnitPlatform { filter { includeTags("basic & BRTree") } }
 }
 
 tasks.register<Test>("RBInsert") {
     dependsOn("RBBasic")
-    useJUnitPlatform {
-        filter {
-            includeTags("insert & BRTree")
-        }
-    }
+    useJUnitPlatform { filter{ includeTags("insert & BRTree")} }
 }
 
 tasks.register<Test>("RBDelete") {
     dependsOn("RBInsert")
-    useJUnitPlatform {
-        filter {
-            includeTags("delete & BRTree")
-        }
-    }
+    useJUnitPlatform { filter { includeTags("delete & BRTree") } }
 }
 
 tasks.register<Test>("testRBtree") {
@@ -59,13 +49,16 @@ tasks.register<Test>("testRBtree") {
 }
 
 
-tasks.named<Test>("test") {
-    useJUnitPlatform()
-    tasks.findByPath("testRBtree")
-    testLogging.showStandardStreams=true
-    finalizedBy(tasks.findByPath("jacocoTestReport"))
 
+tasks.named<Test>("test") {
+    dependsOn("testRBtree")
+    finalizedBy(tasks.findByPath("jacocoTestReport"))
 }
+
+tasks.dokkaHtml.configure {
+    outputDirectory.set(buildDir.resolve("dokka"))
+}
+
 
 tasks.named<JacocoReport>("jacocoTestReport") {
     dependsOn(tasks.test)
@@ -74,13 +67,4 @@ tasks.named<JacocoReport>("jacocoTestReport") {
         xml.required = false
         html.outputLocation = layout.buildDirectory.dir("jacocoHtml")
     }
-
-
 }
-
-
-
-
-
-
-
