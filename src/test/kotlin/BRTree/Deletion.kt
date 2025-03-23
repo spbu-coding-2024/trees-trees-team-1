@@ -14,11 +14,20 @@ class Deletion {
     @Test
     @DisplayName("delete all tree elements")
     fun deleteAll() {
+<<<<<<< HEAD
         val values= listOf(5,6,7)
         for (i in values)
             tree.insert(i, 0)
         for (i in values)
             tree.delete(i)
+=======
+        tree.insert( 5,1)
+        tree.insert( 6,1)
+        tree.insert(7,1)
+        tree.delete( 5)
+        tree.delete( 6)
+        tree.delete( 7)
+>>>>>>> ed2657a (final tests)
         assertEquals("null ", tree.printNodes())
     }
 

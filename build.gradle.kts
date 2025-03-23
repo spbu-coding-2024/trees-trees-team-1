@@ -1,5 +1,10 @@
 plugins {
     kotlin("jvm") version "2.1.10"
+<<<<<<< HEAD
+=======
+    jacoco
+    id("java")
+>>>>>>> ed2657a (final tests)
 }
 
 group = "org.example"
@@ -14,6 +19,7 @@ dependencies {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 tasks.test {
     useJUnitPlatform()
 }
@@ -26,6 +32,21 @@ kotlin {
     jvmToolchain(23)
 }
 
+=======
+
+
+task<Javadoc>("javado") {
+    description = "Generates Javadoc for"
+    source("src/main/kotlin")
+    classpath=files("src/main/kotlin")
+    println( destinationDir)
+}
+kotlin {
+    jvmToolchain(23)
+}
+
+
+>>>>>>> ed2657a (final tests)
 tasks.register<Test>("RBBasic") {
     useJUnitPlatform { filter { includeTags("basic & BRTree") } }
 }
@@ -47,16 +68,27 @@ tasks.register<Test>("testRBtree") {
 <<<<<<< HEAD
 =======
 
+<<<<<<< HEAD
 >>>>>>> f3b501a (trash deletion)
+=======
+
+>>>>>>> ed2657a (final tests)
 tasks.named<Test>("test") {
     dependsOn("testRBtree")
     finalizedBy(tasks.findByPath("jacocoTestReport"))
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> f3b501a (trash deletion)
+=======
+tasks.dokkaHtml.configure {
+    outputDirectory.set(buildDir.resolve("dokka"))
+}
+
+>>>>>>> ed2657a (final tests)
 
 tasks.named<JacocoReport>("jacocoTestReport") {
     dependsOn(tasks.test)
@@ -66,8 +98,12 @@ tasks.named<JacocoReport>("jacocoTestReport") {
         html.outputLocation = layout.buildDirectory.dir("jacocoHtml")
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 3b04d04 (fix)
 }
 =======
 }
 >>>>>>> f3b501a (trash deletion)
+=======
+}
+>>>>>>> ed2657a (final tests)

@@ -65,12 +65,20 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     //direction - 0-right 1-left
 
     private fun balance_insert(root: BRNode<K, T>, direction: Int) {
         val uncle=if (root.parent?.left==root) root.parent?.right else root.parent?.left
 <<<<<<< HEAD
         if ((uncle?.color ?: 0) ==1 && root.color ==1) {
+=======
+    private fun balanceInsert(root: BRNode<K, T>, direction: Int) {
+        val uncle=if (root.parent?.left==root) root.parent?.right else root.parent?.left
+        if (root.color==0)
+            return
+        if ((uncle?.color ?: 0) ==1) {
+>>>>>>> ed2657a (final tests)
             uncle?.color=0
             root.color=0
             root.parent?.color=if (root.parent != this.root) 1 else 0
@@ -102,8 +110,9 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
             root.parent?.color=if (root.parent != this.root) RED else BLACK
 >>>>>>> 238188d (add const values of colors through companion oblect)
             if (root == root.parent?.right)
-                balance_insert(root.parent?.parent ?: return, 1)
+                balanceInsert(root.parent?.parent ?: return, 1)
             else
+<<<<<<< HEAD
 <<<<<<< HEAD
                 balance_insert(root.parent?.parent ?: return, 0)
         } else if ((uncle?.color ?: 0)==0 && root.color ==1) {
@@ -115,6 +124,10 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
 >>>>>>> a90db15 (add comments)
 =======
 >>>>>>> 238188d (add const values of colors through companion oblect)
+=======
+                balanceInsert(root.parent?.parent ?: return, 0)
+        } else if ((uncle?.color ?: 0)==0) {
+>>>>>>> ed2657a (final tests)
             if (direction==1 && root==root.parent?.right) {
                 root.color= BLACK
                 root.parent?.color= RED
@@ -170,13 +183,18 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
 >>>>>>> a90db15 (add comments)
             if (root.right == null){
                 root.right = BRNode(key, value, root)
-                balance_insert(root, 1)
+                balanceInsert(root, 1)
             } else
                 insert(root.right, key, value)
         } else {
             if (root.left==null) {
                 root.left = BRNode(key, value, root)
+<<<<<<< HEAD
                 balance_insert(root, 0)
+=======
+
+                balanceInsert(root, 0)
+>>>>>>> ed2657a (final tests)
             } else
                 insert(root.left, key, value)
         }
@@ -188,11 +206,10 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
     private fun deleteRed(root: BRNode<K, T>?) {
         /*Случай удаления узла*/
         if (root?.right == null && root?.left == null) {
-            if (root?.parent == null) {
-                this.root = null
-            } else if (root.parent?.left == root)
-                root.parent?.left = null
+            if (root?.parent?.left == root)
+                root?.parent?.left = null
             else
+<<<<<<< HEAD
 <<<<<<< HEAD
                 root.parent?.right = null
 =======
@@ -209,6 +226,13 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
             swapValues(root, sub ?: return)
             if (sub.color == RED)
 >>>>>>> 238188d (add const values of colors through companion oblect)
+=======
+                root?.parent?.right = null
+        } else {
+            val sub: BRNode<K, T>? = if (root.left == null) root.right else findCeiling(root.left)
+            swapValues(root, sub ?: return)
+            if ((sub.color) == 1)
+>>>>>>> ed2657a (final tests)
                 deleteRed(sub)
             else
                 deleteBlack(sub)
@@ -221,8 +245,13 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
         /*Случай, если левое поддерево непустое; поиск узла для замещения*/
         if (root?.left!=null) {
 <<<<<<< HEAD
+<<<<<<< HEAD
             val sub: BRNode<K, T>?=if (root.left?.right!=null) findSealing(root) else root.left
             swapvalues(root, sub ?: return)
+=======
+            val sub: BRNode<K, T>?=if (root.left?.right!=null) findCeiling(root.left) else root.left
+            swapValues(root, sub ?: return)
+>>>>>>> ed2657a (final tests)
             if (sub.color ==1)
 =======
             val sub: BRNode<K, T>?=if (root.left?.right!=null) findCeiling(root.left) else root.left
@@ -235,7 +264,11 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
             /*Случай, если только правое поддерево непустое */
         } else if (root?.right!=null){
 <<<<<<< HEAD
+<<<<<<< HEAD
             swapvalues(root.right ?: return, root)
+=======
+            swapValues(root.right ?: return, root)
+>>>>>>> ed2657a (final tests)
             if (root.right?.color ==0)
 =======
             swapValues(root.right ?: return, root)
@@ -246,6 +279,10 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
                 deleteRed(root.right)
             /*Случай, если удаляемый элемент - лист (нет потомков) */
         } else {
+<<<<<<< HEAD
+=======
+            deleteBalance(root)
+>>>>>>> ed2657a (final tests)
             if (root?.parent == null) {
                 this.root = null
             } else if (root.parent?.left == root)
@@ -258,14 +295,93 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     private fun delete_balance(root: BRNode<K, T>?) {
+=======
+    private fun deleteBalance(root: BRNode<K, T>?) {
+>>>>>>> ed2657a (final tests)
         if (root==root?.parent?.left) {
             if ((root?.parent?.right?.color ?: 0).toInt() ==0) {
                 if ((root?.parent?.right?.right?.color ?: 0).toInt() == 1) {
                     val color = root?.parent?.color ?: 0
+<<<<<<< HEAD
 =======
     /**{@link BinaryTree # delete(key: K, root: BRNode<K, T>?)} */
     @Override
+=======
+                    root?.parent?.right?.color = color
+                    root?.parent?.color=0
+                    root?.parent?.right?.right?.color = 0
+                    leftRotation(root?.parent?.right)
+                } else if ((root?.parent?.right?.right?.color ?: 0).toInt() == 0 && (root?.parent?.right?.left?.color
+                        ?: 0).toInt() == 1
+                ) {
+                    root?.parent?.right?.left?.color = 0
+                    root?.parent?.right?.color = 1
+                    root?.parent?.right?.right?.color = 0
+                    val color = root?.parent?.right?.color ?: 0
+                    root?.parent?.color = root?.color ?: 0
+                    root?.color = color
+                    rightRotation(root?.parent?.right?.left)
+                    leftRotation(root?.parent?.right)
+                } else if ((root?.parent?.right?.right?.color ?: 0).toInt() == 0 && (root?.parent?.right?.left?.color
+                        ?: 0).toInt() == 0
+                ){
+                    root?.color = 0
+                    root?.parent?.right?.color = 1
+                    if (root != this.root && (root?.parent?.color ?: 0) == 0)
+                        deleteBalance(root?.parent)
+                }
+            } else {
+                leftRotation(root?.parent?.right)
+                root?.parent?.color = 1
+                root?.parent?.right?.color = 0
+                deleteBalance(root)
+            }
+        } else {
+            if ((root?.parent?.left?.color ?: 0).toInt() ==0) {
+                if ((root?.parent?.left?.left?.color ?: 0).toInt() == 1) {
+                    root?.parent?.left?.left?.color=0
+                    val color=root?.parent?.left?.color ?: 0
+                    root?.parent?.color=root?.color ?: 0
+                    root?.color =color
+                    rightRotation(root?.parent?.left)
+                } else if ((root?.parent?.left?.left?.color ?: 0).toInt() == 0 && (root?.parent?.left?.right?.color ?: 0).toInt() == 1) {
+                    root?.parent?.left?.right?.color=0
+                    root?.parent?.left?.color=1
+                    root?.parent?.left?.left?.color=0
+                    val color=root?.parent?.left?.color ?: 0
+                    root?.parent?.color=root?.color ?: 0
+                    root?.color =color
+                    leftRotation(root?.parent?.left?.right)
+                    rightRotation(root?.parent?.left)
+                } else if ((root?.parent?.left?.right?.color ?: 0).toInt() == 0 && (root?.parent?.left?.left?.color
+                        ?: 0).toInt() == 0
+                ){
+                    root?.color = 0
+                    root?.parent?.left?.color = 1
+                    if (root != this.root && (root?.parent?.color ?: 0) == 0)
+                        deleteBalance(root?.parent)
+                }
+            } else {
+                rightRotation(root?.parent?.left)
+                root?.parent?.color = 1
+                root?.parent?.left?.color = 0
+                deleteBalance(root)
+            }
+        }
+    }
+
+    private fun swapValues(root: BRNode<K, T>, second:BRNode<K, T>) {
+        val tempKey=root.key
+        val tempVal=root.value
+        root.key=second.key
+        root.value=second.value
+        second.key=tempKey
+        second.value=tempVal
+    }
+
+>>>>>>> ed2657a (final tests)
     override fun delete(key: K, root: BRNode<K, T>?) {
         if (root==null)
             return
@@ -552,14 +668,18 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
         return if (root.key==key) root.parent?.key else if (root.key<key) findParent(key, root.right) else findParent(key, root.left)
     }
 
+<<<<<<< HEAD
     /**{@link BinaryTree # findParent(key: K, root: BRNode<K, T>?): K?*/
     @Override
     override fun findCeiling(root: BRNode<K, T>?): BRNode<K,T> {
 >>>>>>> a90db15 (add comments)
+=======
+    override fun findCeiling(root: BRNode<K, T>?): BRNode<K,T> {
+>>>>>>> ed2657a (final tests)
         if (root?.right==null && root!=null) {
             root.parent?.right=null
             return root
         } else
-            return findSealing(root?.right)
+            return findCeiling(root?.right)
     }
 }
