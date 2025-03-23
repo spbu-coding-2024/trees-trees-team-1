@@ -9,6 +9,7 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 		nodeB.value = aValue
 	}
 
+
 	private fun leftRotation(node: AVLNode<K, T>): AVLNode<K, T>? {
 		val rightChild = node.right ?: return null	// Если правый потомок null, возвращаем null
 		swapNodes(node, rightChild)
@@ -21,6 +22,7 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 		rightChild.fixHeight(rightChild)
 		return rightChild
 	}
+
 
 	private fun rightRotation(node: AVLNode<K, T>): AVLNode<K, T>? {
 		val leftChild = node.left ?: return null //Если левый потомок null, возвращаем null
@@ -35,17 +37,19 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 		return leftChild
 	}
 
-	private fun balance(node: AVLNode<K, T>): AVLNode<K, T>? {
+
+	private fun balance(node: AVLNode<K, T>?): AVLNode<K, T>? {
+		if (node == null) return null
 		node.fixHeight(node)
 		val balanceFactor: Int = node.calculateBalanceFactor(node)
-		if (balanceFactor == -2) {
+		if (balanceFactor == -2) {		//Если левое поддерево выше
 			val leftChild = node.left
-			if (node.left != null && leftChild.calculateBalanceFactor(leftChild) == 1) {
+			if (leftChild != null && leftChild.calculateBalanceFactor(leftChild) == 1) {
 				node.left = leftRotation(leftChild)
 			}
 			return rightRotation(node) ?: node
 		}
-		else if (balanceFactor == 2) {
+		else if (balanceFactor == 2) {		//Если правое поддерево выше
 			val rightChild = node.right
 			if (rightChild != null && rightChild.calculateBalanceFactor(rightChild) == -1) {
 				node.right = rightRotation(rightChild)
@@ -53,13 +57,14 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 			return leftRotation(node) ?: node
 		}
 		else {
-			return node
+			return node		//Если балансировка не требуется
 		}
 	}
 
+
 	override fun insert(root: AVLNode<K, T>?, key: K, value: T) {
 		if (root == null) {
-			this.root = AVLNode(key, value)
+			this.root = AVLNode(key, value)		//Если дерево пустое, создаем корень
 			return
 		}
 		if (key < root.key) {
@@ -71,16 +76,18 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 			else insert(root.right, key, value)
 		}
 		else {
-			root.value = value
+			root.value = value	//Если ключ существует, обновляем значение
 		}
-		this.root = balance(this.root)
+		this.root = balance(this.root) ?: return
 	}
+
 
 	private fun removeMin(node: AVLNode<K, T>): AVLNode<K,T>? {
 		if (node.left == null) return node.right
 		node.left = removeMin(node.left ?: return node.right)
 		return balance(node)
 	}
+
 
 	override fun delete(root: AVLNode<K, T>?, key: K) {
 		if (root == null) return
@@ -95,8 +102,9 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 			val right = root.right
 			if (right == null) {
 				this.root = left
-			} else {
-				var seaingNode = findSealing(right)
+			}
+			else {
+				val sealingNode = findSealing(right)
 				if (sealingNode != null) {
 					sealingNode.right = removeMin(right)
 					sealingNode.left = left
@@ -107,8 +115,9 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 				}
 			}
 		}
-		this.root = balance(root)
+		this.root = balance(root) ?: return
 	}
+
 
 	override fun find(root: AVLNode<K, T>?, key: K): Boolean {
 		if (root == null) return false
@@ -119,6 +128,7 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 		}
 	}
 
+
 	override fun peek(root: AVLNode<K, T>?, key: K): T? {
 		if (root == null) return null
 		return when {
@@ -128,6 +138,7 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 		}
 	}
 
+
 	override fun findParent(root: AVLNode<K, T>?, key: K): K? {
 		if (root == null) return null
 		return when {
@@ -136,6 +147,7 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 			else -> findParent(root.right, key)
 		}
 	}
+
 
 	override fun findSealing(root: AVLNode<K, T>?): AVLNode<K, T>? {
 		if (root == null) return null
