@@ -21,6 +21,7 @@ kotlin {
     jvmToolchain(23)
 }
 
+
 tasks.register<Test>("RBBasic") {
     useJUnitPlatform { filter { includeTags("basic & BRTree") } }
 }
@@ -39,11 +40,11 @@ tasks.register<Test>("testRBtree") {
     dependsOn("RBDelete")
 }
 
-
 tasks.named<Test>("test") {
     dependsOn("testRBtree")
     finalizedBy(tasks.findByPath("jacocoTestReport"))
 }
+
 
 
 tasks.named<JacocoReport>("jacocoTestReport") {
