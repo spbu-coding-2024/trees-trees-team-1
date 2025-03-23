@@ -1,21 +1,27 @@
 class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     /**
      * Companion object для передачи глобальных переменных, обозначающих цвета узла, внутрь класса
      */
+=======
+>>>>>>> 238188d (add const values of colors through companion oblect)
     companion object {
         const val RED=1
         const val BLACK=0
     }
 
+<<<<<<< HEAD
     /**
      * Функция левого поворота поддерева
      * @param node - узел, относительно которого происходит поворот, причем он является центральным из тройки, которая меняет свое положение
      * (то есть он становится новым корнем данного поддерева)
      */
 >>>>>>> a90db15 (add comments)
+=======
+>>>>>>> 238188d (add const values of colors through companion oblect)
     private fun leftRotation(node: BRNode<K, T>?) {
         val parent=node?.parent?.parent
         node?.parent?.right=node?.left
@@ -63,6 +69,7 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
 
     private fun balance_insert(root: BRNode<K, T>, direction: Int) {
         val uncle=if (root.parent?.left==root) root.parent?.right else root.parent?.left
+<<<<<<< HEAD
         if ((uncle?.color ?: 0) ==1 && root.color ==1) {
             uncle?.color=0
             root.color=0
@@ -86,6 +93,14 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
             root.color= BLACK
             root.parent?.color=if (root.parent != this.root) RED else BLACK
 >>>>>>> a90db15 (add comments)
+=======
+        if (root.color== BLACK)
+            return
+        if ((uncle?.color ?: BLACK) == BLACK) {
+            uncle?.color= BLACK
+            root.color= BLACK
+            root.parent?.color=if (root.parent != this.root) RED else BLACK
+>>>>>>> 238188d (add const values of colors through companion oblect)
             if (root == root.parent?.right)
                 balance_insert(root.parent?.parent ?: return, 1)
             else
@@ -95,30 +110,33 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
 =======
                 balanceInsert(root.parent?.parent ?: return, 0)
         } else {
+<<<<<<< HEAD
             /*Случай, если текущий узел - правый, при этом вставка произошла в правом поддереве*/
 >>>>>>> a90db15 (add comments)
+=======
+>>>>>>> 238188d (add const values of colors through companion oblect)
             if (direction==1 && root==root.parent?.right) {
-                root.color=0
-                root.parent?.color=1
+                root.color= BLACK
+                root.parent?.color= RED
                 leftRotation(root)
                 /*Случай, если текущий узел - правый, при этом вставка произошла в левом поддереве*/
             } else if (direction==0 && root==root.parent?.right){
                 val t=root.left
                 rightRotation(t)
-                t?.color=0
-                t?.parent?.color=1
+                t?.color= BLACK
+                t?.parent?.color= RED
                 leftRotation(t)
                 /*Случай, если текущий узел - левом, при этом вставка произошла в правом поддереве*/
             }else if (direction==0 && root==root.parent?.left) {
-                root.color=0
-                root.parent?.color=1
+                root.color= BLACK
+                root.parent?.color= RED
                 rightRotation(root)
                 /*Случай, если текущий узел - левый, при этом вставка произошла в левом поддереве*/
             } else if (direction==1 && root==root.parent?.left){
                 val t=root.right
                 leftRotation(t)
-                t?.color=0
-                t?.parent?.color=1
+                t?.color= BLACK
+                t?.parent?.color= RED
                 rightRotation(t)
             }
         }
@@ -133,8 +151,13 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
         /*Случай вставки в корень дерева*/
 >>>>>>> a90db15 (add comments)
         if (this.root==root && root==null) {
+<<<<<<< HEAD
             this.root = BRNode(key, value)
             this.root?.color = 0
+=======
+            this.root = BRNode(key, value, null)
+            this.root?.color = BLACK
+>>>>>>> 238188d (add const values of colors through companion oblect)
             return
         }
         if (root==null)
@@ -177,9 +200,15 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
             /*Случай удаления узла с двумя потомками*/
 >>>>>>> a90db15 (add comments)
         } else {
+<<<<<<< HEAD
             val sub: BRNode<K, T>? = if (root.left==null) root.right else findSealing(root.left)
             swapvalues(root, sub?: return)
             if ((sub.color) ==1)
+=======
+            val sub: BRNode<K, T>? = if (root.left == null) root.right else findCeiling(root.left)
+            swapValues(root, sub ?: return)
+            if (sub.color == RED)
+>>>>>>> 238188d (add const values of colors through companion oblect)
                 deleteRed(sub)
             else
                 deleteBlack(sub)
@@ -191,16 +220,27 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
     private fun deleteBlack(root: BRNode<K, T>?) {
         /*Случай, если левое поддерево непустое; поиск узла для замещения*/
         if (root?.left!=null) {
+<<<<<<< HEAD
             val sub: BRNode<K, T>?=if (root.left?.right!=null) findSealing(root) else root.left
             swapvalues(root, sub ?: return)
             if (sub.color ==1)
+=======
+            val sub: BRNode<K, T>?=if (root.left?.right!=null) findCeiling(root.left) else root.left
+            swapValues(root, sub ?: return)
+            if (sub.color == RED)
+>>>>>>> 238188d (add const values of colors through companion oblect)
                 deleteRed(sub)
             else
                 deleteBlack(sub)
             /*Случай, если только правое поддерево непустое */
         } else if (root?.right!=null){
+<<<<<<< HEAD
             swapvalues(root.right ?: return, root)
             if (root.right?.color ==0)
+=======
+            swapValues(root.right ?: return, root)
+            if (root.right?.color == BLACK)
+>>>>>>> 238188d (add const values of colors through companion oblect)
                 deleteBlack(root.right)
             else
                 deleteRed(root.right)
@@ -216,6 +256,7 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
         }
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     private fun delete_balance(root: BRNode<K, T>?) {
         if (root==root?.parent?.left) {
@@ -273,6 +314,32 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
                         ?: 0).toInt() == 0
 =======
                     /*Случай, если его левый предок красный, а правый - черный*/
+=======
+    override fun delete(key: K, root: BRNode<K, T>?) {
+        if (root==null)
+            return
+        else if (root.key==key) {
+            if (root.color == RED) {
+                deleteRed(root)
+            } else {
+                deleteBlack(root)
+            }
+        } else if (root.key<key)
+            delete(key, root.right)
+        else
+            delete(key, root.left)
+    }
+
+    private fun deleteBalance(root: BRNode<K, T>?) {
+        if (root==root?.parent?.left) {
+            if ((root?.parent?.right?.color ?: BLACK) == BLACK) {
+                if ((root?.parent?.right?.right?.color ?: BLACK) == RED) {
+                    val color = root?.parent?.color ?: BLACK
+                    root?.parent?.right?.color = color
+                    root?.parent?.color= BLACK
+                    root?.parent?.right?.right?.color = BLACK
+                    leftRotation(root?.parent?.right)
+>>>>>>> 238188d (add const values of colors through companion oblect)
                 } else if ((root?.parent?.right?.right?.color ?: BLACK) == BLACK
                     && (root?.parent?.right?.left?.color ?: BLACK) == RED) {
                     root?.parent?.right?.left?.color = BLACK
@@ -283,6 +350,7 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
                     root?.color = color
                     rightRotation(root?.parent?.right?.left)
                     leftRotation(root?.parent?.right)
+<<<<<<< HEAD
                     /*Случай, если его левый предок черный, а правый - черный*/
                 } else if ((root?.parent?.right?.right?.color ?: BLACK) == BLACK
                     && (root?.parent?.right?.left?.color ?: BLACK) == BLACK
@@ -330,13 +398,34 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
             /*Случай, если дядя оказался черным*/
             if ((root?.parent?.left?.color ?: BLACK) == BLACK) {
                 /*Случай, если его левый предок красный*/
+=======
+                } else if ((root?.parent?.right?.right?.color ?: BLACK) == BLACK
+                    && (root?.parent?.right?.left?.color ?: BLACK) == BLACK
+                ){
+                    root?.color = BLACK
+                    root?.parent?.right?.color = RED
+                    if (root != this.root && (root?.parent?.color ?: BLACK) == BLACK)
+                        deleteBalance(root?.parent)
+                }
+            } else {
+                leftRotation(root?.parent?.right)
+                root?.parent?.color = RED
+                root?.parent?.right?.color = BLACK
+                deleteBalance(root)
+            }
+        } else {
+            if ((root?.parent?.left?.color ?: BLACK) == BLACK) {
+>>>>>>> 238188d (add const values of colors through companion oblect)
                 if ((root?.parent?.left?.left?.color ?: BLACK) == RED) {
                     root?.parent?.left?.left?.color= BLACK
                     val color=root?.parent?.left?.color ?: BLACK
                     root?.parent?.color=root?.color ?: BLACK
                     root?.color =color
                     rightRotation(root?.parent?.left)
+<<<<<<< HEAD
                     /*Случай, если его правый предок красный, а левый - черный*/
+=======
+>>>>>>> 238188d (add const values of colors through companion oblect)
                 } else if ((root?.parent?.left?.left?.color ?: BLACK) == BLACK
                     && (root?.parent?.left?.right?.color ?: BLACK) == RED) {
                     root?.parent?.left?.right?.color= BLACK
@@ -347,13 +436,17 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
                     root?.color =color
                     leftRotation(root?.parent?.left?.right)
                     rightRotation(root?.parent?.left)
+<<<<<<< HEAD
                     /*Случай, если его левый предок черный, а правый - черный*/
+=======
+>>>>>>> 238188d (add const values of colors through companion oblect)
                 } else if ((root?.parent?.left?.right?.color ?: BLACK) == BLACK
                     && (root?.parent?.left?.left?.color ?: BLACK) == BLACK){
                     root?.color = BLACK
                     root?.parent?.left?.color = RED
                     if (root != this.root && (root?.parent?.color ?: BLACK) == BLACK)
                         deleteBalance(root?.parent)
+<<<<<<< HEAD
 >>>>>>> a90db15 (add comments)
                 }
                 /*Случай, если дядя оказался красным*/
@@ -368,10 +461,24 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
 
 <<<<<<< HEAD
     private fun swapvalues(root: BRNode<K, T>, second:BRNode<K, T>) {
+=======
+                }
+            } else {
+                rightRotation(root?.parent?.left)
+                root?.parent?.color = RED
+                root?.parent?.left?.color = BLACK
+                deleteBalance(root)
+            }
+        }
+    }
+
+    private fun swapValues(root: BRNode<K, T>, second:BRNode<K, T>) {
+>>>>>>> 238188d (add const values of colors through companion oblect)
         val tempKey=root.key
         val tempVal=root.value
         root.key=second.key
         root.value=second.value
+<<<<<<< HEAD
 =======
     /**Функция обмена значений узлами
      * @param first
@@ -382,10 +489,13 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
         first.key=second.key
         first.value=second.value
 >>>>>>> a90db15 (add comments)
+=======
+>>>>>>> 238188d (add const values of colors through companion oblect)
         second.key=tempKey
         second.value=tempVal
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     override fun delete(root: BRNode<K, T>?, key: K) {
         if (root==null)
@@ -406,6 +516,8 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
 =======
     /**{@link BinaryTree # find(key: K, root: BRNode<K, T>?): Boolean*/
     @Override
+=======
+>>>>>>> 238188d (add const values of colors through companion oblect)
     override fun find(key: K, root: BRNode<K, T>?): Boolean {
 >>>>>>> a90db15 (add comments)
         if (root==null)
