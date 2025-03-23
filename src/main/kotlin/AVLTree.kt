@@ -12,7 +12,7 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 	private fun leftRotation(node: AVLNode<K, T>): AVLNode<K, T>? {
 		val rightChild = node.right ?: return null	// Если правый потомок null, возвращаем null
 		swapNodes(node, rightChild)
-		val buffer: Node = node.left
+		val buffer = node.left
 		node.left = rightChild
 		node.right = rightChild.right
 		rightChild.right = rightChild.left
@@ -25,7 +25,7 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 	private fun rightRotation(node: AVLNode<K, T>): AVLNode<K, T>? {
 		val leftChild = node.left ?: return null //Если левый потомок null, возвращаем null
 		swapNodes(node, leftChild)
-		val buffer: Node = node.right
+		val buffer = node.right
 		node.right = leftChild
 		node.left = leftChild.left
 		leftChild.left = leftChild.right
@@ -36,19 +36,21 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 	}
 
 	private fun balance(node: AVLNode<K, T>): AVLNode<K, T>? {
-		node.fixHeight()
-		val balanceFactor: Int = node.calculateBalanceFactor()
+		node.fixHeight(node)
+		val balanceFactor: Int = node.calculateBalanceFactor(node)
 		if (balanceFactor == -2) {
-			if (node.left != null && node.left.calculateBalanceFactor() == 1) {
-				node.left = leftRotation(node.left)
+			val leftChild = node.left
+			if (node.left != null && leftChild.calculateBalanceFactor(leftChild) == 1) {
+				node.left = leftRotation(leftChild)
 			}
-			return rightRotation(node)
+			return rightRotation(node) ?: node
 		}
 		else if (balanceFactor == 2) {
-			if (node.right != null && node.right.calculateBalanceFactor() == -1) {
-				node.right = rightRotation(node.right)
+			val rightChild = node.right
+			if (rightChild != null && rightChild.calculateBalanceFactor(rightChild) == -1) {
+				node.right = rightRotation(rightChild)
 			}
-			return leftRotation(node)
+			return leftRotation(node) ?: node
 		}
 		else {
 			return node
