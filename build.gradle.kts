@@ -17,18 +17,9 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
-
-
-task<Javadoc>("javado") {
-    description = "Generates Javadoc for"
-    source("src/main/kotlin")
-    classpath=files("src/main/kotlin")
-    println( destinationDir)
-}
 kotlin {
     jvmToolchain(23)
 }
-
 
 tasks.register<Test>("RBBasic") {
     useJUnitPlatform { filter { includeTags("basic & BRTree") } }
@@ -49,14 +40,9 @@ tasks.register<Test>("testRBtree") {
 }
 
 
-
 tasks.named<Test>("test") {
     dependsOn("testRBtree")
     finalizedBy(tasks.findByPath("jacocoTestReport"))
-}
-
-tasks.dokkaHtml.configure {
-    outputDirectory.set(buildDir.resolve("dokka"))
 }
 
 
