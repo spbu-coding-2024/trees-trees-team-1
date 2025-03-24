@@ -14,11 +14,4 @@ jobs:
           build-scan-terms-of-use-url: "https://gradle.com/terms-of-service"
           build-scan-terms-of-use-agree: "yes"
       - name: Run build
-        run: ./gradlew test
-      - name: Gnerate badge
-        uses: emibcn/badge-action@v2.0.2
-        with:
-          label: 'Test coverage'
-          status: '53.4%'
-          color: 'blue,555,daf'
-          path: '.github/badges/coverage.svg'
+        run: ./gradlew build
