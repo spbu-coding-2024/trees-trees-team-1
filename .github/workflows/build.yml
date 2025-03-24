@@ -22,7 +22,7 @@ jobs:
       - name: Generate a coverage value
         id: coverage
         run: |
-          COVERAGE="$( parse-coverage-report )"
+          COVERAGE="$( ./gradlew jacocoTestReport )"
           echo "##[set-output name=lines;]${COVERAGE}%"
       - name: Generate the badge SVG image
         uses: emibcn/badge-action@v1
