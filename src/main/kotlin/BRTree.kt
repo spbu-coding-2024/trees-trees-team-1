@@ -1,5 +1,4 @@
 class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
-
     /**
      * Companion object для передачи глобальных переменных, обозначающих цвета узла, внутрь класса
      */

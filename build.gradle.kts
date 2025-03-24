@@ -12,10 +12,12 @@ repositories {
 }
 
 dependencies {
+    implementation("org.jacoco:jacoco-maven-plugin:0.8.12")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.2")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
+
 
 kotlin {
     jvmToolchain(23)
@@ -50,7 +52,7 @@ tasks.named<Test>("test") {
 tasks.named<JacocoReport>("jacocoTestReport") {
     dependsOn(tasks.test)
     reports {
-        csv.required = false
+        csv.required = true
         xml.required = false
         html.outputLocation = layout.buildDirectory.dir("jacocoHtml")
     }
