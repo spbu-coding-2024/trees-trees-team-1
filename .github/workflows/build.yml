@@ -15,19 +15,10 @@ jobs:
           build-scan-terms-of-use-agree: "yes"
       - name: Run build
         run: ./gradlew build
-  coverage:
-    runs-on: ubuntu-latest
-    name: Generate test coverage badge
-    steps:
-      - name: Generate a coverage value
-        id: coverage
-        run: |
-          COVERAGE="$( ./gradlew jacocoTestReport )"
-          echo "##[set-output name=lines;]${COVERAGE}%"
-      - name: Generate the badge SVG image
-        uses: emibcn/badge-action@v1
-        with:
-          label: 'Test coverage'
-          status: ${{ steps.coverage.outputs.lines }}
-          color: 'blue,555,daf'
-          path: badge.svg
+      - name: Gnerate badge
+        uses: emibcn/badge-action@v2.0.2
+               - with:
+               - label: 'Test coverage'
+               - status: '53.4%'
+               - color: 'blue,555,daf'
+               - path: '.github/badges/coverage.svg'
