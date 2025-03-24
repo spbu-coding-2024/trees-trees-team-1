@@ -17,8 +17,8 @@ jobs:
         run: ./gradlew build
       - name: Gnerate badge
         uses: emibcn/badge-action@v2.0.2
-               - with:
-               - label: 'Test coverage'
-               - status: '53.4%'
-               - color: 'blue,555,daf'
-               - path: '.github/badges/coverage.svg'
+        with:
+          label: 'Test coverage'
+          status: '53.4%'
+          color: 'blue,555,daf'
+          path: '.github/badges/coverage.svg'
