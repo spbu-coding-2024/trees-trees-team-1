@@ -61,23 +61,16 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 	}
 
 
-	override fun insert(root: AVLNode<K, T>?, key: K, value: T) {
-		if (root == null) {
-			this.root = AVLNode(key, value)		//Если дерево пустое, создаем корень
-			return
-		}
-		if (key < root.key) {
-			if (root.left == null) root.left = AVLNode(key, value)
-			else insert(root.left, key, value)
-		}
-		else if (key > root.key) {
-			if (root.right == null) root.right = AVLNode(key, value)
-			else insert(root.right, key, value)
-		}
-		else {
-			root.value = value	//Если ключ существует, обновляем значение
-		}
-		this.root = balance(this.root) ?: return
+	private fun insertNode(node: AVLNode<K, T>?, key: K, value: T): AVLNode<K, T> {
+		if (node == null) return AVLNode(key, value)
+		if (key < node.key) node.left = insertNode(node.left, key, value)
+		else if (key > node.key) node.right = insertNode(node.right, key, value)
+		else node.value = value
+		return balance(node)
+	}
+
+	override fun insert(key: K, value: T, root: AVLNode<K, T>?) {
+		this.root = insertNode(this.root, key, value)
 	}
 
 
