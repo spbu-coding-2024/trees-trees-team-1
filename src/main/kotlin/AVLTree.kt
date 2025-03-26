@@ -114,32 +114,32 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 		this.root = deleteNode(root, key)
 	}
 
-	override fun find(root: AVLNode<K, T>?, key: K): Boolean {
+	override fun find(key: K, root: AVLNode<K, T>?): Boolean {
 		if (root == null) return false
 		return when {
 			key == root.key -> true
-			key < root.key -> find(root.left, key)
-			else -> find(root.right, key)
+			key < root.key -> find(key, root.left)
+			else -> find(key, root.right)
 		}
 	}
 
 
-	override fun peek(root: AVLNode<K, T>?, key: K): T? {
+	override fun peek(key: K, root: AVLNode<K, T>?): T? {
 		if (root == null) return null
 		return when {
 			key == root.key -> root.value
-			key < root.key -> peek(root.left, key)
-			else -> peek(root.right, key)
+			key < root.key -> peek(key, root.left)
+			else -> peek(key, root.right)
 		}
 	}
 
 
-	override fun findParent(root: AVLNode<K, T>?, key: K): K? {
+	override fun findParent(key: K, root: AVLNode<K, T>?): K? {
 		if (root == null) return null
 		return when {
 			root.left?.key == key || root.right?.key == key -> root.key
-			key < root.key -> findParent(root.left, key)
-			else -> findParent(root.right, key)
+			key < root.key -> findParent(key, root.left)
+			else -> findParent(key, root.right)
 		}
 	}
 
