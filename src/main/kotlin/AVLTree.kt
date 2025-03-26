@@ -143,13 +143,32 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 		}
 	}
 
-
-	override fun findCealing(root: AVLNode<K, T>?): AVLNode<K, T>? {
-		if (root == null) return null
-		var current = root.right
-		while (current?.left != null) {
-			current = current.left
+	private fun findNode(key: K, node: AVLNode<K, T>? = this.root): AVLNode<K, T>? {
+		if (node == null) return null
+		return when {
+			key == node.key -> node
+			key < node.key -> findNode(key, node.left)
+			else -> findNode(key, node.right)
 		}
-		return current
+	}
+
+	override fun findCeiling(root: AVLNode<K, T>?): AVLNode<K, T>? {
+		if (root == null) return null
+		if (root.left != null) {
+			var current = root.left
+			while (current?.right != null) {
+				current = current.right
+			}
+			return current
+		}
+		var parentKey = findParent(root.key, this.root)
+		var parent: AVLNode<K, T>? = if (parentKey != null) findNode(parentKey) else null
+		var child = root
+		while (parent != null && child == parent.left) {
+			child = parent
+			parentKey = findParent(parent.key, this.root)
+			parent = if (parentKey != null) findNode(parentKey) else null
+		}
+		return parent
 	}
 }
