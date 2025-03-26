@@ -1,5 +1,6 @@
 abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 
+	// Функция для обмена ключами и значениями для двух узлов
 	private fun swapNodes(nodeA: AVLNode<K, T>, nodeB: AVLNode<K, T>) {
 		val aKey: K = nodeA.key
 		nodeA.key = nodeB.key
@@ -10,8 +11,9 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 	}
 
 
+	// Функция левого поворота узлов
 	private fun leftRotation(node: AVLNode<K, T>): AVLNode<K, T> {
-		val rightChild = node.right ?: return node
+		val rightChild = node.right ?: return node	// Без правого ребёнка поворот невозможен
 		swapNodes(node, rightChild)
 		val buffer = node.left
 		node.left = rightChild
@@ -24,8 +26,9 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 	}
 
 
+	// Функция правого поворота
 	private fun rightRotation(node: AVLNode<K, T>): AVLNode<K, T> {
-		val leftChild = node.left ?: return node
+		val leftChild = node.left ?: return node	// Без левого ребёнка поворот невозможен
 		swapNodes(node, leftChild)
 		val buffer = node.right
 		node.right = leftChild
@@ -38,11 +41,13 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 	}
 
 
+	// Функция балансировки узла
 	private fun balance(node: AVLNode<K, T>): AVLNode<K, T> {
 		node.fixHeight()
 		val balanceFactor = node.calculateBalanceFactor()
 		if (balanceFactor == -2) {		//Если левое поддерево выше
 			val leftChild = node.left
+			// Если у левого ребёнка перевес вправо, делаем левый поворот
 			if (leftChild != null && leftChild.calculateBalanceFactor() == 1) {
 				node.left = leftRotation(leftChild)
 			}
@@ -50,6 +55,7 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 		}
 		else if (balanceFactor == 2) {		//Если правое поддерево выше
 			val rightChild = node.right
+			// Если у правого ребёнка перевес влево, делаем правый поворот
 			if (rightChild != null && rightChild.calculateBalanceFactor() == -1) {
 				node.right = rightRotation(rightChild)
 			}
@@ -61,11 +67,12 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 	}
 
 
+	// Функция добавления узла
 	private fun insertNode(node: AVLNode<K, T>?, key: K, value: T): AVLNode<K, T> {
-		if (node == null) return AVLNode(key, value)
+		if (node == null) return AVLNode(key, value)	// Если место пустое - добавляем узел
 		if (key < node.key) node.left = insertNode(node.left, key, value)
 		else if (key > node.key) node.right = insertNode(node.right, key, value)
-		else node.value = value
+		else node.value = value		// Если ключ существует - обновляем значения
 		return balance(node)
 	}
 
@@ -74,12 +81,14 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 	}
 
 
+	// Функция удаления минимального узла
 	private fun removeMin(node: AVLNode<K, T>?): AVLNode<K,T>? {
 		if (node?.left == null) return node?.right
 		node.left = removeMin(node.left)
 		return balance(node)
 	}
 
+	// Функция поиска минимального узла
 	private fun findMin(node: AVLNode<K, T>?): AVLNode<K, T>? {
 		var current = node
 		while (current?.left != null) {
@@ -88,8 +97,9 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 		return current
 	}
 
+	// Функция удаления узла
 	private fun deleteNode(node: AVLNode<K, T>?, key: K): AVLNode<K, T>? {
-		if (node == null) return null
+		if (node == null) return null	// Если узла не существует
 		if (key < node.key) {
 			node.left = deleteNode(node.left, key)
 		}
@@ -97,12 +107,14 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 			node.right = deleteNode(node.right, key)
 		}
 		else {
+			// Узел найден, key == node.key
 			if (node.left == null) return node.right
 			else if (node.right == null) return node.left
 			else {
+				// Если есть оба ребёнка
 				val minNode = findMin(node.right) ?: return node
 				node.right = removeMin(node.right)
-				minNode.left = node.left
+				minNode.left = node.left	// Дети удалённого узла
 				minNode.right = node.right
 				return balance(minNode)
 			}
@@ -114,6 +126,8 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 		this.root = deleteNode(root, key)
 	}
 
+
+	// Функция поиска узла по ключу
 	override fun find(key: K, root: AVLNode<K, T>?): Boolean {
 		if (root == null) return false
 		return when {
@@ -124,6 +138,7 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 	}
 
 
+	// Функция нахождения значения по ключу
 	override fun peek(key: K, root: AVLNode<K, T>?): T? {
 		if (root == null) return null
 		return when {
@@ -134,6 +149,7 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 	}
 
 
+	// Функция поиска родителя узла по ключу
 	override fun findParent(key: K, root: AVLNode<K, T>?): K? {
 		if (root == null) return null
 		return when {
@@ -143,6 +159,8 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 		}
 	}
 
+
+	// Функция поиска узла по ключу, аналогично функции find, но возвращает узел
 	private fun findNode(key: K, node: AVLNode<K, T>? = this.root): AVLNode<K, T>? {
 		if (node == null) return null
 		return when {
@@ -152,6 +170,8 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 		}
 	}
 
+
+	// Функция поиска максимального узла меньше данного
 	override fun findCeiling(root: AVLNode<K, T>?): AVLNode<K, T>? {
 		if (root == null) return null
 		if (root.left != null) {
