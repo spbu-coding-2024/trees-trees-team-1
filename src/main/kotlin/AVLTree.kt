@@ -74,42 +74,45 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 	}
 
 
-	private fun removeMin(node: AVLNode<K, T>): AVLNode<K,T>? {
-		if (node.left == null) return node.right
-		node.left = removeMin(node.left ?: return node.right)
+	private fun removeMin(node: AVLNode<K, T>?): AVLNode<K,T>? {
+		if (node?.left == null) return node?.right
+		node.left = removeMin(node.left)
 		return balance(node)
 	}
 
-
-	override fun delete(root: AVLNode<K, T>?, key: K) {
-		if (root == null) return
-		if (key < root.key) {
-			if (root.left != null) delete(root.left, key)
+	private fun findMin(node: AVLNode<K, T>?): AVLNode<K, T>? {
+		var current = node
+		while (current?.left != null) {
+			current = current.left
 		}
-		else if (key > root.key) {
-			if (root.right != null) delete(root.right, key)
-		}
-		else {
-			val left = root.left
-			val right = root.right
-			if (right == null) {
-				this.root = left
-			}
-			else {
-				val sealingNode = findSealing(right)
-				if (sealingNode != null) {
-					sealingNode.right = removeMin(right)
-					sealingNode.left = left
-					this.root = balance(sealingNode)
-				}
-				else {
-					this.root = balance(right)
-				}
-			}
-		}
-		this.root = balance(root) ?: return
+		return current
 	}
 
+	private fun deleteNode(node: AVLNode<K, T>?, key: K): AVLNode<K, T>? {
+		if (node == null) return null
+		if (key < node.key) {
+			node.left = deleteNode(node.left, key)
+		}
+		else if (key > node.key) {
+			node.right = deleteNode(node.right, key)
+		}
+		else {
+			if (node.left == null) return node.right
+			else if (node.right == null) return node.left
+			else {
+				val minNode = findMin(node.right) ?: return node
+				node.right = removeMin(node.right)
+				minNode.left = node.left
+				minNode.right = node.right
+				return balance(minNode)
+			}
+		}
+		return balance(node)
+	}
+
+	override fun delete(key: K, root: AVLNode<K, T>?) {
+		this.root = deleteNode(root, key)
+	}
 
 	override fun find(root: AVLNode<K, T>?, key: K): Boolean {
 		if (root == null) return false
@@ -141,7 +144,7 @@ abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 	}
 
 
-	override fun findSealing(root: AVLNode<K, T>?): AVLNode<K, T>? {
+	override fun findCealing(root: AVLNode<K, T>?): AVLNode<K, T>? {
 		if (root == null) return null
 		var current = root.right
 		while (current?.left != null) {
