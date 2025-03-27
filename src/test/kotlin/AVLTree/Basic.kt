@@ -92,7 +92,7 @@ class basic {
 
 	@Tag("find")
 	@Test
-	@DisplayName("checking find function for existing and non-existing elements")
+	@DisplayName("Checking find function for existing and non-existing elements")
 	fun checkingFind() {
 		val values = listOf(7, 10, 11, 3)
 		for (i in values) {
@@ -110,8 +110,57 @@ class basic {
 
 	@Tag("find")
 	@Test
-	@DisplayName("checking find for empty tree")
-	fun findForEmptyTree() {
+	@DisplayName("Checking find for empty tree")
+	fun checkfindForEmptyTree() {
 		assertEquals(false, tree.find(10))
+	}
+
+	@Test
+	@DisplayName("Checking find parent for existing nodes")
+	fun checkFindParentExisting() {
+		val values = listOf(7, 10, 11, 3, 5)
+		for (i in values) {
+			tree.insert(i, 1)
+		}
+		assertEquals(null, tree.findParent(10))
+		assertEquals(10, tree.findParent(5))
+		assertEquals(10, tree.findParent(11))
+		assertEquals(5, tree.findParent(3))
+		assertEquals(5, tree.findParent(7))
+	}
+
+	@Test
+	@DisplayName("Checking find parent for non-existing nodes")
+	fun checkFindParentNonExisting() {
+		val values = listOf(7, 10, 11, 3, 5)
+		for (i in values) {
+			tree.insert(i, 1)
+		}
+		assertEquals(null, tree.findParent(1))
+		assertEquals(null, tree.findParent(8))
+		assertEquals(null, tree.findParent(15))
+	}
+
+	@Test
+	@DisplayName("Checking find parent for existing and non-existing nodes")
+	fun checkFindParent() {
+		val values = listOf(7, 10, 11, 3, 5)
+		for (i in values) {
+			tree.insert(i, 1)
+		}
+		val actual = mutableListOf<Int>()
+		actual.addLast(tree.findParent(1))
+		for (i in values) {
+			actual.addLast(tree.findParent(i))
+		}
+		actual.addLast(tree.findParent(15))
+		val expected = listOf(null, 5, null, 10, 5, 10, null)
+		assertEquals(expected, actual)
+	}
+
+	@Test
+	@DisplayName("checking find parent for empty tree")
+	fun checkFindParentEmptyTree() {
+		assertEquals(null, tree.findParent(10))
 	}
 }
