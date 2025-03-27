@@ -115,6 +115,7 @@ class Basic {
 		assertEquals(false, tree.find(10))
 	}
 
+	@Tag("find parent")
 	@Test
 	@DisplayName("Checking find parent for existing nodes")
 	fun checkFindParentExisting() {
@@ -129,6 +130,7 @@ class Basic {
 		assertEquals(5, tree.findParent(7))
 	}
 
+	@Tag("find parent")
 	@Test
 	@DisplayName("Checking find parent for non-existing nodes")
 	fun checkFindParentNonExisting() {
@@ -141,6 +143,7 @@ class Basic {
 		assertEquals(null, tree.findParent(15))
 	}
 
+	@Tag("find parent")
 	@Test
 	@DisplayName("Checking find parent for existing and non-existing nodes")
 	fun checkFindParent() {
@@ -158,12 +161,14 @@ class Basic {
 		assertEquals(expected, actual)
 	}
 
+	@Tag("find parent")
 	@Test
 	@DisplayName("Checking find parent for empty tree")
 	fun checkFindParentEmptyTree() {
 		assertEquals(null, tree.findParent(10))
 	}
 
+	@Tag("peek")
 	@Test
 	@DisplayName("Checking peek for existing nodes")
 	fun checkPeekExciting() {
@@ -175,6 +180,7 @@ class Basic {
 		assertEquals(30, tree.peek(3))
 	}
 
+	@Tag("peek")
 	@Test
 	@DisplayName("Checking peek for non-existing nodes")
 	fun checkPeekNonExciting() {
@@ -186,6 +192,7 @@ class Basic {
 		assertEquals(null, tree.peek(15))
 	}
 
+	@Tag("peek")
 	@Test
 	@DisplayName("Checking peek for existing and non-existing nodes")
 	fun checkPeek() {
@@ -202,6 +209,7 @@ class Basic {
 		assertEquals(expected, actual)
 	}
 
+	@Tag("peek")
 	@Test
 	@DisplayName("Checking peek for empty tree")
 	fun checkPeekEmptyTree() {
