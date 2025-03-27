@@ -10,12 +10,12 @@ import kotlin.test.assertEquals
 
 @Tag("AVLTree")
 
-class basic {
-	private lateinit var tree: AVLTRee<Int, Int>
+class Basic {
+	private lateinit var tree: AVLTree<Int, Int>
 
 	@BeforeEach
 	fun setup() {
-		tree = AVLTRee()
+		tree = AVLTree()
 	}
 
 	@Test
@@ -58,7 +58,7 @@ class basic {
 	@Tag("delete")
 	@Test
 	@DisplayName("Checking simple delete right without rotations")
-	fun simpleDeleteLeft() {
+	fun simpleDeleteRight() {
 		tree.insert(3, 1)
 		tree.insert(7, 1)
 		tree.delete(7)
@@ -68,8 +68,8 @@ class basic {
 
 	@Tag("find")
 	@Test
-	@DisplayName("Checking find existing elements")
-	fun findExisting() {
+	@DisplayName("Checking find for existing nodes")
+	fun checkFindExisting() {
 		tree.insert(10, 1)
 		tree.insert(7, 1)
 		tree.insert(3, 1)
@@ -80,8 +80,8 @@ class basic {
 
 	@Tag("find")
 	@Test
-	@DisplayName("Checking find non-existing elements")
-	fun findNonExisting() {
+	@DisplayName("Checking find for non-existing nodes")
+	fun checkFindNonExisting() {
 		tree.insert(10, 1)
 		tree.insert(7, 1)
 		tree.insert(3, 1)
@@ -92,8 +92,8 @@ class basic {
 
 	@Tag("find")
 	@Test
-	@DisplayName("Checking find function for existing and non-existing elements")
-	fun checkingFind() {
+	@DisplayName("Checking find function for existing and non-existing nodes")
+	fun checkFind() {
 		val values = listOf(7, 10, 11, 3)
 		for (i in values) {
 			tree.insert(i, 1)
@@ -111,7 +111,7 @@ class basic {
 	@Tag("find")
 	@Test
 	@DisplayName("Checking find for empty tree")
-	fun checkfindForEmptyTree() {
+	fun checkFindForEmptyTree() {
 		assertEquals(false, tree.find(10))
 	}
 
@@ -148,7 +148,7 @@ class basic {
 		for (i in values) {
 			tree.insert(i, 1)
 		}
-		val actual = mutableListOf<Int>()
+		val actual = mutableListOf<Int?>()
 		actual.addLast(tree.findParent(1))
 		for (i in values) {
 			actual.addLast(tree.findParent(i))
@@ -159,8 +159,52 @@ class basic {
 	}
 
 	@Test
-	@DisplayName("checking find parent for empty tree")
+	@DisplayName("Checking find parent for empty tree")
 	fun checkFindParentEmptyTree() {
 		assertEquals(null, tree.findParent(10))
+	}
+
+	@Test
+	@DisplayName("Checking peek for existing nodes")
+	fun checkPeekExciting() {
+		tree.insert(10, 100)
+		tree.insert(7, 70)
+		tree.insert(3, 30)
+		assertEquals(100, tree.peek(10))
+		assertEquals(70, tree.peek(7))
+		assertEquals(30, tree.peek(3))
+	}
+
+	@Test
+	@DisplayName("Checking peek for non-existing nodes")
+	fun checkPeekNonExciting() {
+		tree.insert(10, 100)
+		tree.insert(7, 70)
+		tree.insert(3, 30)
+		assertEquals(null, tree.peek(2))
+		assertEquals(null, tree.peek(8))
+		assertEquals(null, tree.peek(15))
+	}
+
+	@Test
+	@DisplayName("Checking peek for existing and non-existing nodes")
+	fun checkPeek() {
+		tree.insert(10, 100)
+		tree.insert(7, 70)
+		tree.insert(3, 30)
+		val actual = mutableListOf<Int?>()
+		actual.addLast(tree.peek(2))
+		actual.addLast(tree.peek(10))
+		actual.addLast(tree.peek(7))
+		actual.addLast(tree.peek(3))
+		actual.addLast(tree.peek(15))
+		val expected = listOf(null, 100, 70, 30, null)
+		assertEquals(expected, actual)
+	}
+
+	@Test
+	@DisplayName("Checking peek for empty tree")
+	fun checkPeekEmptyTree() {
+		assertEquals(null, tree.peek(10))
 	}
 }
