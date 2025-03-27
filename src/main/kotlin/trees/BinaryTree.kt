@@ -1,3 +1,7 @@
+package trees
+
+import nodes.Node
+
 /**
  * Абстрактный класс, задающий структуру различных модификаций бинарных деревьев, которые можно создать на их основе
  * @param <K> тип ключа значения
@@ -5,7 +9,7 @@
  * @param <P> тип (класс) указателей на потомков данного узла (релизуют абстрактный класс Node)
  * @see Node
  */
-abstract class BinaryTree <K: Comparable<K>, T, P:Node<K, T, P>> {
+abstract class BinaryTree <K: Comparable<K>, T, P: Node<K, T, P>> {
 
     /**
      * корень дерева

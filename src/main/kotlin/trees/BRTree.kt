@@ -1,3 +1,7 @@
+package trees
+
+import nodes.BRNode
+
 class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
     /**
      * Companion object для передачи глобальных переменных, обозначающих цвета узла, внутрь класса
@@ -218,7 +222,8 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
                     leftRotation(root?.parent?.right)
                     /*Случай, если его левый предок красный, а правый - черный*/
                 } else if ((root?.parent?.right?.right?.color ?: BLACK) == BLACK
-                    && (root?.parent?.right?.left?.color ?: BLACK) == RED) {
+                    && (root?.parent?.right?.left?.color ?: BLACK) == RED
+                ) {
                     root?.parent?.right?.left?.color = BLACK
                     root?.parent?.right?.color = RED
                     root?.parent?.right?.right?.color = BLACK
@@ -256,7 +261,8 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
                     rightRotation(root?.parent?.left)
                     /*Случай, если его правый предок красный, а левый - черный*/
                 } else if ((root?.parent?.left?.left?.color ?: BLACK) == BLACK
-                    && (root?.parent?.left?.right?.color ?: BLACK) == RED) {
+                    && (root?.parent?.left?.right?.color ?: BLACK) == RED
+                ) {
                     root?.parent?.left?.right?.color= BLACK
                     root?.parent?.left?.color= RED
                     root?.parent?.left?.left?.color= RED
@@ -267,7 +273,8 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
                     rightRotation(root?.parent?.left)
                     /*Случай, если его левый предок черный, а правый - черный*/
                 } else if ((root?.parent?.left?.right?.color ?: BLACK) == BLACK
-                    && (root?.parent?.left?.left?.color ?: BLACK) == BLACK){
+                    && (root?.parent?.left?.left?.color ?: BLACK) == BLACK
+                ){
                     root?.color = BLACK
                     root?.parent?.left?.color = RED
                     if (root != this.root && (root?.parent?.color ?: BLACK) == BLACK)
