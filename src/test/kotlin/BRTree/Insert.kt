@@ -1,8 +1,8 @@
 package test.BRTree
-import BRTree
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
+import trees.BRTree
 import kotlin.test.assertEquals
 
 

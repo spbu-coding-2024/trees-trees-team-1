@@ -2,6 +2,7 @@ package trees
 
 import nodes.BRNode
 
+
 class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
     /**
      * Companion object для передачи глобальных переменных, обозначающих цвета узла, внутрь класса
@@ -64,51 +65,39 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
      * @param direction указание, в каком поддереве лежит вставленный элемент
      * (0 - в левом, 1 - в правом)
      */
-    private fun balanceInsert(root: BRNode<K, T>, direction: Int) {
-        /*Ссылка на брата root (по совместительству дядя вставленного элемента)*/
-        val uncle=if (root.parent?.left==root) root.parent?.right else root.parent?.left
-        /*Если узел черный - дерево корректно */
-        if (root.color== BLACK)
+    private fun balanceInsert(root: BRNode<K, T>) {
+        val uncle=if (root.parent?.parent?.left==root.parent) root.parent?.parent?.right else root.parent?.parent?.left
+        if ((root.parent?.color ?: BLACK) == BLACK)
             return
-        /*Случай, если дядя оказывается черным*/
         if ((uncle?.color ?: BLACK) == RED) {
+            root.parent?.color= BLACK
             uncle?.color= BLACK
-            root.color= BLACK
-            root.parent?.color=if (root.parent != this.root) RED else BLACK
-            if (root == root.parent?.right)
-                balanceInsert(root.parent?.parent ?: return, 1)
-            else
-                balanceInsert(root.parent?.parent ?: return, 0)
+            root.parent?.parent?.color= if (root.parent?.parent==this.root) BLACK else RED
+            balanceInsert(root.parent?.parent ?: return)
         } else {
-            /*Случай, если текущий узел - правый, при этом вставка произошла в правом поддереве*/
-            if (direction==1 && root==root.parent?.right) {
-                root.color= BLACK
-                root.parent?.color= RED
+            if (root.parent?.parent?.left==root.parent && root==root.parent?.right) {
                 leftRotation(root)
-                /*Случай, если текущий узел - правый, при этом вставка произошла в левом поддереве*/
-            } else if (direction==0 && root==root.parent?.right){
-                val t=root.left
-                rightRotation(t)
-                t?.color= BLACK
-                t?.parent?.color= RED
-                leftRotation(t)
-                /*Случай, если текущий узел - левом, при этом вставка произошла в правом поддереве*/
-            }else if (direction==0 && root==root.parent?.left) {
-                root.color= BLACK
                 root.parent?.color= RED
+                root.color= BLACK
                 rightRotation(root)
-                /*Случай, если текущий узел - левый, при этом вставка произошла в левом поддереве*/
-            } else if (direction==1 && root==root.parent?.left){
-                val t=root.right
-                leftRotation(t)
-                t?.color= BLACK
-                t?.parent?.color= RED
-                rightRotation(t)
+            } else if (root.parent?.parent?.left==root.parent && root==root.parent?.left){
+                root.parent?.parent?.color= if (root.parent?.parent==this.root) BLACK else RED
+                root.parent?.color= BLACK
+                rightRotation(root.parent)
+            }else if (root.parent?.parent?.right==root.parent && root==root.parent?.left) {
+                rightRotation(root)
+                root.parent?.color= RED
+                root.color= BLACK
+                leftRotation(root)
+            } else if (root.parent?.parent?.right==root.parent && root==root.parent?.right){
+                root.parent?.parent?.color=  RED
+                root.parent?.color= BLACK
+                leftRotation(root.parent)
             }
         }
     }
 
-    /**{@link BinaryTree # insert(key: K, value: T, root: BRNode<K, T>?)}*/
+    /** {@link trees.BinaryTree#insert()} */
     @Override
     override fun insert(key: K, value: T, root: BRNode<K, T>?) {
         /*Случай вставки в корень дерева*/
@@ -123,14 +112,13 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
         if (root.key<key) {
             if (root.right == null){
                 root.right = BRNode(key, value, root)
-                balanceInsert(root, 1)
+                balanceInsert(root.right ?: return)
             } else
-                insert( key, value, root.right)
+                insert(key, value, root.right)
         } else {
             if (root.left==null) {
                 root.left = BRNode(key, value, root)
-
-                balanceInsert(root, 0)
+                balanceInsert(root.left ?: return)
             } else
                 insert(key, value, root.left)
         }
@@ -309,7 +297,7 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
             return false
         return if (root.key==key) true else if (root.key<key) find(key, root.right) else find(key, root.left)
     }
-    /**{@link BinaryTree # peek(key: K, root: BRNode<K, T>?): T?*/
+    /**@link BinaryTree # peek(key: K, root: BRNode<K, T>?): T?*/
     @Override
     override fun peek(key: K, root: BRNode<K, T>?): T? {
         if (root==null)
@@ -318,10 +306,10 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
     }
     /**{@link BinaryTree # findParent(key: K, root: BRNode<K, T>?): K?*/
     @Override
-    override fun findParent(key: K, root: BRNode<K, T>?): K? {
+    override fun findParent(key: K?, root: BRNode<K, T>?): K? {
         if (root==null)
             return null
-        return if (root.key==key) root.parent?.key else if (root.key<key) findParent(key, root.right) else findParent(key, root.left)
+        return if (root.key==key) root.parent?.key else if (root.key < (key ?: return null)) findParent(key, root.right) else findParent(key, root.left)
     }
 
     /**{@link BinaryTree # findParent(key: K, root: BRNode<K, T>?): K?*/
@@ -333,4 +321,15 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
         } else
             return findCeiling(root?.right)
     }
+
+    fun getColor(key: K?, root: BRNode<K, T>?=this.root): Int? {
+        if (root==null)
+            return null
+        return if (root.key==key) root.color else if (root.key < (key ?: return 0)) getColor(key, root.right) else getColor(key, root.left)
+    }
+
 }
+
+
+
+

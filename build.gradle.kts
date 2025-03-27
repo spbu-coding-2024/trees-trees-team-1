@@ -12,15 +12,20 @@ repositories {
 }
 
 dependencies {
+    testImplementation("net.jqwik:jqwik-kotlin:1.9.2")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.2")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation("org.assertj:assertj-core:3.24.2")
+    compileOnly("org.jetbrains:annotations:23.0.0")
 }
+
 
 
 kotlin {
-    jvmToolchain(23)
+    jvmToolchain(22)
 }
+
 
 
 tasks.register<Test>("RBBasic") {
@@ -39,6 +44,11 @@ tasks.register<Test>("RBDelete") {
 
 tasks.register<Test>("testRBtree") {
     dependsOn("RBDelete")
+}
+tasks.register<Test>("RBProperties") {
+    useJUnitPlatform {
+        filter {includeTags("properties & BRTree")}
+    }
 }
 
 tasks.named<Test>("test") {
