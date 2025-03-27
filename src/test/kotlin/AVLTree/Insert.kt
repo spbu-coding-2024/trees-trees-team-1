@@ -20,7 +20,7 @@ class Insert {
 	}
 
 	@Test
-	@DisplayName("Checking insert into empty tree should be root")
+	@DisplayName("Insert into empty tree should be root")
 	fun insertIntoEmptyTree() {
 		tree.insert(10, 1)
 		val expected = "10 null null "
