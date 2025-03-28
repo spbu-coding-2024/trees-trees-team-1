@@ -314,15 +314,16 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
             return findCeiling(root?.right)
     }
 
-    fun getColor(key: K?, root: BRNode<K, T>?=this.root): Int? {
+    fun getColor(key: K?, root: BRNode<K, T>?=this.root): Int {
         if (root==null)
-            return null
+            return BRTree.BLACK
         return if (root.key==key) root.color else if (root.key < (key ?: return 0)) getColor(key, root.right) else getColor(key, root.left)
     }
 
 
 
 }
+
 
 
 
