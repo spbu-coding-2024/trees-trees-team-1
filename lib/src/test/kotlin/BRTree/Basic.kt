@@ -1,14 +1,14 @@
 package test.BRTree
 
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import trees.BRTree
-import kotlin.test.assertEquals
 
 @Tag("BRTree")
-
+@Tag("basic")
 class Basic {
 
     private lateinit var tree: BRTree<Int, Int>
@@ -63,9 +63,9 @@ class Basic {
         val actual= mutableListOf<Boolean>()
         val expected = listOf(true, true, true, true, false, false)
         for (i in values)
-            actual.addLast(tree.find(i))
-        actual.addLast(tree.find(10))
-        actual.addLast(tree.find(11))
+            actual.add(tree.find(i))
+        actual.add(tree.find(10))
+        actual.add(tree.find(11))
         assertEquals(expected, actual)
     }
 
@@ -78,8 +78,8 @@ class Basic {
         val expected= listOf(null, 7, 7, 10, 10, null)
         val actual= mutableListOf<Int?>()
         for (i in values)
-            actual.addLast(tree.findParent(i))
-        actual.addLast(tree.findParent(0))
+            actual.add(tree.findParent(i))
+        actual.add(tree.findParent(0))
         assertEquals(expected, actual)
     }
 
