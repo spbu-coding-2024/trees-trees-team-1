@@ -1,19 +1,16 @@
 package trees
 
 import nodes.BRNode
+import nodes.BRNode.Companion.BLACK
+import nodes.BRNode.Companion.RED
 
+/**Класс, реализующий красно-черное дерево
+ * @see [trees.BinaryTree]*/
 
 class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
-    /**
-     * Companion object для передачи глобальных переменных, обозначающих цвета узла, внутрь класса
-     */
-    companion object {
-        const val RED=1
-        const val BLACK=0
-    }
 
     /**
-     * Функция левого поворота поддерева
+     * Метод левого поворота поддерева
      * @param node - узел, относительно которого происходит поворот, причем он является центральным из тройки, которая меняет свое положение
      * (то есть он становится новым корнем данного поддерева)
      */
@@ -37,7 +34,7 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
     }
 
     /**
-     * Функция правого поворота поддерева
+     * Метод правого поворота поддерева
      * @param node - узел, относительно которого происходит поворот, причем он является центральным из тройки, которая меняет свое положение
      * (то есть он становится новым корнем данного поддерева)
      */
@@ -60,10 +57,8 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
     }
 
     /**
-     * Функция балансировки после вставки нового узла
+     * Метод балансировки после вставки нового узла
      * @param root узел, относительно которого рассматривается корректность дерева
-     * @param direction указание, в каком поддереве лежит вставленный элемент
-     * (0 - в левом, 1 - в правом)
      */
     private fun balanceInsert(root: BRNode<K, T>) {
         val uncle=if (root.parent?.parent?.left==root.parent) root.parent?.parent?.right else root.parent?.parent?.left
@@ -97,7 +92,7 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
         }
     }
 
-    /** {@link trees.BinaryTree#insert()} */
+    /** [trees.BinaryTree.insert] */
     @Override
     override fun insert(key: K, value: T, root: BRNode<K, T>?) {
         /*Случай вставки в корень дерева*/
@@ -108,7 +103,6 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
         }
         if (root==null)
             return
-        /*Поиск поддерева для продолжения вставки и сама вставка*/
         if (root.key<key) {
             if (root.right == null){
                 root.right = BRNode(key, value, root)
@@ -125,7 +119,7 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
 
     }
 
-    /**Функция удаления красного узла
+    /**Метод удаления красного узла
      * @param root удаляемый узел*/
     private fun deleteRed(root: BRNode<K, T>?) {
         /*Случай удаления узла*/
@@ -146,10 +140,9 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
         }
     }
 
-    /**Функция удаление черного узла
+    /**Метод удаление черного узла
      * @param root удаляемый узел*/
     private fun deleteBlack(root: BRNode<K, T>?) {
-        /*Случай, если левое поддерево непустое; поиск узла для замещения*/
         if (root?.left!=null) {
             val sub: BRNode<K, T>?=if (root.left?.right!=null) findCeiling(root.left) else root.left
             swapValues(root, sub ?: return)
@@ -157,14 +150,12 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
                 deleteRed(sub)
             else
                 deleteBlack(sub)
-            /*Случай, если только правое поддерево непустое */
         } else if (root?.right!=null){
             swapValues(root.right ?: return, root)
             if (root.right?.color == BLACK)
                 deleteBlack(root.right)
             else
                 deleteRed(root.right)
-            /*Случай, если удаляемый элемент - лист (нет потомков) */
         } else {
             deleteBalance(root)
             if (root?.parent == null) {
@@ -176,7 +167,7 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
         }
     }
 
-    /**{@link BinaryTree # delete(key: K, root: BRNode<K, T>?)} */
+    /**[trees.BinaryTree.delete]*/
     @Override
     override fun delete(key: K, root: BRNode<K, T>?) {
         if (root==null)
@@ -194,7 +185,7 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
     }
 
     /**
-     * Функция балансировки после удаления нового узла
+     * Метод балансировки после удаления нового узла
      * @param root узел, относительно которого рассматривается корректность дерева
      * */
     private fun deleteBalance(root: BRNode<K, T>?) {
@@ -282,21 +273,22 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
         second.value=tempVal
     }
 
-    /**{@link BinaryTree # find(key: K, root: BRNode<K, T>?): Boolean*/
+    /**[trees.BinaryTree.find]*/
     @Override
     override fun find(key: K, root: BRNode<K, T>?): Boolean {
         if (root==null)
             return false
         return if (root.key==key) true else if (root.key<key) find(key, root.right) else find(key, root.left)
     }
-    /**@link BinaryTree # peek(key: K, root: BRNode<K, T>?): T?*/
-    @Override
+
+    /**[trees.BinaryTree.peek]*/
     override fun peek(key: K, root: BRNode<K, T>?): T? {
         if (root==null)
             return null
         return if (root.key==key) root.value else if (root.key<key) peek(key, root.right) else peek(key, root.left)
     }
-    /**{@link BinaryTree # findParent(key: K, root: BRNode<K, T>?): K?*/
+
+    /**[trees.BinaryTree.findParent]*/
     @Override
     override fun findParent(key: K?, root: BRNode<K, T>?): K? {
         if (root==null)
@@ -304,7 +296,7 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
         return if (root.key==key) root.parent?.key else if (root.key < (key ?: return null)) findParent(key, root.right) else findParent(key, root.left)
     }
 
-    /**{@link BinaryTree # findParent(key: K, root: BRNode<K, T>?): K?*/
+    /**[trees.BinaryTree.findCeiling]*/
     @Override
     override fun findCeiling(root: BRNode<K, T>?): BRNode<K,T> {
         if (root?.right==null && root!=null) {
@@ -314,19 +306,34 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
             return findCeiling(root?.right)
     }
 
+    /**Метод возвращения цвета узла
+     * @param key ключ узла, цвет которого рассматривается */
     fun getColor(key: K?, root: BRNode<K, T>?=this.root): Int {
         if (root==null)
-            return BRTree.BLACK
+            return BLACK
         return if (root.key==key) root.color else if (root.key < (key ?: return 0)) getColor(key, root.right) else getColor(key, root.left)
     }
 
+    /**Метод проверки узла на лист
+     * @param key ключ узла, который рассматривается */
+    fun isLeaf(key: K, root: BRNode<K, T>?=this.root): Boolean {
+        if (root==null)
+            return false
+        return if (root.key==key) root.right==null && root.left==null else if (root.key<key) isLeaf(key, root.right) else isLeaf(key, root.left)
+    }
 
+    /**Метод проверки узла на корень
+     * @param key ключ узла, который рассматривается */
+    fun isRoot(key: K): Boolean {
+        return this.root?.key==key
+    }
+
+    /**Метод, возвращающая ключи потомков узла (или null, если их нет); первый элемент пары - левый потомок, второй - правый
+     *  @param key ключ узла, который рассматривается*/
+    fun getChildren(key: K, root: BRNode<K, T>?=this.root): Pair <K?, K?>{
+        if (root==null)
+            return Pair(null, null)
+        return if (root.key==key) Pair(root.left?.key, root.right?.key) else if (root.key<key) getChildren(key, root.right) else getChildren(key, root.left)
+    }
 
 }
-
-
-
-
-
-
-

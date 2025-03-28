@@ -1,13 +1,16 @@
-plugins {
-    kotlin("jvm") version "2.1.10"
-    `java-library`
-    jacoco
-}
+
+
 
 repositories {
     mavenCentral()
 }
 
+plugins {
+    kotlin("jvm") version "2.1.10"
+    `java-library`
+    jacoco
+    id("org.jetbrains.dokka") version "2.0.0"
+}
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
@@ -29,6 +32,9 @@ tasks.named<Test>("test") {
     useJUnitPlatform()
     finalizedBy(tasks.named("jacocoTestReport"))
 }
+
+
+
 
 tasks.named<JacocoReport>("jacocoTestReport") {
     dependsOn(tasks.test)
