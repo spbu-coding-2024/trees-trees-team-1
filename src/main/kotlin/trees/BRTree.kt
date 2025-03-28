@@ -81,7 +81,7 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
                 root.color= BLACK
                 rightRotation(root)
             } else if (root.parent?.parent?.left==root.parent && root==root.parent?.left){
-                root.parent?.parent?.color= if (root.parent?.parent==this.root) BLACK else RED
+                root.parent?.parent?.color= RED
                 root.parent?.color= BLACK
                 rightRotation(root.parent)
             }else if (root.parent?.parent?.right==root.parent && root==root.parent?.left) {
@@ -140,8 +140,9 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
             swapValues(root, sub ?: return)
             if (sub.color == RED)
                 deleteRed(sub)
-            else
+            else {
                 deleteBlack(sub)
+            }
         }
     }
 
@@ -197,82 +198,73 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
      * @param root узел, относительно которого рассматривается корректность дерева
      * */
     private fun deleteBalance(root: BRNode<K, T>?) {
-        /*Текущий узел - левый*/
         if (root==root?.parent?.left) {
-            /*Случай, если дядя оказался черным*/
             if ((root?.parent?.right?.color ?: BLACK) == BLACK) {
-                /*Случай, если его правый предок красный*/
                 if ((root?.parent?.right?.right?.color ?: BLACK) == RED) {
                     val color = root?.parent?.color ?: BLACK
+                    println()
                     root?.parent?.right?.color = color
                     root?.parent?.color= BLACK
                     root?.parent?.right?.right?.color = BLACK
                     leftRotation(root?.parent?.right)
-                    /*Случай, если его левый предок красный, а правый - черный*/
                 } else if ((root?.parent?.right?.right?.color ?: BLACK) == BLACK
                     && (root?.parent?.right?.left?.color ?: BLACK) == RED
                 ) {
                     root?.parent?.right?.left?.color = BLACK
                     root?.parent?.right?.color = RED
-                    root?.parent?.right?.right?.color = BLACK
-                    val color = root?.parent?.right?.color ?: BLACK
-                    root?.parent?.color = root?.color ?: BLACK
-                    root?.color = color
                     rightRotation(root?.parent?.right?.left)
+                    val color = root?.parent?.color ?: BLACK
+                    root?.parent?.right?.color = color
+                    root?.parent?.color= BLACK
+                    root?.parent?.right?.right?.color = BLACK
                     leftRotation(root?.parent?.right)
-                    /*Случай, если его левый предок черный, а правый - черный*/
                 } else if ((root?.parent?.right?.right?.color ?: BLACK) == BLACK
                     && (root?.parent?.right?.left?.color ?: BLACK) == BLACK
                 ){
-                    root?.color = BLACK
-                    root?.parent?.right?.color = RED
-                    if (root != this.root && (root?.parent?.color ?: BLACK) == BLACK)
-                        deleteBalance(root?.parent)
+                    val color=root?.parent?.color
+                    root?.parent?.right?.color= RED
+                    root?.parent?.color= BLACK
+                    if (root != this.root && color== BLACK)
+                        deleteBalance(root.parent)
                 }
-                /*Случай, если дядя оказался красным*/
             } else {
-                leftRotation(root?.parent?.right)
                 root?.parent?.color = RED
                 root?.parent?.right?.color = BLACK
+                leftRotation(root?.parent?.right)
                 deleteBalance(root)
             }
-            /*Текущий узел - правый*/
         } else {
-            /*Случай, если дядя оказался черным*/
             if ((root?.parent?.left?.color ?: BLACK) == BLACK) {
-                /*Случай, если его левый предок красный*/
                 if ((root?.parent?.left?.left?.color ?: BLACK) == RED) {
-                    root?.parent?.left?.left?.color= BLACK
-                    val color=root?.parent?.left?.color ?: BLACK
-                    root?.parent?.color=root?.color ?: BLACK
-                    root?.color =color
+                    val color = root?.parent?.color ?: BLACK
+                    root?.parent?.left?.color = color
+                    root?.parent?.color= BLACK
+                    root?.parent?.left?.left?.color = BLACK
                     rightRotation(root?.parent?.left)
-                    /*Случай, если его правый предок красный, а левый - черный*/
                 } else if ((root?.parent?.left?.left?.color ?: BLACK) == BLACK
                     && (root?.parent?.left?.right?.color ?: BLACK) == RED
                 ) {
-                    root?.parent?.left?.right?.color= BLACK
-                    root?.parent?.left?.color= RED
-                    root?.parent?.left?.left?.color= RED
-                    val color=root?.parent?.left?.color ?: BLACK
-                    root?.parent?.color=root?.color ?: BLACK
-                    root?.color =color
+                    root?.parent?.left?.right?.color = BLACK
+                    root?.parent?.left?.color = RED
                     leftRotation(root?.parent?.left?.right)
+                    val color = root?.parent?.color ?: BLACK
+                    root?.parent?.left?.color = color
+                    root?.parent?.color= BLACK
+                    root?.parent?.left?.left?.color = BLACK
                     rightRotation(root?.parent?.left)
-                    /*Случай, если его левый предок черный, а правый - черный*/
                 } else if ((root?.parent?.left?.right?.color ?: BLACK) == BLACK
                     && (root?.parent?.left?.left?.color ?: BLACK) == BLACK
                 ){
-                    root?.color = BLACK
-                    root?.parent?.left?.color = RED
-                    if (root != this.root && (root?.parent?.color ?: BLACK) == BLACK)
-                        deleteBalance(root?.parent)
+                    val color=root?.parent?.color
+                    root?.parent?.left?.color= RED
+                    root?.parent?.color= BLACK
+                    if (root != this.root && color==BLACK)
+                        deleteBalance(root.parent)
                 }
-                /*Случай, если дядя оказался красным*/
             } else {
-                rightRotation(root?.parent?.left)
                 root?.parent?.color = RED
                 root?.parent?.left?.color = BLACK
+                rightRotation(root?.parent?.left)
                 deleteBalance(root)
             }
         }
@@ -316,7 +308,7 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
     @Override
     override fun findCeiling(root: BRNode<K, T>?): BRNode<K,T> {
         if (root?.right==null && root!=null) {
-            root.parent?.right=null
+            //root.parent?.right=null
             return root
         } else
             return findCeiling(root?.right)
@@ -328,7 +320,11 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
         return if (root.key==key) root.color else if (root.key < (key ?: return 0)) getColor(key, root.right) else getColor(key, root.left)
     }
 
+
+
 }
+
+
 
 
 

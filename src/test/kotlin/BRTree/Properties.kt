@@ -15,12 +15,12 @@ class Properties {
 
 
 
-    @RepeatedTest(1)
+    @RepeatedTest(25)
     @DisplayName("check for sequence of red nodes")
     fun check_insertion() {
         var list= Vector<Int>()
-        for (i in 0..10) {
-            val t=Random.nextInt(0, 100)
+        for (i in 0..1000) {
+            val t=Random.nextInt(-1000000, 1000000)
             if (!list.contains(t))
                 list.addLast(t)
         }
@@ -30,16 +30,10 @@ class Properties {
             if (tree.getColor(i)==BRTree.RED)
                 assertEquals(BRTree.BLACK ,tree.getColor(tree.findParent(i)))
         }
-        println(list)
         while (list.isNotEmpty()) {
             var t = list.random()
-            println(t)
             list.remove(t)
             tree.delete(t)
-            println(tree.printNodes())
-            for (i in tree)
-                print("${tree.getColor(i)} ")
-            println()
             for (i in tree) {
                 if (tree.getColor(i)==BRTree.RED)
                     assertEquals(BRTree.BLACK ,tree.getColor(tree.findParent(i)))
