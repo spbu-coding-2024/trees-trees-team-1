@@ -30,7 +30,6 @@ abstract class BinaryTree <K: Comparable<K>, T, P: Node<K, T, P>> {
          */
         private var start: Int=0
 
-        @Override
         override fun hasNext(): Boolean {
             if (start==0) {
                 array.addLast(root)
@@ -41,7 +40,6 @@ abstract class BinaryTree <K: Comparable<K>, T, P: Node<K, T, P>> {
             return true
         }
 
-        @Override
         override fun next(): K? {
             val t=array.removeFirst()
             if (t!=null) {

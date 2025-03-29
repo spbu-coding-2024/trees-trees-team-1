@@ -39,7 +39,4 @@ class Insert {
         val expected="7 5 8 null null null null "
         assertEquals(expected, tree.printNodes())
     }
-
-
-
 }

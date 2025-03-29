@@ -6,7 +6,6 @@ import nodes.BRNode.Companion.RED
 
 /**Класс, реализующий красно-черное дерево
  * @see [trees.BinaryTree]*/
-
 class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
 
     /**
@@ -93,9 +92,7 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
     }
 
     /** [trees.BinaryTree.insert] */
-    @Override
     override fun insert(key: K, value: T, root: BRNode<K, T>?) {
-        /*Случай вставки в корень дерева*/
         if (this.root==root && root==null) {
             this.root = BRNode(key, value, null)
             this.root?.color = BLACK
@@ -122,13 +119,11 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
     /**Метод удаления красного узла
      * @param root удаляемый узел*/
     private fun deleteRed(root: BRNode<K, T>?) {
-        /*Случай удаления узла*/
         if (root?.right == null && root?.left == null) {
             if (root?.parent?.left == root)
                 root?.parent?.left = null
             else
                 root?.parent?.right = null
-            /*Случай удаления узла с двумя потомками*/
         } else {
             val sub: BRNode<K, T>? = if (root.left == null) root.right else findCeiling(root.left)
             swapValues(root, sub ?: return)
@@ -168,7 +163,6 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
     }
 
     /**[trees.BinaryTree.delete]*/
-    @Override
     override fun delete(key: K, root: BRNode<K, T>?) {
         if (root==null)
             return
@@ -274,7 +268,6 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
     }
 
     /**[trees.BinaryTree.find]*/
-    @Override
     override fun find(key: K, root: BRNode<K, T>?): Boolean {
         if (root==null)
             return false
@@ -289,7 +282,6 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
     }
 
     /**[trees.BinaryTree.findParent]*/
-    @Override
     override fun findParent(key: K?, root: BRNode<K, T>?): K? {
         if (root==null)
             return null
@@ -297,13 +289,8 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
     }
 
     /**[trees.BinaryTree.findCeiling]*/
-    @Override
     override fun findCeiling(root: BRNode<K, T>?): BRNode<K,T> {
-        if (root?.right==null && root!=null) {
-            //root.parent?.right=null
-            return root
-        } else
-            return findCeiling(root?.right)
+        return if (root?.right==null && root!=null) root else findCeiling(root?.right)
     }
 
     /**Метод возвращения цвета узла
@@ -311,7 +298,7 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
     fun getColor(key: K?, root: BRNode<K, T>?=this.root): Int {
         if (root==null)
             return BLACK
-        return if (root.key==key) root.color else if (root.key < (key ?: return 0)) getColor(key, root.right) else getColor(key, root.left)
+        return if (key==root.key) root.color else if ((key ?: return BLACK) >root.key) getColor(key, root.right) else getColor(key, root.left)
     }
 
     /**Метод проверки узла на лист
@@ -319,7 +306,7 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
     fun isLeaf(key: K, root: BRNode<K, T>?=this.root): Boolean {
         if (root==null)
             return false
-        return if (root.key==key) root.right==null && root.left==null else if (root.key<key) isLeaf(key, root.right) else isLeaf(key, root.left)
+        return if (key==root.key) root.right==null && root.left==null else if (key>root.key) isLeaf(key, root.right) else isLeaf(key, root.left)
     }
 
     /**Метод проверки узла на корень
@@ -333,7 +320,6 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
     fun getChildren(key: K, root: BRNode<K, T>?=this.root): Pair <K?, K?>{
         if (root==null)
             return Pair(null, null)
-        return if (root.key==key) Pair(root.left?.key, root.right?.key) else if (root.key<key) getChildren(key, root.right) else getChildren(key, root.left)
+        return if (key==root.key) Pair(root.left?.key, root.right?.key) else if (key>root.key) getChildren(key, root.right) else getChildren(key, root.left)
     }
-
 }

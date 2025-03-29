@@ -1,10 +1,12 @@
 package test.BRTree
 
-import trees.BRTree
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
+import trees.BRTree
+
 import kotlin.test.assertEquals
+
 @Tag("BRTree")
 @Tag("delete")
 
@@ -24,7 +26,7 @@ class Deletion {
 
     @Test
     @DisplayName("left node deletion with black brother and nephews")
-    fun Deletion1() {
+    fun deletion1() {
         val values= listOf(5,4,7,6)
         for (i in values)
             tree.insert(i, 0)
@@ -35,7 +37,7 @@ class Deletion {
 
     @Test
     @DisplayName("right node deletion with black brother and nephews")
-    fun Deletion2() {
+    fun deletion2() {
         var values= listOf(6,7,4,5)
         for (i in values)
             tree.insert(i, 0)
@@ -46,7 +48,7 @@ class Deletion {
 
     @Test
     @DisplayName("right node deletion with black brother and left red nephew")
-    fun Deletion3() {
+    fun deletion3() {
         var values= listOf(10,11,7,8,6,5)
         for (i in values)
             tree.insert(i, 0)
@@ -87,7 +89,7 @@ class Deletion {
 
     @Test
     @DisplayName("black node deletion1")
-    fun BlackDeletion1() {
+    fun blackDeletion1() {
         for (i in 1..20)
             tree.insert(i, 0)
         tree.delete(16)
@@ -97,7 +99,7 @@ class Deletion {
 
     @Test
     @DisplayName("black node deletion2")
-    fun BlackDeletion2() {
+    fun blackDeletion2() {
         for (i in 1..20)
             tree.insert(i, 0)
         tree.delete(6)
@@ -107,7 +109,7 @@ class Deletion {
 
     @Test
     @DisplayName("red node deletion")
-    fun RedDeletion() {
+    fun redDeletion() {
         for (i in 1..20)
             tree.insert(i, 0)
         tree.delete(12)
@@ -117,7 +119,7 @@ class Deletion {
 
     @Test
     @DisplayName("right black node deletion with red brother")
-    fun BlackDeletion3() {
+    fun blackDeletion3() {
         var values= listOf(7,5,10,2,8,6,13,12,1,4,3)
         for (i in values)
             tree.insert(i, 0)
@@ -128,7 +130,7 @@ class Deletion {
 
     @Test
     @DisplayName("left black node deletion with red brother")
-    fun BlackDeletion4() {
+    fun blackDeletion4() {
         var values= listOf(7,5,10,2,8,6,13,1,12,15,14)
         for (i in values)
             tree.insert(i, 0)
@@ -139,7 +141,7 @@ class Deletion {
 
     @Test
     @DisplayName("red deletion with red substitution")
-    fun RedDeletion4() {
+    fun redDeletion4() {
         var values= listOf(20,10,30,5,15,25,8)
         for (i in values)
             tree.insert(i, 0)
@@ -150,7 +152,7 @@ class Deletion {
 
     @Test
     @DisplayName("black deletion with red substitution")
-    fun RedDeletion5() {
+    fun redDeletion5() {
         var values= listOf(20,10,30,5,15,25,8)
         for (i in values)
             tree.insert(i, 0)
