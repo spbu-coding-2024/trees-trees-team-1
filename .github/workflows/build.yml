@@ -1,19 +1,6 @@
 name: Build Gradle project
-<<<<<<< HEAD
 on:
   push:
-<<<<<<< HEAD
-=======
-
-on:
-  push:
-
->>>>>>> 3dc040d (ci for github)
-=======
-  pull_request:
-    branches: [ main ]
-
->>>>>>> b41a9fd (build change for running on pull request)
 jobs:
   build-gradle-project:
     runs-on: ubuntu-latest
