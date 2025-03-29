@@ -1,4 +1,4 @@
-abstract class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
+class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 
 	// Функция для обмена ключами и значениями для двух узлов
 	private fun swapNodes(nodeA: AVLNode<K, T>, nodeB: AVLNode<K, T>) {
