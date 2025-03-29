@@ -103,7 +103,7 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
             }
         }
     }
-
+    
     /**{@link BinaryTree # insert(key: K, value: T, root: BRNode<K, T>?)}*/
     @Override
     override fun insert(key: K, value: T, root: BRNode<K, T>?) {
@@ -119,13 +119,13 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
         if (root.key<key) {
             if (root.right == null){
                 root.right = BRNode(key, value, root)
-                balanceInsert(root, 1)
+                balance_insert(root, 1)
             } else
                 insert( key, value, root.right)
         } else {
             if (root.left==null) {
                 root.left = BRNode(key, value, root)
-
+                
                 balanceInsert(root, 0)
             } else
                 insert(key, value, root.left)
@@ -141,7 +141,7 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
             if (root?.parent?.left == root)
                 root?.parent?.left = null
             else
-                root?.parent?.right = null
+          root?.parent?.right = null
             /*Случай удаления узла с двумя потомками*/
         } else {
             val sub: BRNode<K, T>? = if (root.left == null) root.right else findCeiling(root.left)
@@ -282,7 +282,7 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
             }
         }
     }
-
+    
     /**Функция обмена значений узлами
      * @param first
      * @param second - узлы, между которыми происходит обмен*/

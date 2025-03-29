@@ -1,21 +1,30 @@
 class AVLNode<K: Comparable<K>, T>(override var key: K, override var value: T) : Node<K, T, AVLNode<K, T>>() {
+	private var height: Int = 0
 
-  private var height: Int=0
-
-	// Может работать с null
+	/**
+	 * Функция проверки высоты узла с обработкой null
+	 * @param node проверяемый узел (может быть null)
+	 * @return высоту узла или -1 если узел null
+	 */
 	private fun checkHeight(node: AVLNode<K, T>?): Int {
-		return node?.height ?: 0
+		/* Для null возвращаем -1 чтобы корректно работали calculateBalanceFactor и fixHeight */
+		return node?.height ?: -1
 	}
 
-	// Только с не null
-	fun calculateBalanceFactor(node: AVLNode<K, T>): Int {
-		return checkHeight(node.right) - checkHeight(node.left)
+	/**
+	 * Функция вычисления баланс-фактора текущего узла
+	 * @return разницу высот правого и левого поддеревьев
+	 */
+	fun calculateBalanceFactor(): Int {
+		return checkHeight(this.right) - checkHeight(this.left)
 	}
 
-	fun fixHeight(node: AVLNode<K, T>) {
-		val hl = checkHeight(node.left)
-		val hr = checkHeight(node.right)
-		node.height = maxOf(hl, hr) + 1
+	/**
+	 * Функция обновление высоты текущего узла на основе высот потомков
+	 */
+	fun fixHeight() {
+		val hl = checkHeight(this.left)
+		val hr = checkHeight(this.right)
+		this.height = maxOf(hl, hr) + 1
 	}
-
 }
