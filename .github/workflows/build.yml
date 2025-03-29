@@ -1,6 +1,9 @@
 name: Build Gradle project
 on:
   push:
+  pull_request:
+    branches: [ main ]
+
 jobs:
   build-gradle-project:
     runs-on: ubuntu-latest
@@ -14,4 +17,4 @@ jobs:
           build-scan-terms-of-use-url: "https://gradle.com/terms-of-service"
           build-scan-terms-of-use-agree: "yes"
       - name: Run build
-        run: ./gradlew build
+        run: ./gradlew -q build
