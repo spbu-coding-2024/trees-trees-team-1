@@ -68,7 +68,7 @@ class Deletion {
     }
 
     @Test
-    @DisplayName("red list deletion")
+    @DisplayName("red list deletion1")
     fun redListDeletion() {
         for (i in 1..20)
             tree.insert(i, 0)
@@ -78,8 +78,8 @@ class Deletion {
     }
 
     @Test
-    @DisplayName("black list deletion")
-    fun blackListDeletion() {
+    @DisplayName("black list deletion1")
+    fun blackDeletion1() {
         for (i in 1..20)
             tree.insert(i, 0)
         tree.delete(11)
@@ -88,8 +88,8 @@ class Deletion {
     }
 
     @Test
-    @DisplayName("black node deletion1")
-    fun blackDeletion1() {
+    @DisplayName("black node deletion2")
+    fun blackDeletion2() {
         for (i in 1..20)
             tree.insert(i, 0)
         tree.delete(16)
@@ -98,8 +98,19 @@ class Deletion {
     }
 
     @Test
-    @DisplayName("black node deletion2")
-    fun blackDeletion2() {
+    @DisplayName("black node deletion4")
+    fun blackDeletion4() {
+        var values= listOf(10,5,20,15,25,23,17,28,12)
+        for (i in values)
+            tree.insert(i, 0)
+        tree.delete(5)
+        val expected = "20 15 25 10 17 23 28 null 12 null null null null null null null null "
+        assertEquals(expected, tree.printNodes())
+    }
+
+    @Test
+    @DisplayName("black node deletion3")
+    fun blackDeletion3() {
         for (i in 1..20)
             tree.insert(i, 0)
         tree.delete(6)
@@ -108,7 +119,7 @@ class Deletion {
     }
 
     @Test
-    @DisplayName("red node deletion")
+    @DisplayName("red node deletion2")
     fun redDeletion() {
         for (i in 1..20)
             tree.insert(i, 0)
@@ -119,7 +130,7 @@ class Deletion {
 
     @Test
     @DisplayName("right black node deletion with red brother")
-    fun blackDeletion3() {
+    fun blackDeletion5() {
         var values= listOf(7,5,10,2,8,6,13,12,1,4,3)
         for (i in values)
             tree.insert(i, 0)
@@ -130,7 +141,7 @@ class Deletion {
 
     @Test
     @DisplayName("left black node deletion with red brother")
-    fun blackDeletion4() {
+    fun blackDeletion6() {
         var values= listOf(7,5,10,2,8,6,13,1,12,15,14)
         for (i in values)
             tree.insert(i, 0)
