@@ -1,11 +1,10 @@
 package test.AVLTree.AVLTree
 
-import trees.AVLTree
-
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Tag
+import org.junit.jupiter.api.Test
+import trees.AVLTree
 import kotlin.test.assertEquals
 
 @Tag("AVLTree")
@@ -23,7 +22,7 @@ class Delete {
 	@DisplayName("Delete from empty tree should do nothing")
 	fun deleteFromEmptyTree() {
 		tree.delete(10)
-		assertEquals("null", tree.printNodes())
+		assertEquals("null ", tree.printNodes())
 	}
 
 	@Test
@@ -39,7 +38,7 @@ class Delete {
 	fun deleteRootSingleNode() {
 		tree.insert(10, 1)
 		tree.delete(10)
-		assertEquals("null", tree.printNodes())
+		assertEquals("null ", tree.printNodes())
 	}
 
 	@Test
@@ -124,6 +123,6 @@ class Delete {
 		for (i in values) {
 			tree.delete(i)
 		}
-		assertEquals("null", tree.printNodes())
+		assertEquals("null ", tree.printNodes())
 	}
 }

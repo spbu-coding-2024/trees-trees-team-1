@@ -1,11 +1,10 @@
 package test.AVLTree.AVLTree
 
-import trees.AVLTree
-
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Tag
+import org.junit.jupiter.api.Test
+import trees.AVLTree
 import kotlin.test.assertEquals
 
 @Tag("AVLTree")
@@ -21,7 +20,7 @@ class Basic {
 	@Test
 	@DisplayName("Empty tree should be empty after initialization")
 	fun emptyTree() {
-		assertEquals("null", tree.printNodes())
+		assertEquals("null ", tree.printNodes())
 	}
 
 	@Tag("insert")

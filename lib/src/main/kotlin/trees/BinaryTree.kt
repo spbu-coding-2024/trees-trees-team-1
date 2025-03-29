@@ -14,7 +14,7 @@ abstract class BinaryTree <K: Comparable<K>, T, P: Node<K, T, P>> {
     /**
      * @property root корень дерева
      */
-    protected var root: P?=null
+    var root: P?=null
 
     /**
      * Внутренний класс, реализующий интерфейс Iterator для возможности прохода по всем узлам дерева
