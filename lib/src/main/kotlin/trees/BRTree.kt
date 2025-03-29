@@ -282,10 +282,10 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
     }
 
     /**[trees.BinaryTree.findParent]*/
-    override fun findParent(key: K?, root: BRNode<K, T>?): K? {
+    override fun findParent(key: K, root: BRNode<K, T>?): K? {
         if (root==null)
             return null
-        return if (root.key==key) root.parent?.key else if (root.key < (key ?: return null)) findParent(key, root.right) else findParent(key, root.left)
+        return if (root.key==key) root.parent?.key else if (root.key < key) findParent(key, root.right) else findParent(key, root.left)
     }
 
     /**[trees.BinaryTree.findCeiling]*/

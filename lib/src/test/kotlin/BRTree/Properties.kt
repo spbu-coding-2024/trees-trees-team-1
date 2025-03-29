@@ -29,13 +29,13 @@ class Properties {
             tree.insert(i, 0)
         for (i in tree)
             if (tree.getColor(i)==RED)
-                assertEquals(BLACK, tree.getColor(tree.findParent(i)))
+                assertEquals(BLACK, tree.getColor(tree.findParent(i ?: continue)))
 
         repeat(100) {
             tree.delete(list.random())
             for (i in tree)
                 if (tree.getColor(i) == RED)
-                    assertEquals(BLACK, tree.getColor(tree.findParent(i)))
+                    assertEquals(BLACK, tree.getColor(tree.findParent(i ?: continue)))
         }
     }
 
