@@ -1,4 +1,4 @@
-package BRTree
+package test.BRTree
 
 import net.jqwik.api.*
 import net.jqwik.api.constraints.UniqueElements
@@ -7,7 +7,7 @@ import nodes.BRNode.Companion.RED
 import trees.BRTree
 import kotlin.test.assertEquals
 
-const val SIZE=200
+const val SIZE=250
 const val MIN=-1000000
 const val MAX=1000000
 
@@ -39,7 +39,7 @@ class Properties {
         }
     }
 
-    @Property()
+    @Property
     @Label("Invariant of black path")
     fun check2(@ForAll("generator") @UniqueElements list: IntArray) {
         tree=BRTree()
