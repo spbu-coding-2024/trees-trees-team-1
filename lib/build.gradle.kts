@@ -49,6 +49,14 @@ tasks.register<Test>("AVLTree") {
     }
 }
 
+tasks.register<Test>("BSTree") {
+    description="Runs tests only on BS tree."
+    group="Verification"
+    useJUnitPlatform {
+        includeTags("BSTree")
+    }
+}
+
 tasks.build {
     finalizedBy(tasks.dokkaHtml)
 }
