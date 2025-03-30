@@ -30,7 +30,7 @@ class Deletion {
             tree.insert(i, "1")
         for (i in key)
             tree.delete(i)
-        assertEquals("null", tree.printNodes())
+        assertEquals("null ", tree.printNodes())
     }
 
     @Test
