@@ -17,7 +17,7 @@ import kotlin.test.assertEquals
 
 class PropertyBasedTests {
 
-	private fun checkBSTProperty(tree: AVLTree<Int, Int>, key: K?, min: Int = Int.MIN_VALUE, 
+	private fun checkBSTProperty(tree: AVLTree<Int, Int>, key: Int?, min: Int = Int.MIN_VALUE, 
 	max: Int = Int.MAX_VALUE ): Boolean {
 		if (key == null) return true
 		val (leftKey, rightKey) = tree.getChildren(key)
