@@ -57,10 +57,6 @@ tasks.register<Test>("BSTree") {
     }
 }
 
-tasks.build {
-    finalizedBy(tasks.dokkaHtml)
-}
-
 tasks.jacocoTestReport {
     dependsOn(tasks.test)
     reports {

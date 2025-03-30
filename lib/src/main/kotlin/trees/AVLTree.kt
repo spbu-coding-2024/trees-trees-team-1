@@ -1,7 +1,8 @@
 package trees
 
 import nodes.AVLNode
-
+/**Класс, реализующий AVL дерево
+ * @see [trees.BinaryTree]*/
 class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 
 	/**
@@ -105,7 +106,7 @@ class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 		return balance(node)
 	}
 
-	/** {@link BinaryTree # insert(key: K, value: T, root: BRNode<K, T>?)} */
+	/**[trees.BinaryTree.insert]*/
 	@Override
 	override fun insert(key: K, value: T, root: AVLNode<K, T>?) {
 		this.root = insertNode(this.root, key, value)
@@ -167,14 +168,14 @@ class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 		return balance(node)
 	}
 
-	/** {@link BinaryTree # delete(key: K, root: AVLNode<K, T>?)} */
+	/**[trees.BinaryTree.delete]*/
 	@Override
 	override fun delete(key: K, root: AVLNode<K, T>?) {
 		this.root = deleteNode(root, key)
 	}
 
 
-	/** {@link BinaryTree # find(key: K, root: AVLNode<K, T>?): Boolean */
+	/**[trees.BinaryTree.find]*/
 	@Override
 	override fun find(key: K, root: AVLNode<K, T>?): Boolean {
 		if (root == null) return false
@@ -186,7 +187,7 @@ class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 	}
 
 
-	/** {@link BinaryTree # peek(key: K, root: AVLNode<K, T>?): T? */
+	/**[trees.BinaryTree.peek]*/
 	@Override
 	override fun peek(key: K, root: AVLNode<K, T>?): T? {
 		if (root == null) return null
@@ -198,7 +199,7 @@ class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 	}
 
 
-	/** {@link BinaryTree # findParent(key: K, root: AVLNode<K, T>?): K? */
+	/**[trees.BinaryTree.findParent]*/
 	@Override
 	override fun findParent(key: K, root: AVLNode<K, T>?): K? {
 		if (root == null) return null
@@ -226,7 +227,7 @@ class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 	}
 
 
-	/** {@link BinaryTree # findCeiling(root: AVLNode<K, T>?): P? */
+	/**[trees.BinaryTree.findCeiling]*/
 	@Override
 	override fun findCeiling(root: AVLNode<K, T>?): AVLNode<K, T>? {
 		if (root == null) return null
