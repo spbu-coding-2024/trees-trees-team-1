@@ -5,7 +5,6 @@
 
 Binary Trees lib - библиотека, реализующая базовый интерфейс для создания бинарных деревьев
 
-[![CodeFactor](https://www.codefactor.io/repository/github/spbu-coding-2024/trees-trees-team-1/badge)](https://www.codefactor.io/repository/github/spbu-coding-2024/trees-trees-team-1)
 
 ## Технологии
 
