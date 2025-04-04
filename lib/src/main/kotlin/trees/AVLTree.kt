@@ -16,6 +16,7 @@ class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 
 	/**
 	 * Функция вычисления баланс-фактора текущего узла
+	 * @param node узел, для которого вычисляется баланс-фактор
 	 * @return разницу высот правого и левого поддеревьев
 	 */
 	private fun calculateBalanceFactor(node: AVLNode<K, T>?): Int {
@@ -24,6 +25,7 @@ class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 
 	/**
 	 * Функция обновление высоты текущего узла на основе высот потомков
+	 * @param node узел, высоту которого нужно обновить
 	 */
 	private fun fixHeight(node: AVLNode<K, T>?) {
 		val hl = checkHeight(node?.left)
