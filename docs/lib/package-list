@@ -48,6 +48,11 @@ $dokka.location:trees/BRTree/isRoot/#TypeParam(bounds=[kotlin.Comparable[^]])/Po
 $dokka.location:trees/BRTree/peek/#TypeParam(bounds=[kotlin.Comparable[^]])#nodes.BRNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]?/PointingToDeclaration/lib/trees/-b-r-tree/peek.html
 $dokka.location:trees/BSTree///PointingToDeclaration/lib/trees/-b-s-tree/index.html
 $dokka.location:trees/BSTree/BSTree/#/PointingToDeclaration/lib/trees/-b-s-tree/-b-s-tree.html
+$dokka.location:trees/BSTree/delete/#TypeParam(bounds=[kotlin.Comparable[^]])#nodes.BSNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]?/PointingToDeclaration/lib/trees/-b-s-tree/delete.html
+$dokka.location:trees/BSTree/find/#TypeParam(bounds=[kotlin.Comparable[^]])#nodes.BSNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]?/PointingToDeclaration/lib/trees/-b-s-tree/find.html
+$dokka.location:trees/BSTree/findParent/#TypeParam(bounds=[kotlin.Comparable[^]])#nodes.BSNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]?/PointingToDeclaration/lib/trees/-b-s-tree/find-parent.html
+$dokka.location:trees/BSTree/insert/#TypeParam(bounds=[kotlin.Comparable[^]])#TypeParam(bounds=[kotlin.Any?])#nodes.BSNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]?/PointingToDeclaration/lib/trees/-b-s-tree/insert.html
+$dokka.location:trees/BSTree/peek/#TypeParam(bounds=[kotlin.Comparable[^]])#nodes.BSNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]?/PointingToDeclaration/lib/trees/-b-s-tree/peek.html
 $dokka.location:trees/BinaryTree.Iterate///PointingToDeclaration/lib/trees/-binary-tree/-iterate/index.html
 $dokka.location:trees/BinaryTree.Iterate/Iterate/#/PointingToDeclaration/lib/trees/-binary-tree/-iterate/-iterate.html
 $dokka.location:trees/BinaryTree.Iterate/hasNext/#/PointingToDeclaration/lib/trees/-binary-tree/-iterate/has-next.html

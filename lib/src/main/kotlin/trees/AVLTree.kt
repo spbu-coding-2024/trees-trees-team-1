@@ -1,7 +1,8 @@
 package trees
 
 import nodes.AVLNode
-
+/**Класс, реализующий AVL дерево
+ * @see [trees.BinaryTree]*/
 class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 
 	/**
@@ -105,7 +106,7 @@ class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 		return balance(node)
 	}
 
-	/** {@link BinaryTree # insert(key: K, value: T, root: BRNode<K, T>?)} */
+	/**[trees.BinaryTree.insert]*/
 	@Override
 	override fun insert(key: K, value: T, root: AVLNode<K, T>?) {
 		this.root = insertNode(this.root, key, value)
@@ -167,14 +168,14 @@ class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 		return balance(node)
 	}
 
-	/** {@link BinaryTree # delete(key: K, root: AVLNode<K, T>?)} */
+	/**[trees.BinaryTree.delete]*/
 	@Override
 	override fun delete(key: K, root: AVLNode<K, T>?) {
 		this.root = deleteNode(root, key)
 	}
 
 
-	/** {@link BinaryTree # find(key: K, root: AVLNode<K, T>?): Boolean */
+	/**[trees.BinaryTree.find]*/
 	@Override
 	override fun find(key: K, root: AVLNode<K, T>?): Boolean {
 		if (root == null) return false
@@ -186,7 +187,7 @@ class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 	}
 
 
-	/** {@link BinaryTree # peek(key: K, root: AVLNode<K, T>?): T? */
+	/**[trees.BinaryTree.peek]*/
 	@Override
 	override fun peek(key: K, root: AVLNode<K, T>?): T? {
 		if (root == null) return null
@@ -198,7 +199,7 @@ class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 	}
 
 
-	/** {@link BinaryTree # findParent(key: K, root: AVLNode<K, T>?): K? */
+	/**[trees.BinaryTree.findParent]*/
 	@Override
 	override fun findParent(key: K, root: AVLNode<K, T>?): K? {
 		if (root == null) return null
@@ -226,7 +227,7 @@ class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 	}
 
 
-	/** {@link BinaryTree # findCeiling(root: AVLNode<K, T>?): P? */
+	/**[trees.BinaryTree.findCeiling]*/
 	@Override
 	override fun findCeiling(root: AVLNode<K, T>?): AVLNode<K, T>? {
 		if (root == null) return null
@@ -246,5 +247,47 @@ class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 			parent = if (parentKey != null) findNode(parentKey) else null
 		}
 		return parent
+	}
+
+	/**
+	 * Функция возвращает ключ корневого узла дерева
+	 * @return ключ корневого узла или null, если дерево пустое
+	 */
+	fun valueRoot(): K? = root?.key
+
+	/**
+	 * Функция возвращает пару ключей детей для узла с указанным ключом
+	 * @param key ключ узла, для которого ищутся дочерние элементы
+	 * @return пара (ключ левого потомка, ключ правого потомка),
+	 *			где каждый элемент может быть null, если потомок отсутствует
+	 */
+	fun getChildren(key: K): Pair<K?, K?> {
+		var current = root
+		while (current != null) {
+			when {
+				key == current.key -> return Pair(current.left?.key, current.right?.key)
+				key < current.key -> current = current.left
+				else -> current = current.right
+			}
+		}
+		return Pair(null, null)
+	}
+
+	/**
+	 * Функция возвращает высоту узла с указанным ключом
+	 * @param key ключ узла, высоту которого нужно определить
+	 * @return высота узла или 0, если узел не найден
+	 */
+	fun getHeight(key: K?): Int {
+		if (key == null) return 0
+		var current = root
+		while (current != null) {
+			when {
+				key == current.key -> return current.height
+				key < current.key -> current = current.left
+				else -> current = current.right
+			}
+		}
+		return 0
 	}
 }

@@ -17,30 +17,31 @@ import kotlin.test.assertEquals
 
 class PropertyBasedTests {
 
-	private fun checkBSTProperty(node: AVLNode<Int, Int>?, min: Int = Int.MIN_VALUE, 
+	private fun checkBSTProperty(tree: AVLTree<Int, Int>, key: Int?, min: Int = Int.MIN_VALUE, 
 	max: Int = Int.MAX_VALUE ): Boolean {
-		if (node == null) return true
-		if (node.key <= min || node.key >= max) return false
+		if (key == null) return true
+		val (leftKey, rightKey) = tree.getChildren(key)
+		if (key <= min || key >= max) return false
 
-		return checkBSTProperty(node.left, min, node.key) && checkBSTProperty(node.right, node.key, max)
+		return checkBSTProperty(tree, leftKey, min, key) && checkBSTProperty(tree, rightKey, key, max)
 	}
 
 
-	private fun checkBalanceProperty(node: AVLNode<Int, Int>?) : Boolean {
-		if (node == null) return true
-		val leftHeight = node.left?.height ?: 0
-		val rightHeight = node.right?.height ?: 0
+	private fun checkBalanceProperty(tree: AVLTree<Int, Int>, key: Int?) : Boolean {
+		if (key == null) return true
+		val (leftKey, rightKey) = tree.getChildren(key)
+		val leftHeight = tree.getHeight(leftKey)
+		val rightHeight = tree.getHeight(rightKey)
 		
-		return (abs(leftHeight - rightHeight) <= 1 && checkBalanceProperty(node.left)
-		 && checkBalanceProperty(node.right))
+		return (abs(leftHeight - rightHeight) <= 1 && checkBalanceProperty(tree, leftKey)
+		 && checkBalanceProperty(tree, rightKey))
 	}
 
 
-	private fun checkCountNodes(node: AVLNode<Int, Int>?): Int {
-		if (node == null) return 0
-		val countLeft = checkCountNodes(node.left)
-		val countRight = checkCountNodes(node.right)
-		return 1 + countLeft + countRight
+	private fun checkCountNodes(tree: AVLTree<Int, Int>, key: Int?): Int {
+		if (key == null) return 0
+		val (leftKey, rightKey) = tree.getChildren(key)
+		return 1 + checkCountNodes(tree, leftKey) + checkCountNodes(tree, rightKey)
 	}
 
 
@@ -53,7 +54,7 @@ class PropertyBasedTests {
 		val key = Random.nextInt()
 		val value = Random.nextInt()
 		tree.insert(key, value)
-		assertTrue(checkBSTProperty(tree.root), "Failed BST property after insertion")
+		assertTrue(checkBSTProperty(tree, tree.valueRoot()), "Failed BST property after insertion")
 		}
 	}
 
@@ -66,7 +67,7 @@ class PropertyBasedTests {
 		val key = Random.nextInt()
 		val value = Random.nextInt()
 		tree.insert(key, value)
-		assertTrue(checkBalanceProperty(tree.root), "Failed balance property after insertion")
+		assertTrue(checkBalanceProperty(tree, tree.valueRoot()), "Failed balance property after insertion")
 		}
 	}
 
@@ -81,7 +82,7 @@ class PropertyBasedTests {
 			val value = Random.nextInt()
 			tree.insert(key, value)
 			insertedKeys.add(key)
-			assertEquals(insertedKeys.size, checkCountNodes(tree.root), 
+			assertEquals(insertedKeys.size, checkCountNodes(tree, tree.valueRoot()), 
 			"Node count mismatch after insertion")
 		}
 	}
@@ -104,7 +105,7 @@ class PropertyBasedTests {
 				val keyToDelete = keys.random()
 				tree.delete(keyToDelete)
 				keys.remove(keyToDelete)
-				assertTrue(checkBSTProperty(tree.root), "Failed BST property after deletion")
+				assertTrue(checkBSTProperty(tree, tree.valueRoot()), "Failed BST property after deletion")
 			}
 		}
 	}
@@ -126,7 +127,7 @@ class PropertyBasedTests {
 				val keyToDelete = keys.random()
 				tree.delete(keyToDelete)
 				keys.remove(keyToDelete)
-				assertTrue(checkBalanceProperty(tree.root), "Failed balanced property after deletion")
+				assertTrue(checkBalanceProperty(tree, tree.valueRoot()), "Failed balanced property after deletion")
 			}
 		}
 	}
@@ -149,7 +150,7 @@ class PropertyBasedTests {
 				val keyToDelete = keys.random()
 				tree.delete(keyToDelete)
 				keys.remove(keyToDelete)			
-				assertEquals(keys.size, checkCountNodes(tree.root), "Node count mismatch after deletion")
+				assertEquals(keys.size, checkCountNodes(tree, tree.valueRoot()), "Node count mismatch after deletion")
 			}
 		}
 	}

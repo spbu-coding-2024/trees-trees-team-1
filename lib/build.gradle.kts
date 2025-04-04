@@ -41,8 +41,20 @@ tasks.register<Test>("BRTree") {
     }
 }
 
-tasks.build {
-    finalizedBy(tasks.dokkaHtml)
+tasks.register<Test>("AVLTree") {
+    description="Runs tests only on AVL tree."
+    group="Verification"
+    useJUnitPlatform {
+        includeTags("AVLTree")
+    }
+}
+
+tasks.register<Test>("BSTree") {
+    description="Runs tests only on BS tree."
+    group="Verification"
+    useJUnitPlatform {
+        includeTags("BSTree")
+    }
 }
 
 tasks.jacocoTestReport {

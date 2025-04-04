@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import trees.BRTree
 
 
-const val SIZE=200
+const val SIZE=250
 const val MIN=-1000000
 const val MAX=1000000
 
