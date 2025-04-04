@@ -5,13 +5,13 @@
 
 Binary Trees lib - библиотека, реализующая базовый интерфейс для создания бинарных деревьев
 
-[![CodeFactor](https://www.codefactor.io/repository/github/spbu-coding-2024/trees-trees-team-1/badge)](https://www.codefactor.io/repository/github/spbu-coding-2024/trees-trees-team-1)
 
 ## Технологии
 
-* Kotlin 1.9.24
+* Kotlin 2.1.10
 * JUnit 5
-* Gradle Gradle 8.10
+* Gradle Gradle 8.13
+* Java 23
 
 ## Структура проекта
 

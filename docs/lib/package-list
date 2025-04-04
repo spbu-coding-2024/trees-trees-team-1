@@ -3,6 +3,9 @@ $dokka.linkExtension:html
 $dokka.location:nodes////PointingToDeclaration/lib/nodes/index.html
 $dokka.location:nodes/AVLNode///PointingToDeclaration/lib/nodes/-a-v-l-node/index.html
 $dokka.location:nodes/AVLNode/AVLNode/#TypeParam(bounds=[kotlin.Comparable[^]])#TypeParam(bounds=[kotlin.Any?])/PointingToDeclaration/lib/nodes/-a-v-l-node/-a-v-l-node.html
+$dokka.location:nodes/AVLNode/calculateBalanceFactor/#/PointingToDeclaration/lib/nodes/-a-v-l-node/calculate-balance-factor.html
+$dokka.location:nodes/AVLNode/fixHeight/#/PointingToDeclaration/lib/nodes/-a-v-l-node/fix-height.html
+$dokka.location:nodes/AVLNode/height/#/PointingToDeclaration/lib/nodes/-a-v-l-node/height.html
 $dokka.location:nodes/AVLNode/key/#/PointingToDeclaration/lib/nodes/-a-v-l-node/key.html
 $dokka.location:nodes/AVLNode/value/#/PointingToDeclaration/lib/nodes/-a-v-l-node/value.html
 $dokka.location:nodes/BRNode.Companion///PointingToDeclaration/lib/nodes/-b-r-node/-companion/index.html
@@ -27,11 +30,16 @@ $dokka.location:nodes/Node/value/#/PointingToDeclaration/lib/nodes/-node/value.
 $dokka.location:trees////PointingToDeclaration/lib/trees/index.html
 $dokka.location:trees/AVLTree///PointingToDeclaration/lib/trees/-a-v-l-tree/index.html
 $dokka.location:trees/AVLTree/AVLTree/#/PointingToDeclaration/lib/trees/-a-v-l-tree/-a-v-l-tree.html
+$dokka.location:trees/AVLTree/delete/#TypeParam(bounds=[kotlin.Comparable[^]])#nodes.AVLNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]?/PointingToDeclaration/lib/trees/-a-v-l-tree/delete.html
+$dokka.location:trees/AVLTree/find/#TypeParam(bounds=[kotlin.Comparable[^]])#nodes.AVLNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]?/PointingToDeclaration/lib/trees/-a-v-l-tree/find.html
+$dokka.location:trees/AVLTree/findParent/#TypeParam(bounds=[kotlin.Comparable[^]])#nodes.AVLNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]?/PointingToDeclaration/lib/trees/-a-v-l-tree/find-parent.html
+$dokka.location:trees/AVLTree/insert/#TypeParam(bounds=[kotlin.Comparable[^]])#TypeParam(bounds=[kotlin.Any?])#nodes.AVLNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]?/PointingToDeclaration/lib/trees/-a-v-l-tree/insert.html
+$dokka.location:trees/AVLTree/peek/#TypeParam(bounds=[kotlin.Comparable[^]])#nodes.AVLNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]?/PointingToDeclaration/lib/trees/-a-v-l-tree/peek.html
 $dokka.location:trees/BRTree///PointingToDeclaration/lib/trees/-b-r-tree/index.html
 $dokka.location:trees/BRTree/BRTree/#/PointingToDeclaration/lib/trees/-b-r-tree/-b-r-tree.html
 $dokka.location:trees/BRTree/delete/#TypeParam(bounds=[kotlin.Comparable[^]])#nodes.BRNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]?/PointingToDeclaration/lib/trees/-b-r-tree/delete.html
 $dokka.location:trees/BRTree/find/#TypeParam(bounds=[kotlin.Comparable[^]])#nodes.BRNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]?/PointingToDeclaration/lib/trees/-b-r-tree/find.html
-$dokka.location:trees/BRTree/findParent/#TypeParam(bounds=[kotlin.Comparable[^]])?#nodes.BRNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]?/PointingToDeclaration/lib/trees/-b-r-tree/find-parent.html
+$dokka.location:trees/BRTree/findParent/#TypeParam(bounds=[kotlin.Comparable[^]])#nodes.BRNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]?/PointingToDeclaration/lib/trees/-b-r-tree/find-parent.html
 $dokka.location:trees/BRTree/getChildren/#TypeParam(bounds=[kotlin.Comparable[^]])#nodes.BRNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]?/PointingToDeclaration/lib/trees/-b-r-tree/get-children.html
 $dokka.location:trees/BRTree/getColor/#TypeParam(bounds=[kotlin.Comparable[^]])?#nodes.BRNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]?/PointingToDeclaration/lib/trees/-b-r-tree/get-color.html
 $dokka.location:trees/BRTree/insert/#TypeParam(bounds=[kotlin.Comparable[^]])#TypeParam(bounds=[kotlin.Any?])#nodes.BRNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]?/PointingToDeclaration/lib/trees/-b-r-tree/insert.html
@@ -48,10 +56,11 @@ $dokka.location:trees/BinaryTree///PointingToDeclaration/lib/trees/-binary-tree
 $dokka.location:trees/BinaryTree/BinaryTree/#/PointingToDeclaration/lib/trees/-binary-tree/-binary-tree.html
 $dokka.location:trees/BinaryTree/delete/#TypeParam(bounds=[kotlin.Comparable[^]])#TypeParam(bounds=[nodes.Node[TypeParam(bounds=[kotlin.Comparable[^^]]),TypeParam(bounds=[kotlin.Any?]),^]])?/PointingToDeclaration/lib/trees/-binary-tree/delete.html
 $dokka.location:trees/BinaryTree/find/#TypeParam(bounds=[kotlin.Comparable[^]])#TypeParam(bounds=[nodes.Node[TypeParam(bounds=[kotlin.Comparable[^^]]),TypeParam(bounds=[kotlin.Any?]),^]])?/PointingToDeclaration/lib/trees/-binary-tree/find.html
-$dokka.location:trees/BinaryTree/findParent/#TypeParam(bounds=[kotlin.Comparable[^]])?#TypeParam(bounds=[nodes.Node[TypeParam(bounds=[kotlin.Comparable[^^]]),TypeParam(bounds=[kotlin.Any?]),^]])?/PointingToDeclaration/lib/trees/-binary-tree/find-parent.html
+$dokka.location:trees/BinaryTree/findParent/#TypeParam(bounds=[kotlin.Comparable[^]])#TypeParam(bounds=[nodes.Node[TypeParam(bounds=[kotlin.Comparable[^^]]),TypeParam(bounds=[kotlin.Any?]),^]])?/PointingToDeclaration/lib/trees/-binary-tree/find-parent.html
 $dokka.location:trees/BinaryTree/insert/#TypeParam(bounds=[kotlin.Comparable[^]])#TypeParam(bounds=[kotlin.Any?])#TypeParam(bounds=[nodes.Node[TypeParam(bounds=[kotlin.Comparable[^^]]),TypeParam(bounds=[kotlin.Any?]),^]])?/PointingToDeclaration/lib/trees/-binary-tree/insert.html
 $dokka.location:trees/BinaryTree/iterator/#/PointingToDeclaration/lib/trees/-binary-tree/iterator.html
 $dokka.location:trees/BinaryTree/peek/#TypeParam(bounds=[kotlin.Comparable[^]])#TypeParam(bounds=[nodes.Node[TypeParam(bounds=[kotlin.Comparable[^^]]),TypeParam(bounds=[kotlin.Any?]),^]])?/PointingToDeclaration/lib/trees/-binary-tree/peek.html
 $dokka.location:trees/BinaryTree/printNodes/#/PointingToDeclaration/lib/trees/-binary-tree/print-nodes.html
+$dokka.location:trees/BinaryTree/root/#/PointingToDeclaration/lib/trees/-binary-tree/root.html
 nodes
 trees
