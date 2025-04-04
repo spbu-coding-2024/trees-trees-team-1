@@ -21,72 +21,91 @@ class Basic {
 	@DisplayName("Empty tree should be empty after initialization")
 	fun emptyTree() {
 		assertEquals("null ", tree.printNodes())
+		assertEquals(null, tree.peek(10))
 	}
 
 	@Tag("insert")
 	@Test
 	@DisplayName("Checking simple insert left without rotations")
 	fun simpleInsertLeft() {
-		tree.insert(7, 1)
-		tree.insert(3, 1)
+		tree.insert(7, 70)
+		tree.insert(3, 30)
 		val expected = "7 3 null null null "
 		assertEquals(expected, tree.printNodes())
+		assertEquals(70, tree.peek(7))
+		assertEquals(30, tree.peek(3))
 	}
 
 	@Tag("insert")
 	@Test
 	@DisplayName("Checking simple insert right without rotations")
 	fun simpleInsertRight() {
-		tree.insert(3, 1)
-		tree.insert(7, 1)
+		tree.insert(3, 30)
+		tree.insert(7, 70)
 		val expected = "3 null 7 null null "
 		assertEquals(expected, tree.printNodes())
+		assertEquals(30, tree.peek(3))
+		assertEquals(70, tree.peek(7))
 	}
 
 	@Tag("delete")
 	@Test
 	@DisplayName("Checking simple delete left without rotations")
 	fun simpleDeleteLeft() {
-		tree.insert(7, 1)
-		tree.insert(3, 1)
+		tree.insert(7, 70)
+		tree.insert(3, 30)
+		assertEquals(70, tree.peek(7))
+		assertEquals(30, tree.peek(3))
 		tree.delete(3)
 		val expected = "7 null null "
 		assertEquals(expected, tree.printNodes())
+		assertEquals(70, tree.peek(7))
+		assertEquals(null, tree.peek(3))
 	}
 
 	@Tag("delete")
 	@Test
 	@DisplayName("Checking simple delete right without rotations")
 	fun simpleDeleteRight() {
-		tree.insert(3, 1)
-		tree.insert(7, 1)
+		tree.insert(3, 30)
+		tree.insert(7, 70)
+		assertEquals(30, tree.peek(3))
+		assertEquals(70, tree.peek(7))
 		tree.delete(7)
 		val expected = "3 null null "
 		assertEquals(expected, tree.printNodes())
+		assertEquals(30, tree.peek(3))
+		assertEquals(null, tree.peek(7))
 	}
 
 	@Tag("find")
 	@Test
 	@DisplayName("Checking find for existing nodes")
 	fun checkFindExisting() {
-		tree.insert(10, 1)
-		tree.insert(7, 1)
-		tree.insert(3, 1)
+		tree.insert(10, 100)
+		tree.insert(7, 70)
+		tree.insert(3, 30)
 		assertEquals(true, tree.find(10))
 		assertEquals(true, tree.find(7))
 		assertEquals(true, tree.find(3))
+		assertEquals(100, tree.peek(10))
+		assertEquals(70, tree.peek(7))
+		assertEquals(30, tree.peek(3))
 	}
 
 	@Tag("find")
 	@Test
 	@DisplayName("Checking find for non-existing nodes")
 	fun checkFindNonExisting() {
-		tree.insert(10, 1)
-		tree.insert(7, 1)
-		tree.insert(3, 1)
+		tree.insert(10, 100)
+		tree.insert(7, 70)
+		tree.insert(3, 30)
 		assertEquals(false, tree.find(11))
 		assertEquals(false, tree.find(6))
 		assertEquals(false, tree.find(1))
+		assertEquals(100, tree.peek(10))
+		assertEquals(70, tree.peek(7))
+		assertEquals(30, tree.peek(3))
 	}
 
 	@Tag("find")
@@ -135,11 +154,16 @@ class Basic {
 	fun checkFindParentNonExisting() {
 		val values = listOf(7, 10, 11, 3, 5)
 		for (i in values) {
-			tree.insert(i, 1)
+			tree.insert(i, i)
 		}
 		assertEquals(null, tree.findParent(1))
 		assertEquals(null, tree.findParent(8))
 		assertEquals(null, tree.findParent(15))
+		assertEquals(10, tree.peek(10))
+		assertEquals(5, tree.peek(5))
+		assertEquals(11, tree.peek(11))
+		assertEquals(3, tree.peek(3))
+		assertEquals(7, tree.peek(7))
 	}
 
 	@Tag("find parent")
