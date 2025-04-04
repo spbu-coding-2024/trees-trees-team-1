@@ -33,11 +33,8 @@ $dokka.location:trees/AVLTree/AVLTree/#/PointingToDeclaration/lib/trees/-a-v-l-
 $dokka.location:trees/AVLTree/delete/#TypeParam(bounds=[kotlin.Comparable[^]])#nodes.AVLNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]?/PointingToDeclaration/lib/trees/-a-v-l-tree/delete.html
 $dokka.location:trees/AVLTree/find/#TypeParam(bounds=[kotlin.Comparable[^]])#nodes.AVLNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]?/PointingToDeclaration/lib/trees/-a-v-l-tree/find.html
 $dokka.location:trees/AVLTree/findParent/#TypeParam(bounds=[kotlin.Comparable[^]])#nodes.AVLNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]?/PointingToDeclaration/lib/trees/-a-v-l-tree/find-parent.html
-$dokka.location:trees/AVLTree/getChildren/#TypeParam(bounds=[kotlin.Comparable[^]])/PointingToDeclaration/lib/trees/-a-v-l-tree/get-children.html
-$dokka.location:trees/AVLTree/getHeight/#TypeParam(bounds=[kotlin.Comparable[^]])?/PointingToDeclaration/lib/trees/-a-v-l-tree/get-height.html
 $dokka.location:trees/AVLTree/insert/#TypeParam(bounds=[kotlin.Comparable[^]])#TypeParam(bounds=[kotlin.Any?])#nodes.AVLNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]?/PointingToDeclaration/lib/trees/-a-v-l-tree/insert.html
 $dokka.location:trees/AVLTree/peek/#TypeParam(bounds=[kotlin.Comparable[^]])#nodes.AVLNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]?/PointingToDeclaration/lib/trees/-a-v-l-tree/peek.html
-$dokka.location:trees/AVLTree/valueRoot/#/PointingToDeclaration/lib/trees/-a-v-l-tree/value-root.html
 $dokka.location:trees/BRTree///PointingToDeclaration/lib/trees/-b-r-tree/index.html
 $dokka.location:trees/BRTree/BRTree/#/PointingToDeclaration/lib/trees/-b-r-tree/-b-r-tree.html
 $dokka.location:trees/BRTree/delete/#TypeParam(bounds=[kotlin.Comparable[^]])#nodes.BRNode[TypeParam(bounds=[kotlin.Comparable[^]]),TypeParam(bounds=[kotlin.Any?])]?/PointingToDeclaration/lib/trees/-b-r-tree/delete.html
@@ -69,5 +66,6 @@ $dokka.location:trees/BinaryTree/insert/#TypeParam(bounds=[kotlin.Comparable[^]]
 $dokka.location:trees/BinaryTree/iterator/#/PointingToDeclaration/lib/trees/-binary-tree/iterator.html
 $dokka.location:trees/BinaryTree/peek/#TypeParam(bounds=[kotlin.Comparable[^]])#TypeParam(bounds=[nodes.Node[TypeParam(bounds=[kotlin.Comparable[^^]]),TypeParam(bounds=[kotlin.Any?]),^]])?/PointingToDeclaration/lib/trees/-binary-tree/peek.html
 $dokka.location:trees/BinaryTree/printNodes/#/PointingToDeclaration/lib/trees/-binary-tree/print-nodes.html
+$dokka.location:trees/BinaryTree/root/#/PointingToDeclaration/lib/trees/-binary-tree/root.html
 nodes
 trees
