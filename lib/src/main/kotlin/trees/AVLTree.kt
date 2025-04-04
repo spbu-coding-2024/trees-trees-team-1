@@ -5,6 +5,33 @@ import nodes.AVLNode
 class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 
 	/**
+	 * Функция проверки высоты узла с обработкой null
+	 * @param node проверяемый узел (может быть null)
+	 * @return высоту узла или -1 если узел null
+	 */
+	private fun checkHeight(node: AVLNode<K, T>?): Int {
+		/* Для null возвращаем -1 чтобы корректно работали calculateBalanceFactor и fixHeight */
+		return node?.height ?: -1
+	}
+
+	/**
+	 * Функция вычисления баланс-фактора текущего узла
+	 * @return разницу высот правого и левого поддеревьев
+	 */
+	private fun calculateBalanceFactor(node: AVLNode<K, T>?): Int {
+		return checkHeight(node?.right) - checkHeight(node?.left)
+	}
+
+	/**
+	 * Функция обновление высоты текущего узла на основе высот потомков
+	 */
+	private fun fixHeight(node: AVLNode<K, T>?) {
+		val hl = checkHeight(node?.left)
+		val hr = checkHeight(node?.right)
+		node?.height = maxOf(hl, hr) + 1
+	}
+
+	/**
 	 * Функция обмена ключами и значениями между двумя узлами
 	 * @param nodeA первый узел для обмена
 	 * @param nodeB второй узел для обмена
@@ -32,8 +59,8 @@ class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 		node.right = rightChild.right
 		rightChild.right = rightChild.left
 		rightChild.left = buffer
-		rightChild.fixHeight()
-		node.fixHeight()
+		fixHeight(rightChild)
+		fixHeight(node)
 		return node
 	}
 
@@ -51,8 +78,8 @@ class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 		node.left = leftChild.left
 		leftChild.left = leftChild.right
 		leftChild.right = buffer
-		leftChild.fixHeight()
-		node.fixHeight()
+		fixHeight(leftChild)
+		fixHeight(node)
 		return node
 	}
 
@@ -62,13 +89,13 @@ class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 	 * @return сбалансированный узел
 	 */
 	private fun balance(node: AVLNode<K, T>): AVLNode<K, T> {
-		node.fixHeight()
-		val balanceFactor = node.calculateBalanceFactor()
+		fixHeight(node)
+		val balanceFactor = calculateBalanceFactor(node)
 		/* Если левое поддерево выше */
 		if (balanceFactor == -2) {
 			val leftChild = node.left
 			/* Если у левого ребёнка перевес вправо, делаем левый поворот */
-			if (leftChild != null && leftChild.calculateBalanceFactor() == 1) {
+			if (leftChild != null && calculateBalanceFactor(leftChild) == 1) {
 				node.left = leftRotation(leftChild)
 			}
 			return rightRotation(node)
@@ -77,7 +104,7 @@ class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 		else if (balanceFactor == 2) {
 			val rightChild = node.right
 			/* Если у правого ребёнка перевес влево, делаем правый поворот */
-			if (rightChild != null && rightChild.calculateBalanceFactor() == -1) {
+			if (rightChild != null && calculateBalanceFactor(rightChild) == -1) {
 				node.right = rightRotation(rightChild)
 			}
 			return leftRotation(node)
