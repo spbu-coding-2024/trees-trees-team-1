@@ -1,4 +1,4 @@
-package test.BRTree
+package BRTree
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
@@ -57,7 +57,7 @@ class Basic {
     @Test
     @DisplayName("checking find function")
     fun testFind() {
-        var values= listOf(5,7,8,9)
+        val values= listOf(5,7,8,9)
         for (i in values)
             tree.insert(i, 0)
         val actual= mutableListOf<Boolean>()

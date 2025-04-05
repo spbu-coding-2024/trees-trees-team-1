@@ -14,7 +14,7 @@ abstract class BinaryTree <K: Comparable<K>, T, P: Node<K, T, P>> {
     /**
      * @property root корень дерева
      */
-    protected var root: P?=null
+    internal var root: P?=null
 
     /**
      * Внутренний класс, реализующий интерфейс Iterator для возможности прохода по всем узлам дерева
@@ -124,7 +124,7 @@ abstract class BinaryTree <K: Comparable<K>, T, P: Node<K, T, P>> {
      * Метод печати всех узлов дерева
      */
     fun printNodes(): String {
-        var res= StringBuilder()
+        val res= StringBuilder()
         for (elem in iterator())
             res.append("$elem ")
         return res.toString()

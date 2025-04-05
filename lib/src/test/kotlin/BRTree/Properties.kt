@@ -1,7 +1,8 @@
-package test.BRTree
+package BRTree
 
 import net.jqwik.api.*
 import net.jqwik.api.constraints.UniqueElements
+import nodes.BRNode
 import nodes.BRNode.Companion.BLACK
 import nodes.BRNode.Companion.RED
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -13,8 +14,9 @@ const val MIN=-1000000
 const val MAX=1000000
 
 @Tag("BRTree")
+@Tag("property")
 class Properties {
-    lateinit var tree:BRTree<Int, Int>
+    private lateinit var tree:BRTree<Int, Int>
 
     @Provide
     fun generator(): Arbitrary<IntArray> {
@@ -22,13 +24,12 @@ class Properties {
         return generator.array(IntArray::class.java).ofSize(SIZE)
     }
 
-    fun checkBSfactor(key: Int, lower: Int, upper: Int ) {
-        assert(key in (lower + 1)..<upper)
-        val (left, right)=tree.getChildren(key)
-        if (left!= null)
-            checkBSfactor(left, lower, key)
-        if (right!= null)
-            checkBSfactor(right, key, upper)
+    private fun checkBSfactor(node: BRNode<Int, Int>, lower: Int, upper: Int ) {
+        assert(node.key in (lower + 1)..<upper)
+        if (node.left!= null)
+            checkBSfactor(node.left ?: return, lower, node.key)
+        if (node.right!= null)
+            checkBSfactor(node.right ?: return, node.key, upper)
     }
 
     @Property
@@ -80,11 +81,7 @@ class Properties {
         tree=BRTree()
         for(i in list)
             tree.insert(i, 0)
-        var start: Int=Int.MAX_VALUE
-        val iterator=tree.iterator()
-        if (iterator.hasNext())
-            start=iterator.next() ?: return
-        checkBSfactor(start,Int.MIN_VALUE, Int.MAX_VALUE)
+        checkBSfactor(tree.root ?: return,Int.MIN_VALUE, Int.MAX_VALUE)
     }
 
     @Property
@@ -93,8 +90,6 @@ class Properties {
         tree=BRTree()
         for(i in list)
             tree.insert(i, 0)
-        val iterator=tree.iterator()
-        if (iterator.hasNext())
-            assertEquals(BLACK, tree.getColor(iterator.next()))
+        assertEquals(BLACK, tree.root?.color ?: BLACK)
     }
 }
