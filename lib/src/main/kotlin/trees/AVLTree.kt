@@ -118,26 +118,26 @@ class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 		}
 	}
 
-	/**
-	 * Функция вставки узла в дерево
-	 * @param node текущий узел для проверки
-	 * @param key ключ нового узла
-	 * @param value значение нового узла
-	 * @return новый узел или измененное поддерево
-	 */
-	private fun insertNode(node: AVLNode<K, T>?, key: K, value: T): AVLNode<K, T> {
-		/* Если место пустое - добавляем узел */
-		if (node == null) return AVLNode(key, value)
-		if (key < node.key) node.left = insertNode(node.left, key, value)
-		else if (key > node.key) node.right = insertNode(node.right, key, value)
-		/* Если ключ существует - обновляем значения */
-		else node.value = value
-		return balance(node)
-	}
 
 	/**[trees.BinaryTree.insert]*/
 	@Override
 	override fun insert(key: K, value: T, root: AVLNode<K, T>?) {
+		/**
+		* Функция вставки узла в дерево
+		* @param node текущий узел для проверки
+		* @param key ключ нового узла
+		* @param value значение нового узла
+		* @return новый узел или измененное поддерево
+		*/
+		fun insertNode(node: AVLNode<K, T>?, key: K, value: T): AVLNode<K, T> {
+			/* Если место пустое - добавляем узел */
+			if (node == null) return AVLNode(key, value)
+			if (key < node.key) node.left = insertNode(node.left, key, value)
+			else if (key > node.key) node.right = insertNode(node.right, key, value)
+			/* Если ключ существует - обновляем значения */
+			else node.value = value
+			return balance(node)
+		}
 		this.root = insertNode(this.root, key, value)
 	}
 
@@ -165,42 +165,42 @@ class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 		return current
 	}
 
-	/**
-	 * Функция удаления узла по ключу
-	 * @param node текущий узел для проверки
-	 * @param key ключ узла для удаления
-	 * @return новое поддерево без удаленного узла
-	 */
-	private fun deleteNode(node: AVLNode<K, T>?, key: K): AVLNode<K, T>? {
-		/* Если узла не существует */
-		if (node == null) return null
-		if (key < node.key) {
-			node.left = deleteNode(node.left, key)
-		}
-		else if (key > node.key) {
-			node.right = deleteNode(node.right, key)
-		}
-		else {
-			/* Узел найден, key == node.key */
-			if (node.left == null) return node.right
-			else if (node.right == null) return node.left
-			else {
-				/* Если есть оба ребёнка */
-				val minNode = findMin(node.right) ?: return node
-				node.right = removeMin(node.right)
-				/* Дети удалённого узла */
-				minNode.left = node.left
-				minNode.right = node.right
-				return balance(minNode)
-			}
-		}
-		return balance(node)
-	}
 
 	/**[trees.BinaryTree.delete]*/
 	@Override
 	override fun delete(key: K, root: AVLNode<K, T>?) {
-		this.root = deleteNode(root, key)
+		/**
+		* Функция удаления узла по ключу
+		* @param node текущий узел для проверки
+		* @param key ключ узла для удаления
+		* @return новое поддерево без удаленного узла
+		*/
+		fun deleteNode(node: AVLNode<K, T>?, key: K): AVLNode<K, T>? {
+			/* Если узла не существует */
+			if (node == null) return null
+			if (key < node.key) {
+				node.left = deleteNode(node.left, key)
+			}
+			else if (key > node.key) {
+				node.right = deleteNode(node.right, key)
+			}
+			else {
+				/* Узел найден, key == node.key */
+				if (node.left == null) return node.right
+				else if (node.right == null) return node.left
+				else {
+					/* Если есть оба ребёнка */
+					val minNode = findMin(node.right) ?: return node
+					node.right = removeMin(node.right)
+					/* Дети удалённого узла */
+					minNode.left = node.left
+					minNode.right = node.right
+					return balance(minNode)
+				}
+			}
+			return balance(node)
+		}
+		this.root = deleteNode(this.root, key)
 	}
 
 
@@ -276,47 +276,5 @@ class AVLTree<K:Comparable<K>, T>(): BinaryTree<K,T, AVLNode<K, T>>() {
 			parent = if (parentKey != null) findNode(parentKey) else null
 		}
 		return parent
-	}
-
-	/**
-	 * Функция возвращает ключ корневого узла дерева
-	 * @return ключ корневого узла или null, если дерево пустое
-	 */
-	fun valueRoot(): K? = root?.key
-
-	/**
-	 * Функция возвращает пару ключей детей для узла с указанным ключом
-	 * @param key ключ узла, для которого ищутся дочерние элементы
-	 * @return пара (ключ левого потомка, ключ правого потомка),
-	 *			где каждый элемент может быть null, если потомок отсутствует
-	 */
-	fun getChildren(key: K): Pair<K?, K?> {
-		var current = root
-		while (current != null) {
-			when {
-				key == current.key -> return Pair(current.left?.key, current.right?.key)
-				key < current.key -> current = current.left
-				else -> current = current.right
-			}
-		}
-		return Pair(null, null)
-	}
-
-	/**
-	 * Функция возвращает высоту узла с указанным ключом
-	 * @param key ключ узла, высоту которого нужно определить
-	 * @return высота узла или 0, если узел не найден
-	 */
-	fun getHeight(key: K?): Int {
-		if (key == null) return 0
-		var current = root
-		while (current != null) {
-			when {
-				key == current.key -> return current.height
-				key < current.key -> current = current.left
-				else -> current = current.right
-			}
-		}
-		return 0
 	}
 }
