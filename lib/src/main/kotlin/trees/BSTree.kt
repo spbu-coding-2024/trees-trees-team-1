@@ -30,6 +30,7 @@ class BSTree<K: Comparable<K>, T>():BinaryTree<K, T, BSNode<K, T>>() {
                 insert(key, value, root.right)
                 root.right
             }
+
             else -> root.left = if (root.left == null) BSNode(key, value) else {
                 insert(key, value, root.left)
                 root.left
@@ -71,8 +72,8 @@ class BSTree<K: Comparable<K>, T>():BinaryTree<K, T, BSNode<K, T>>() {
     }
 
     /** {@Link BinaryTree # delete(key: K, root: BSNode<K, T>? */
-    override fun delete(key: K, root: BSNode<K, T>?){
-        this.root = deleteHelper(key, root)
+    override fun delete(key: K, root: BSNode<K, T>?) {
+        this.root = deleteHelper(key, root ?: root)
     }
 
     /**{@link BinaryTree # find(key: K, root: BRNode<K, T>?): Boolean*/
@@ -127,7 +128,7 @@ class BSTree<K: Comparable<K>, T>():BinaryTree<K, T, BSNode<K, T>>() {
         if (root == null) return null
         var current = root
 
-        while(current?.left != null) {
+        while (current?.left != null) {
             current = current.left
         }
         return current
