@@ -2,15 +2,10 @@ package test.BSTree.BSTree
 
 import trees.BSTree
 import nodes.BSNode
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Tag
-
-import kotlin.math.max
+import org.junit.jupiter.api.Test
 import kotlin.test.assertTrue
-
-
 import kotlin.random.Random
-import kotlin.test.assertEquals
 import kotlin.test.assertEquals
 
 @Tag("BSTree")
@@ -18,7 +13,9 @@ import kotlin.test.assertEquals
 
 class Property {
 
-    private fun isValidBST(root: BSNode<Int, Int>?, min: Int?, max:Int?) : Boolean {
+    private val random = Random(42)
+
+    private fun isValidBST(root: BSNode<Int, String>?, min: Int? = null, max:Int? = null) : Boolean {
         if (root == null) return true
 
         if ((min != null && root.key <= min) || (max != null && root.key >= max)) return false
@@ -32,28 +29,26 @@ class Property {
         return 1 + countNodes(root.left) + countNodes(root.right)
     }
 
-    private fun findHeight(root: BSNode<Int, String>?): Int {
-        if (root == null) return 0
-        return 1 + max(findHeight(root.left), findHeight(root.right))
-    }
-
-    private fun findMax(root: BSNode<Int, String>?): Int? {
-        if (root == null) return null
-        return findMax(root.right) ?: root.key
-    }
-
-    private fun findMin(root: BSNode<Int, String>?): Int? {
-        if (root == null) return null
-        return findMin(root.left) ?: root.key
-    }
-
+    @Test
     @Tag("insert")
-    fun `should maintain BST properties after insertion`() {
-        val tree = BSTree<Int, Int>()
-        tree.insert(5, 1)
-        tree.insert(3, 1)
-        tree.insert(7, 1)
-        assertTrue(isValidBST(tree.root, null, null))
-    }
+    @Tag("delete")
+    fun `should maintain BST properties after insertion and deletion`() {
+        val tree = BSTree<Int, String>()
+        val keys = mutableSetOf<Int>()
 
+        repeat(100) {
+            val key = Random.nextInt()
+            keys.add(key)
+            tree.insert(key, "$key")
+            assertTrue(isValidBST(tree.root), "Tree should remain valid BST after insertion")
+        }
+        repeat(50) {
+            val key = Random.nextInt()
+            keys.remove(key)
+            tree.delete(key)
+            assertTrue(isValidBST(tree.root), "Tree should remain valid BST after deletion")
+        }
+
+        assertEquals(keys.size, countNodes(tree.root), "Node count mismatch after deletion")
+    }
 }
