@@ -26,17 +26,20 @@ class BSTree<K: Comparable<K>, T>():BinaryTree<K, T, BSNode<K, T>>() {
 
         when {
             key == root.key -> root.value = value // Если такой ключ уже есть обновляем значение
-            key > root.key -> root.right = if (root.right == null) BSNode(key, value) else {
-                insert(key, value, root.right)
-                root.right
+            key > root.key -> {
+                if (root.right == null) {
+                    root.right = BSNode(key, value)
+                } else insert(key, value, root.right)
             }
 
-            else -> root.left = if (root.left == null) BSNode(key, value) else {
-                insert(key, value, root.left)
-                root.left
+            else -> {
+                if (root.left == null) {
+                    root.left = BSNode(key, value)
+                } else {
+                    insert(key, value, root.left)
+                }
             }
         }
-
     }
 
     /**
@@ -73,12 +76,12 @@ class BSTree<K: Comparable<K>, T>():BinaryTree<K, T, BSNode<K, T>>() {
 
     /** {@Link BinaryTree # delete(key: K, root: BSNode<K, T>? */
     override fun delete(key: K, root: BSNode<K, T>?) {
-        this.root = deleteHelper(key, root ?: root)
+        this.root = deleteHelper(key, root ?: this.root)
     }
 
     /**{@link BinaryTree # find(key: K, root: BRNode<K, T>?): Boolean*/
     override fun find(key: K, root: BSNode<K, T>?): Boolean {
-        return findNode(key, root) != null
+        return findNode(key, root ?: this.root) != null
 
     }
 
@@ -101,7 +104,7 @@ class BSTree<K: Comparable<K>, T>():BinaryTree<K, T, BSNode<K, T>>() {
 
     /**{@link BinaryTree # peek(key: K, root: BRNode<K, T>?): T?*/
     override fun peek(key: K, root: BSNode<K, T>?): T? {
-        return findNode(key, root)?.value
+        return findNode(key, root ?: this.root)?.value
     }
 
     /**{@link BinaryTree # findParent(key: K, root: BRNode<K, T>?): K?*/
