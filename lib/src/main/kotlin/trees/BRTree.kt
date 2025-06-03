@@ -187,7 +187,6 @@ class BRTree<K: Comparable<K>, T>: BinaryTree<K, T, BRNode<K, T>>() {
             if ((root?.parent?.right?.color ?: BLACK) == BLACK) {
                 if ((root?.parent?.right?.right?.color ?: BLACK) == RED) {
                     val color = root?.parent?.color ?: BLACK
-                    println()
                     root?.parent?.right?.color = color
                     root?.parent?.color= BLACK
                     root?.parent?.right?.right?.color = BLACK
